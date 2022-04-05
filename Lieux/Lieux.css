@@ -1,0 +1,59 @@
+/*
+PC : 1920 x 1080 et 2560 x 1080
+Smartphone : 700 x 1600 et 1000 x 2000
+*/
+
+body {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+#base {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+#paragraphe {
+    width: 99%;
+    height: 50%;
+    padding: auto;
+    margin: auto;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.photo {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+}
+
+img {
+    width: 50%;
+    height: 50%;
+}
+
+#image {
+    width: 100%;
+    height: 100%;
+}
+
+.changer {
+    /*
+    width: 50px;
+    height: 200px;*/
+    width: 15%;
+    height: 100%;
+    background-color: rgb(207, 106, 38);
+}
+
+.changer img {
+    position: relative;
+    top: 35%;
+    /* ( taille div + taille image ) / 2  */
+}
