@@ -1,0 +1,25 @@
+.centerDiv{
+    width: 100%;
+    text-align: center;
+}
+label {
+    cursor: pointer;
+    filter: grayscale(100%);
+}
+
+label:hover {
+    filter: grayscale(0);
+}
+
+input[type="radio"]:checked+label {
+    filter: grayscale(0);
+}
+
+input[type="checkbox"]:checked+label {
+    filter: grayscale(0);
+}
+
+#valider{
+    margin: 0 auto;
+    display: block;
+}
