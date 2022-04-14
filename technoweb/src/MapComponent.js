@@ -5,7 +5,7 @@ import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
 import "leaflet-easybutton";
 import React,{useEffect,useState} from 'react';
-
+import Geolocation from 'react-native-geolocation-service';
 import cities from "./cities.json";
 
 
@@ -15,15 +15,29 @@ const MapComponent = () => {
     var map= useMap();;
    
     useEffect(() => {
-      map.locate().on("locationfound", function (e) {
-        setPosition(e.latlng);
-        /*map.flyTo(e.latlng, map.getZoom());
-        const radius = e.accuracy;
-        const circle = L.circle(e.latlng, radius);
-        circle.addTo(map);
-        setBbox(e.bounds.toBBoxString().split(","));
-        */
-      });
+      if ("geolocation" in navigator) {
+        Geolocation.getCurrentPosition(
+            (position) => {
+              console.log(position);
+              setPosition([position.coords.latitude,position.coords.longitude]);
+            },
+            (error) => {
+              // See error code charts below.
+              console.log(error.code, error.message);
+            },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        );
+      }
+      
+      // map.locate().on("locationfound", function (e) {
+      //   setPosition(e.latlng);
+      //   /*map.flyTo(e.latlng, map.getZoom());
+      //   const radius = e.accuracy;
+      //   const circle = L.circle(e.latlng, radius);
+      //   circle.addTo(map);
+      //   setBbox(e.bounds.toBBoxString().split(","));
+      //   */
+      // });
     }, [map]);
 
     return position === null ? null : (
