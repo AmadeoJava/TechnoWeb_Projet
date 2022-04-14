@@ -10,11 +10,6 @@ import cities from "./cities.json";
 
 
 const MapComponent = () => {
-  const locationOptions = {
-    maximumAge: 10000,
-    timeout: 5000,
-    enableHighAccuracy: true
-  };
   function LocationMarker() {
     const [position, setPosition] = useState(null);
     var map= useMap();;
