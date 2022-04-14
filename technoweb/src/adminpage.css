@@ -1,0 +1,17 @@
+*{
+    cursor: inherit;
+}
+.clickable{
+    cursor: pointer;
+}
+.centerDiv{
+    width: 100%;
+    text-align: center;
+  }
+  
+h2{
+    cursor: inherit;
+}
+.cacher{
+    display: "none";
+}

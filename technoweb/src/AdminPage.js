@@ -13,6 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemButton from '@mui/material/ListItemButton';
+import Button from '@mui/material/Button';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
@@ -26,7 +27,13 @@ import CreateIcon from '@mui/icons-material/Create';
 import BorderAllIcon from '@mui/icons-material/BorderAll';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import ArticleIcon from '@mui/icons-material/Article';
-import './index.css';
+import $ from "jquery";
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import './adminpage.css';
 
 const drawerWidth = 240;
 
@@ -143,6 +150,7 @@ const icones=[<CreateIcon/>, <BorderAllIcon/>, <BarChartIcon/>];
 export default function WebProject() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const listeBox = ["principal", "editer", "table", "graphe", "doc"];
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -160,7 +168,33 @@ export default function WebProject() {
     setAnchorEl(null);
   };
 
+  var ouvert = "principal";
+  const fermer = (o) => {
+    //alert(ouvert);
+    //console.log(o);
+    if (o){
+      ouvert = o;
+    }
+    for (let i=0;  i<(listeBox.length); i++){
+      var a = listeBox[i];
+      $("#"+a).css("display", "none");
+    }
+    $("#"+ouvert).css("display", "initial");
+  };
 
+  const inputCards = ["userinputbutton", "placeinputbutton", "eventinputbutton"];
+  const inputCard = (el) =>{
+    alert(el);
+    for (let i=0;  i<(inputCards.length); i++){
+      var a = inputCards[i];
+      $("#"+a).attr("variant", "text")
+    }
+    $("#"+el).attr("variant", "contained")
+  }
+
+  window.onload = (function() {
+    fermer("principal");
+  });
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -179,11 +213,14 @@ export default function WebProject() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Good Morning, A
+          <div onClick={event =>  fermer("principal")}>
+          <Typography variant="h6" noWrap component="div" className="clickable">
+            Dashboard
           </Typography>
+          </div>
+
           <div style={{ position: 'fixed', right: 100 }} >
-          <Avatar alt="D" src={profile} onClick={handleClick}  />
+          <Avatar alt="D" src={profile} onClick={handleClick}  className="clickable" />
             <StyledMenu
               id="demo-customized-menu"
               MenuListProps={{
@@ -207,11 +244,11 @@ export default function WebProject() {
                 <Typography paragraph style={{textAlign:'center'}}>
                 esoreno@gmail.com
                 </Typography>
-              <MenuItem onClick={handleClose} disableRipple>
+              <MenuItem onClick={handleClose} disableRipple className="clickable">
                 <EditIcon />
                 MyProfile
               </MenuItem>
-              <MenuItem onClick={handleClose} disableRipple>
+              <MenuItem onClick={handleClose} disableRipple className="clickable">
                 <PowerSettingsNewIcon />
                 Sign Out
               </MenuItem>
@@ -223,11 +260,11 @@ export default function WebProject() {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         
-        <DrawerHeader >
+        <DrawerHeader onClick={handleDrawerClose} className="clickable">
         <Typography variant="h4" className="centerDiv">
             Admin
           </Typography>
-          <IconButton onClick={handleDrawerClose} >
+          <IconButton >
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
 
@@ -236,6 +273,8 @@ export default function WebProject() {
         <List>
           {['Ajouter des éléments', 'Tables', 'Graphiques'].map((text, index) => (
             <ListItemButton
+              className="clickable"
+              onClick={event =>  fermer(listeBox[index+1])}
               key={text}
               sx={{
                 minHeight: 48,
@@ -258,7 +297,8 @@ export default function WebProject() {
         </List>
         <Divider />
         <List>
-            <ListItemButton onClick={event =>  window.location.href='/doc'}
+            <ListItemButton onClick={event =>  fermer("doc")}
+              className="clickable"
               key="Documentation"
               sx={{
                 minHeight: 48,
@@ -279,13 +319,153 @@ export default function WebProject() {
             </ListItemButton>
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }} className="pointeurN">
+
+      <Box component="main" id="principal" sx={{ flexGrow: 1, p: 3 }} >
         <DrawerHeader />
           <Card className='centerDiv'>
             <h2>Endroit le plus visité</h2>
-            <img src={require('./logo.png')} alt="logo"/>
+            <img src={require('./logo.png')} alt="logo" />
           </Card>
       </Box>
+
+      <Box component="main" id="editer" sx={{ flexGrow: 1, p: 3 }} >
+        <DrawerHeader />
+          <Card className='centerDiv'>
+            <h2>Ajouter des éléments</h2>
+            <Toolbar>
+              <Button variant="contained" id="userinputbutton" onClick={()=>inputCard("userinputbutton")}>Utilisateurs</Button>
+              <Button variant="text" id="placeinputbutton" onClick={()=>inputCard("placeinputbutton")}>Lieux</Button>
+              <Button variant="text" id="eventinputbutton" onClick={()=>inputCard("eventinputbutton")}>Évènements</Button>
+            </Toolbar>
+
+            <Box id="userform" component="form" onSubmit={fermer("principal")} noValidate sx={{ mt: 1 }}>
+              <TextField 
+                margin="normal"
+                required
+                style={{width: "98%"}}
+                id="userprenom"
+                label="Prénom"
+                name="userprenom"
+                autoComplete="Prénom"
+                autoFocus/>
+                <TextField
+                margin="normal"
+                required
+                style={{width: "98%"}}
+                id="usernom"
+                label="Nom"
+                name="usernom"
+                autoComplete="Nom"
+                autoFocus/>
+              <TextField
+                margin="normal"
+                required
+                style={{width: "98%"}}
+                name="password"
+                label="Mot de passe"
+                type="password"
+                id="password"
+                autoComplete="Mot de passe"/>
+              <Button
+                type="submit"
+                style={{width: "98%"}}
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}>
+                Sign In
+              </Button>
+            </Box>
+
+            <Box id="placeform" component="form" onSubmit={fermer("principal")} noValidate sx={{ mt: 1 }}>
+              <TextField 
+                margin="normal"
+                required
+                style={{width: "98%"}}
+                id="nom"
+                label="Nom"
+                name="nom"
+                autoComplete="Nom"
+                autoFocus/>
+                <TextField
+                margin="normal"
+                type="number"
+                required
+                style={{width: "98%"}}
+                id="latitude"
+                label="Latitude"
+                name="latitude"
+                autoComplete="Latitude"
+                autoFocus/>
+                <TextField
+                margin="normal"
+                type="number"
+                required
+                style={{width: "98%"}}
+                id="longitude"
+                label="Longitude"
+                name="longitude"
+                autoComplete="Longitude"
+                autoFocus/>
+              <Button
+                type="submit"
+                style={{width: "98%"}}
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}>
+                Sign In
+              </Button>
+            </Box>
+
+            <Box id="eventform" component="form" onSubmit={fermer("principal")} noValidate sx={{ mt: 1 }}>
+              <TextField 
+                margin="normal"
+                required
+                style={{width: "98%"}}
+                id="eventnom"
+                label="Nom de l'évènement"
+                name="eventnom"
+                autoComplete="Nom de l'évènement"
+                autoFocus/>
+                <TextField
+                margin="normal"
+                required
+                style={{width: "98%"}}
+                id="dateevent"
+                name="dateevent"
+                type="date"
+                autoComplete="Date de l'évènement"
+                autoFocus/>
+              <Button
+                type="submit"
+                style={{width: "98%"}}
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}>
+                Sign In
+              </Button>
+            </Box>
+
+          </Card>
+      </Box>
+
+      <Box component="main" id="table" sx={{ flexGrow: 1, p: 3 }} >
+        <DrawerHeader />
+          <Card className='centerDiv'>
+            <h2>Tables</h2>
+          </Card>
+      </Box>
+
+      <Box component="main" id="graphe" sx={{ flexGrow: 1, p: 3 }} >
+        <DrawerHeader />
+          <Card className='centerDiv'>
+            <h2>Graphes</h2>
+          </Card>
+      </Box>
+
+      <Box component="main" id="doc" sx={{ flexGrow: 1, p: 3 }} >
+        <DrawerHeader />
+          <Card className='centerDiv'>
+            <h2>Documentation</h2>
+          </Card>
+      </Box>
+      
     </Box>
   );
 }

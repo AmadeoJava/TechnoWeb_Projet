@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import $ from "jquery"
+import $ from "jquery";
 import './formulaire.css';
 import QuestionChek from './QuestionChek'
 import QuestionRad from './QuestionRad'
