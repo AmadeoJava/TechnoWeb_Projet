@@ -5,6 +5,8 @@ function Home() {
     <Link to="/admin"> Link to admin dashboard </Link>
     <br></br>
     <Link to="/form"> Link to formulaire </Link>
+    <br></br>
+    <Link to="/login"> Link to login </Link>
   </div>;
   
 }
