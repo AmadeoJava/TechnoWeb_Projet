@@ -1,0 +1,3 @@
+npm run build 
+npm i -D -g serve
+serve -s build
