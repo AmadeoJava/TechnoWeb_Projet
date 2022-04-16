@@ -1,0 +1,31 @@
+*{
+    cursor: inherit;
+}
+.clickable{
+    cursor: pointer;
+}
+.centerDiv{
+    width: 100%;
+    text-align: center;
+  }
+  
+h2{
+    cursor: inherit;
+}
+.cacher{
+    display: "none";
+}
+
+.choisi{
+    color: #fff;
+    background-color: #1976d2;
+}
+
+.paschoisi{
+    color: #0e8cd4;
+    background-color: white;
+}
+
+.liste{
+    display: flex;
+}
