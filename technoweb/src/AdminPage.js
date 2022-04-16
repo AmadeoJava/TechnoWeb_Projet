@@ -85,6 +85,7 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
+
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     width: drawerWidth,
@@ -171,7 +172,7 @@ export default function WebProject() {
   var ouvert = "principal";
   const fermer = (o) => {
     //alert(ouvert);
-    //console.log(o);
+    console.log(o);
     if (o){
       ouvert = o;
     }
@@ -182,18 +183,33 @@ export default function WebProject() {
     $("#"+ouvert).css("display", "initial");
   };
 
-  const inputCards = ["userinputbutton", "placeinputbutton", "eventinputbutton"];
+  const inputButtons = ["userinputbutton", "placeinputbutton", "eventinputbutton"];
+  const inputForms = ["userform", "placeform", "eventform"];
+  var selected=0;
   const inputCard = (el) =>{
-    alert(el);
-    for (let i=0;  i<(inputCards.length); i++){
-      var a = inputCards[i];
-      $("#"+a).attr("variant", "text")
+    for (let i=0 ;i<inputButtons.length; i++){
+      $("#"+inputButtons[i]).css("color","#0e8cd4");
+      $("#"+inputButtons[i]).css("background-color","#fff");
+      if(inputButtons[i]==el){
+        selected=i;
+      }
     }
-    $("#"+el).attr("variant", "contained")
+    $("#"+el).css("background-color","#0e8cd4");
+    $("#"+el).css("color","#fff");
+    cardchosed(inputForms[selected]);
+  }
+
+  const cardchosed = (el) =>{
+    for(let i=0; i<inputForms.length; i++){
+      $("#"+inputForms[i]).hide();
+    }
+    $("#"+el).show();
   }
 
   window.onload = (function() {
     fermer("principal");
+    inputCard(inputButtons[selected]);
+    cardchosed(inputForms[0]);
   });
 
   return (
@@ -332,13 +348,25 @@ export default function WebProject() {
         <DrawerHeader />
           <Card className='centerDiv'>
             <h2>Ajouter des éléments</h2>
-            <Toolbar>
-              <Button variant="contained" id="userinputbutton" onClick={()=>inputCard("userinputbutton")}>Utilisateurs</Button>
-              <Button variant="text" id="placeinputbutton" onClick={()=>inputCard("placeinputbutton")}>Lieux</Button>
-              <Button variant="text" id="eventinputbutton" onClick={()=>inputCard("eventinputbutton")}>Évènements</Button>
-            </Toolbar>
+            <nav className='liste'>
+              <Button
+                style={{width: "50%"}}
+                sx={{ mt: 3, mb: 2 }} onClick={event=>inputCard("userinputbutton")} id="userinputbutton">
+                Utilisateurs
+              </Button>
+              <Button
+                style={{width: "50%"}}
+                sx={{ mt: 3, mb: 2 }} onClick={event=>inputCard("placeinputbutton")} id="placeinputbutton">
+                Lieux
+              </Button>
+              <Button
+                style={{width: "50%"}}
+                sx={{ mt: 3, mb: 2 }} onClick={event=>inputCard("eventinputbutton")} id="eventinputbutton">
+                Evènements
+              </Button>
+            </nav>
 
-            <Box id="userform" component="form" onSubmit={fermer("principal")} noValidate sx={{ mt: 1 }}>
+            <Box id="userform" component="form" onSubmit={event => fermer("principal")} noValidate sx={{ mt: 1 }}>
               <TextField 
                 margin="normal"
                 required
@@ -375,7 +403,7 @@ export default function WebProject() {
               </Button>
             </Box>
 
-            <Box id="placeform" component="form" onSubmit={fermer("principal")} noValidate sx={{ mt: 1 }}>
+            <Box id="placeform" component="form" onSubmit={event =>  fermer("principal")} noValidate sx={{ mt: 1 }}>
               <TextField 
                 margin="normal"
                 required
@@ -414,7 +442,7 @@ export default function WebProject() {
               </Button>
             </Box>
 
-            <Box id="eventform" component="form" onSubmit={fermer("principal")} noValidate sx={{ mt: 1 }}>
+            <Box id="eventform" component="form" onSubmit={event =>fermer("principal")} noValidate sx={{ mt: 1 }}>
               <TextField 
                 margin="normal"
                 required
