@@ -28,9 +28,9 @@ CREATE TABLE Utilisateur
     prenom varchar(40) not null,
     pseudo varchar(80) not null UNIQUE,
     pwd varchar(40) not null,
+    pathImgUtilisateur varchar(1000),
 	constraint cle_utilisateur primary key(idUtilisateur)
 );
-/*ajouter l'image*/
 
 DROP SEQUENCE IF EXISTS seqUtilisateur;
 CREATE SEQUENCE seqUtilisateur MINVALUE 1;
@@ -160,9 +160,9 @@ constraint cle_Liaison_QuestionCReponseL primary key (idQL,idRL)
 /*Premier jeu de test*/
 
 
-INSERT INTO Utilisateur VALUES (NEXTVAL('seqUtilisateur'),true,'PIDET','Antonin','Moutmout','youpi');
-INSERT INTO Utilisateur(idUtilisateur,nom,prenom,pseudo,pwd) VALUES (NEXTVAL('seqUtilisateur'),'CROS','Arnaud','Aboubou','hello');
-INSERT INTO Utilisateur(idUtilisateur,nom,prenom,pseudo,pwd) VALUES (NEXTVAL('seqUtilisateur'),'SOUFFLET','Amadéo','ProjetPro','lesgensavecquijebossesontdesfeignasses');
+INSERT INTO Utilisateur VALUES (NEXTVAL('seqUtilisateur'),true,'PIDET','Antonin','Moutmout','youpi','/chezmoi/prendunephoto/çairatresbien');
+INSERT INTO Utilisateur(idUtilisateur,nom,prenom,pseudo,pwd,pathImgUtilisateur) VALUES (NEXTVAL('seqUtilisateur'),'CROS','Arnaud','Aboubou','hello','/image');
+INSERT INTO Utilisateur(idUtilisateur,nom,prenom,pseudo,pwd,pathImgUtilisateur) VALUES (NEXTVAL('seqUtilisateur'),'SOUFFLET','Amadéo','ProjetPro','lesgensavecquijebossesontdesfeignasses','/image');
 
 INSERT INTO Lieu(idLieu,lat,long,intitulé,caractéristque,descriptionLieu,pathImgLieu) VALUES(NEXTVAL('seqLieu'),43.928470611572,2.1426000595093,'Cathédrale','Culturel','Cest de la brique','/site/resources/img/batiment/cathedrale.moutmout');
 
