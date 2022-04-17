@@ -29,6 +29,10 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import ArticleIcon from '@mui/icons-material/Article';
 import $ from "jquery";
 import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import TextareaAutosize from '@mui/base/TextareaAutosize';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Container from '@mui/material/Container';
@@ -205,12 +209,37 @@ export default function WebProject() {
     }
     $("#"+el).show();
   }
+  const [age, setAge] = React.useState('');
+
+  const setValue = (valu) => {
+    $("#userselect").val(valu);
+  }
 
   window.onload = (function() {
     fermer("principal");
     inputCard(inputButtons[selected]);
     cardchosed(inputForms[0]);
+    $('#placeupload').change(function(e){
+      var fs=e.target.files.length;  // filesize
+      var fileName = e.target.files[fs-1].name;
+      $('#placefiles').text(fileName);
+      console.log(fileName);
+    });
+    $('#userupload').change(function(e){
+      var fs=e.target.files.length;  // filesize
+      var fileName = e.target.files[fs-1].name;
+      $('#userfiles').text(fileName);
+      console.log(fileName);
+    });
+    $('#eventupload').change(function(e){
+      var fs=e.target.files.length;  // filesize
+      var fileName = e.target.files[fs-1].name;
+      $('#eventfiles').text(fileName);
+      console.log(fileName);
+    });
   });
+
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -349,125 +378,75 @@ export default function WebProject() {
           <Card className='centerDiv'>
             <h2>Ajouter des éléments</h2>
             <nav className='liste'>
-              <Button
-                style={{width: "50%"}}
-                sx={{ mt: 3, mb: 2 }} onClick={event=>inputCard("userinputbutton")} id="userinputbutton">
+              <Button onClick={event=>inputCard("userinputbutton")} id="userinputbutton" style={{width: "50%"}} sx={{ mt: 3, mb: 2 }}>
                 Utilisateurs
               </Button>
-              <Button
-                style={{width: "50%"}}
-                sx={{ mt: 3, mb: 2 }} onClick={event=>inputCard("placeinputbutton")} id="placeinputbutton">
+              <Button onClick={event=>inputCard("placeinputbutton")} id="placeinputbutton" style={{width: "50%"}} sx={{ mt: 3, mb: 2 }}>
                 Lieux
               </Button>
-              <Button
-                style={{width: "50%"}}
-                sx={{ mt: 3, mb: 2 }} onClick={event=>inputCard("eventinputbutton")} id="eventinputbutton">
+              <Button onClick={event=>inputCard("eventinputbutton")} id="eventinputbutton" style={{width: "50%"}} sx={{ mt: 3, mb: 2 }}>
                 Evènements
               </Button>
             </nav>
 
             <Box id="userform" component="form" onSubmit={event => fermer("principal")} noValidate sx={{ mt: 1 }}>
-              <TextField 
-                margin="normal"
-                required
-                style={{width: "98%"}}
-                id="userprenom"
-                label="Prénom"
-                name="userprenom"
-                autoComplete="Prénom"
-                autoFocus/>
-                <TextField
-                margin="normal"
-                required
-                style={{width: "98%"}}
-                id="usernom"
-                label="Nom"
-                name="usernom"
-                autoComplete="Nom"
-                autoFocus/>
-              <TextField
-                margin="normal"
-                required
-                style={{width: "98%"}}
-                name="password"
-                label="Mot de passe"
-                type="password"
-                id="password"
-                autoComplete="Mot de passe"/>
-              <Button
-                type="submit"
-                style={{width: "98%"}}
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}>
-                Sign In
-              </Button>
+              <FormControl style={{ width: "98%"}}>
+                <TextField id="userprenom" name="userprenom" label="Prénom" required autoComplete="Prénom"  margin="normal" style={{width: "98%"}}/>
+                <TextField id="usernom" name="usernom" margin="normal" required style={{width: "98%"}} label="Nom" autoComplete="Nom" />
+                <TextField id="pseudo" name="pseudo" margin="normal" required style={{width: "98%"}} label="Identifiant" autoComplete="Identifiant" />
+                <TextField id="password" name="password" margin="normal" required style={{width: "98%"}} label="Mot de passe" type="password" autoComplete="Mot de passe"/>
+                <TextField select label="Choisissez le niveau de l'utilisateur" id="userlevel" style={{width: "98%"}} required>
+                  <MenuItem value={"gerant"}>
+                        Gérant
+                  </MenuItem>
+                  <MenuItem value={"administrateur"}>
+                    Administrateur
+                  </MenuItem>
+                </TextField>
+                <Button id="buttonuser" variant="contained" component="label" style={{ width: "98%"}}>
+                  Upload File
+                  <input type="file" id="userupload" hidden/>
+                </Button>
+                <div id="userfiles">
+                </div>
+                <Button type="submit" style={{width: "98%"}} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  Ajouter
+                </Button>
+              </FormControl>
             </Box>
 
             <Box id="placeform" component="form" onSubmit={event =>  fermer("principal")} noValidate sx={{ mt: 1 }}>
-              <TextField 
-                margin="normal"
-                required
-                style={{width: "98%"}}
-                id="nom"
-                label="Nom"
-                name="nom"
-                autoComplete="Nom"
-                autoFocus/>
-                <TextField
-                margin="normal"
-                type="number"
-                required
-                style={{width: "98%"}}
-                id="latitude"
-                label="Latitude"
-                name="latitude"
-                autoComplete="Latitude"
-                autoFocus/>
-                <TextField
-                margin="normal"
-                type="number"
-                required
-                style={{width: "98%"}}
-                id="longitude"
-                label="Longitude"
-                name="longitude"
-                autoComplete="Longitude"
-                autoFocus/>
-              <Button
-                type="submit"
-                style={{width: "98%"}}
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}>
-                Sign In
-              </Button>
+              <FormControl style={{ width: "98%"}}>
+                <TextField id="placenom" name="placenom" label="Nom du lieu" required autoComplete="Nom du lieu"  margin="normal" style={{width: "98%"}}/>
+                <TextField id="placelat" name="placelat" margin="normal" required style={{width: "98%"}} label="Latitude" autoComplete="Latitude" type="number" />
+                <TextField id="placelon" name="placelon" margin="normal" required style={{width: "98%"}} label="Longitude" autoComplete="Longitude" type="number" />
+                <TextareaAutosize minRows={3} placeholder="Description du lieu" style={{ width: "98%" }}/>
+                <Button id="buttonplace" variant="contained" component="label" style={{ width: "98%"}}>
+                  Upload File
+                  <input type="file" id="placeupload" hidden/>
+                </Button>
+                <div id="placefiles">
+                </div>
+                <Button type="submit" style={{width: "98%"}} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  Ajouter
+                </Button>
+              </FormControl>
             </Box>
 
             <Box id="eventform" component="form" onSubmit={event =>fermer("principal")} noValidate sx={{ mt: 1 }}>
-              <TextField 
-                margin="normal"
-                required
-                style={{width: "98%"}}
-                id="eventnom"
-                label="Nom de l'évènement"
-                name="eventnom"
-                autoComplete="Nom de l'évènement"
-                autoFocus/>
-                <TextField
-                margin="normal"
-                required
-                style={{width: "98%"}}
-                id="dateevent"
-                name="dateevent"
-                type="date"
-                autoComplete="Date de l'évènement"
-                autoFocus/>
-              <Button
-                type="submit"
-                style={{width: "98%"}}
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}>
-                Sign In
-              </Button>
+              <FormControl style={{ width: "98%"}}>
+                <TextField id="eventnom" name="eventnom" label="Nom de l'évènement" required autoComplete="Nom de l'évènement"  margin="normal" style={{width: "98%"}}/>
+                <TextField id="eventdate" name="eventdate" margin="normal" required style={{width: "98%"}} type="date" autoComplete="Date de l'évènement"/>
+                <Button id="buttonevent" variant="contained" component="label" style={{ width: "98%"}}>
+                  Upload File
+                  <input type="file" id="eventupload" hidden/>
+                </Button>
+                <div id="eventfiles">
+                </div>
+                <Button type="submit" style={{width: "98%"}} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  Ajouter
+                </Button>
+              </FormControl>
             </Box>
 
           </Card>
