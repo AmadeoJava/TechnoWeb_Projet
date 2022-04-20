@@ -29,3 +29,7 @@ h2{
 .liste{
     display: flex;
 }
+
+.gras{
+    font-weight: bold;
+}
