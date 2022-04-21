@@ -7,8 +7,10 @@ import './questionrad.css';
 function QuestionRad(rep) {  // On donne en paramètre la question, les réponses possibles et leurs images
     const imageClick = (i) => {
         var ident=i.r;
-        console.log(ident);
-        $({rep}).removeClass("chek").addClass("unchek");
+        for(let i=0; i<rep.resp.length; i++) {
+            $("#"+rep.resp[i]).removeClass("chek").addClass("unchek");
+        }
+        
         //var cl = $("#"+ident).attr('class');
         $("#"+ident).removeClass("unchek").addClass("chek");
       }
