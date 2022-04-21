@@ -41,6 +41,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
+import UserTable from './UsersTable';
 import './adminpage.css';
 
 const drawerWidth = 240;
@@ -156,49 +157,7 @@ const StyledMenu = styled((props) => (
 
 const icones=[<CreateIcon/>, <BorderAllIcon/>, <BarChartIcon/>];
 
-function createDataUsers(firstname, name, surname, administrateur, password) {
-  return { firstname, name, surname, administrateur, password};
-}// add data
-const rowsUsers = [
-  createDataUsers('Sherlock', 'Holmes', 'Détective', "Oui", "********"),
-  createDataUsers('Shinishi', 'Kudo', 'Lycéen', "Non", "********"),
-  createDataUsers('Jules', 'Maigret', 'Commisaire', "Non", "********"),
-  createDataUsers('David', 'Panzoli', 'Dieu ?', "Non", "********"),
-  createDataUsers('Naruto', 'Uzumaki', 'Hokage', "Non", "********"),
-  createDataUsers('Monkey', 'Luffy', 'Pirate', "Non", "********"),
-  createDataUsers('Natsu', 'Dragnir', 'Salamander', "Non", "********"),
-  createDataUsers('Arnaud', 'Cros', 'Ark Tryharder', "Oui", "********"),
-  createDataUsers('Antonin', 'Pidet', 'Fourmi', "Oui", "********"),
-  createDataUsers('Amadéo', 'Soufflet', 'Pentester', "Oui", "********"),
-  createDataUsers('François', 'Pouit', 'PuitPuit', "Non", "********"),
-  createDataUsers('Nicolas', 'Garric', 'Bricoleur', "Non", "********"),
-  createDataUsers('Laura', 'Brillon', 'Matheuse', "Non", "********"),
-  createDataUsers('Thierry', 'Montaut', 'Relou', "Non", "********"),
-
-];
-
-
-const columnsUsers = [
-  { id: 'firstname'},
-  { id: 'name'},
-  { id: 'surname'},
-  { id: 'administrateur'},
-  { id: 'password'}
-];
-
 export default function WebProject() {
-
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -272,7 +231,6 @@ export default function WebProject() {
     }
     $("#"+el).show();
   }
-  const [age, setAge] = React.useState('');
 
   const setValue = (valu) => {
     $("#userselect").val(valu);
@@ -585,61 +543,14 @@ export default function WebProject() {
             </nav>
 
             <Box id="usertable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
-              <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ maxHeight: 440 }}>
-                  <Table stickyHeader aria-label="sticky table">  
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="center" style={{fontWeight: "bold"}}>Prénom</TableCell>
-                        <TableCell align="center" style={{fontWeight: "bold"}}>Nom</TableCell>
-                        <TableCell align="center" style={{fontWeight: "bold"}}>Pseudo</TableCell>
-                        <TableCell align="center" style={{fontWeight: "bold"}}>Administrateur</TableCell>
-                        <TableCell align="center" style={{fontWeight: "bold"}}>Mot de passe</TableCell>
-                        <TableCell align="center" style={{fontWeight: "bold"}}>Modifier</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {rowsUsers
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((row) => {
-                          return (
-                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                              {columnsUsers.map((column) => {
-                                const value = row[column.id];
-                                return (
-                                  <TableCell key={column.id} align="center">
-                                    {value}
-                                  </TableCell>
-                                );
-                              })}
-                              <TableCell align="center">
-                                <IconButton id={row[columnsUsers[2].id]} onClick={event=>alert(row[columnsUsers[2].id])}>
-                                  <EditIcon style={{color: '#1976d2'}}/>
-                                </IconButton>
-                              </TableCell>
-                            </TableRow>
-                          );
-                        })}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TablePagination
-        rowsPerPageOptions={[5, 10, 25, 100]}
-        component="div"
-        count={rowsUsers.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-              </Paper>
+              <UserTable/>
             </Box>
 
-            <Box id="placetable" component="table" noValidate sx={{ mt: 1 }}>
-              <h1>place</h1>
+            <Box id="placetable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
+              <UserTable/>
             </Box>
 
-            <Box id="eventtable" component="table" noValidate sx={{ mt: 1 }}>
+            <Box id="eventtable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
               <h1>event</h1>
             </Box>
 
