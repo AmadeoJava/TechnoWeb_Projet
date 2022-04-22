@@ -7,7 +7,7 @@ import QuestionRad from './QuestionRad'
 
 // que="Choisissez ce que vous appréciez" rep={['male','female']} ima={["http://findicons.com/files/icons/1688/web_blog/48/user_male_white_red_brown.png","http://findicons.com/files/icons/1688/web_blog/48/user_female_white_pink_black.png"]} type="gender"
 
-function Formulaire() {
+export default function Formulaire() {
     var resultat = [];
 
     const test = () =>{
@@ -26,14 +26,13 @@ function Formulaire() {
     return <div>
         <form>
             <QuestionChek que="Que préférez vous ?" resp={['cathedrale','lautrec','mode']} type="lieux" ima={[require("./images/places/cath.jpg"), require("./images/places/laut.jpg"), require("./images/places/mod.jpg")]}/>
-            <br></br>
+            <br/>
             <QuestionRad que="Quel Avatar choisissez vous ?" resp={["god","woman"]} type="face" ima={[require("./images/faces/face8.jpg"), require("./images/faces/face10.jpg")]}/>
         </form>
-        <br></br>
+        <br/>
         <Button onClick={() => test()} variant="contained" id="valider">Valider</Button>
     </div>
     ;
     
   }
 
-  export default Formulaire;

@@ -42,6 +42,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 import UserTable from './UsersTable';
+import Documentation from './Documentation';
 import './adminpage.css';
 
 const drawerWidth = 240;
@@ -397,8 +398,10 @@ export default function WebProject() {
 
       <Box component="main" id="editer" sx={{ flexGrow: 1, p: 3 }} >
         <DrawerHeader />
+          <div style={{width:"100%",textAlign:"center"}}>
+            <h1>Ajouter des éléments</h1>
+          </div>
           <Card className='centerDiv'>
-            <h2>Ajouter des éléments</h2>
             <nav className='liste'>
               <Button onClick={event=>inputCard("userinputbutton")} id="userinputbutton" style={{width: "50%"}} sx={{ mt: 3, mb: 2 }}>
                 Utilisateurs
@@ -528,8 +531,10 @@ export default function WebProject() {
 
       <Box component="main" id="table" sx={{ flexGrow: 1, p: 3 }} >
         <DrawerHeader />
+          <div style={{width:"100%",textAlign:"center"}}>
+            <h1>Tables</h1>
+          </div>
           <Card className='centerDiv'>
-            <h2>Tables</h2>
             <nav className='liste'>
               <Button onClick={event=>tableCard("usertablebutton")} id="usertablebutton" style={{width: "50%"}} sx={{ mt: 3, mb: 2 }}>
                 Utilisateurs
@@ -547,7 +552,7 @@ export default function WebProject() {
             </Box>
 
             <Box id="placetable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
-              <UserTable/>
+              <h1>Place</h1>
             </Box>
 
             <Box id="eventtable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
@@ -559,16 +564,23 @@ export default function WebProject() {
 
       <Box component="main" id="graphe" sx={{ flexGrow: 1, p: 3 }} >
         <DrawerHeader />
+          <div style={{width:"100%",textAlign:"center"}}>
+            <h1>Graphes</h1>
+          </div>
           <Card className='centerDiv'>
-            <h2>Graphes</h2>
+            <h2>Mets les graphes ici</h2>
           </Card>
       </Box>
 
       <Box component="main" id="doc" sx={{ flexGrow: 1, p: 3 }} >
         <DrawerHeader />
-          <Card className='centerDiv'>
-            <h2>Documentation</h2>
-          </Card>
+          <div style={{width:"100%",textAlign:"center"}}>
+            <h1>Documentation</h1>
+          </div>
+          
+          <br/>
+          <Documentation que="Quels sont les différents niveaux d'utilisateurs ?" rep={["Administrateur : Droit de modifier Les lieux, évènements et utilisateurs", "Basique : Droit de modifier Les lieux et évènements"]}/>
+
       </Box>
       
     </Box>
