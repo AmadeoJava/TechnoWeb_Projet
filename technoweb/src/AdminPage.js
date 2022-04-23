@@ -242,7 +242,8 @@ export default function WebProject() {
     $("#userselect").val(valu);
   }
 
-  document.addEventListener("DOMContentLoaded", function(){
+  $(document).ready(function() {
+    fermer("principal");
     inputCard(inputButtons[selectedi]);
     tableCard(tableButtons[selectedt]);
     cardchosed(inputForms[0]);
