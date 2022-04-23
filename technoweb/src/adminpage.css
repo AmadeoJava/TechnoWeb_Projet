@@ -33,3 +33,11 @@ h2{
 .gras{
     font-weight: bold;
 }
+
+.gris{
+    color: rgb(92, 91, 91);
+}
+
+.bleu{
+    color: #0e8cd4;
+}

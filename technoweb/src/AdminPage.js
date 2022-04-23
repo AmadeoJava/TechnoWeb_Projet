@@ -43,6 +43,7 @@ import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 import UserTable from './UsersTable';
 import Documentation from './Documentation';
+import UserProfile from './UserProfile';
 import './adminpage.css';
 
 const drawerWidth = 240;
@@ -162,7 +163,7 @@ export default function WebProject() {
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const listeBox = ["principal", "editer", "table", "graphe", "doc"];
+  const listeBox = ["principal", "editer", "table", "graphe", "doc", "profile"];
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -179,6 +180,10 @@ export default function WebProject() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const profilf = () =>{
+    fermer("profile");
+  }
 
   var ouvert = "principal";
   const fermer = (o) => {
@@ -237,7 +242,7 @@ export default function WebProject() {
     $("#userselect").val(valu);
   }
 
-  window.onload = (function() {
+  document.addEventListener("DOMContentLoaded", function(){
     fermer("principal");
     inputCard(inputButtons[selectedi]);
     tableCard(tableButtons[selectedt]);
@@ -307,12 +312,12 @@ export default function WebProject() {
                 borderRadius:100}}>
                 </img>
                 <Typography paragraph style={{textAlign:'center'}}>
-                Allen Moreno
+                David Panzoli
                 </Typography>
                 <Typography paragraph style={{textAlign:'center'}}>
-                esoreno@gmail.com
+                Dieu ?
                 </Typography>
-              <MenuItem onClick={handleClose} disableRipple className="clickable">
+              <MenuItem onClick={()=>{profilf(); handleClose()}} disableRipple className="clickable">
                 <EditIcon />
                 MyProfile
               </MenuItem>
@@ -580,9 +585,20 @@ export default function WebProject() {
           
           <br/>
           <Documentation que="Quels sont les différents niveaux d'utilisateurs ?" rep={["Administrateur : Droit de modifier Les lieux, évènements et utilisateurs", "Basique : Droit de modifier Les lieux et évènements"]}/>
-
+          <br/>
+          <Documentation que="Quelles sont les différentes pages ?" rep={["Principale : Accueil", "Stylo : Permet d'ajouter des éléments", "Table : Permet de voir les différents éléments et de les modifier", "Graphes : Permet d'avoir des statistiques sur le site", "Documentation : Permet de trouver les réponses à des questions"]}/>
       </Box>
       
+      <Box component="main" id="profile" sx={{ flexGrow: 1, p: 3 }} >
+        <DrawerHeader />
+        <div style={{width:"100%",textAlign:"center"}}>
+          <h1>Profil</h1>
+        </div>
+        <Card>
+          <UserProfile el={["Prénom", "Nom", "Pseudo", "Admninistrateur", "Mot de passe"]} rep={["David", "Panzoli", "Dieu ?", "Oui", "********"]}/>
+        </Card>
+      </Box>
+
     </Box>
   );
 }
