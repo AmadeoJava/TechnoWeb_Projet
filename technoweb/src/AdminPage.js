@@ -243,7 +243,6 @@ export default function WebProject() {
   }
 
   document.addEventListener("DOMContentLoaded", function(){
-    fermer("principal");
     inputCard(inputButtons[selectedi]);
     tableCard(tableButtons[selectedt]);
     cardchosed(inputForms[0]);
@@ -393,7 +392,7 @@ export default function WebProject() {
         </List>
       </Drawer>
 
-      <Box component="main" id="principal" sx={{ flexGrow: 1, p: 3 }} >
+      <Box component="main" id="principal" sx={{ flexGrow: 1, p: 3 }} style={{display:"initial"}}>
         <DrawerHeader />
           <Card className='centerDiv'>
             <h2>Endroit le plus visité</h2>
@@ -401,7 +400,7 @@ export default function WebProject() {
           </Card>
       </Box>
 
-      <Box component="main" id="editer" sx={{ flexGrow: 1, p: 3 }} >
+      <Box component="main" id="editer" sx={{ flexGrow: 1, p: 3 }} style={{display:"none"}}>
         <DrawerHeader />
           <div style={{width:"100%",textAlign:"center"}}>
             <h1>Ajouter des éléments</h1>
@@ -534,7 +533,7 @@ export default function WebProject() {
           </Card>
       </Box>
 
-      <Box component="main" id="table" sx={{ flexGrow: 1, p: 3 }} >
+      <Box component="main" id="table" sx={{ flexGrow: 1, p: 3 }} style={{display:"none"}}>
         <DrawerHeader />
           <div style={{width:"100%",textAlign:"center"}}>
             <h1>Tables</h1>
@@ -567,7 +566,7 @@ export default function WebProject() {
           </Card>
       </Box>
 
-      <Box component="main" id="graphe" sx={{ flexGrow: 1, p: 3 }} >
+      <Box component="main" id="graphe" sx={{ flexGrow: 1, p: 3 }} style={{display:"none"}}>
         <DrawerHeader />
           <div style={{width:"100%",textAlign:"center"}}>
             <h1>Graphes</h1>
@@ -577,7 +576,7 @@ export default function WebProject() {
           </Card>
       </Box>
 
-      <Box component="main" id="doc" sx={{ flexGrow: 1, p: 3 }} >
+      <Box component="main" id="doc" sx={{ flexGrow: 1, p: 3 }} style={{display:"none"}}>
         <DrawerHeader />
           <div style={{width:"100%",textAlign:"center"}}>
             <h1>Documentation</h1>
@@ -589,7 +588,7 @@ export default function WebProject() {
           <Documentation que="Quelles sont les différentes pages ?" rep={["Principale : Accueil", "Stylo : Permet d'ajouter des éléments", "Table : Permet de voir les différents éléments et de les modifier", "Graphes : Permet d'avoir des statistiques sur le site", "Documentation : Permet de trouver les réponses à des questions"]}/>
       </Box>
       
-      <Box component="main" id="profile" sx={{ flexGrow: 1, p: 3 }} >
+      <Box component="main" id="profile" sx={{ flexGrow: 1, p: 3 }} style={{display:"none"}}>
         <DrawerHeader />
         <div style={{width:"100%",textAlign:"center"}}>
           <h1>Profil</h1>
