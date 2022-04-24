@@ -240,36 +240,42 @@ export default function WebProject() {
     $("#userselect").val(valu);
   }
 
-  
-  window.addEventListener("load", function(event) {    
-    fermer("principal");
+  const debut = (function(){
     inputCard(inputButtons[selectedi]);
     tableCard(tableButtons[selectedt]);
+  })
+  
+  window.onload=(function(event) {
     cardchosed(inputForms[0]);
+
     $('#placeupload').change(function(e){
       var fs=e.target.files.length;  // filesize
       var fileName = e.target.files[fs-1].name;
       $('#placefiles').text(fileName);
       console.log(fileName);
     });
+
     $('#userupload').change(function(e){
       var fs=e.target.files.length;  // filesize
       var fileName = e.target.files[fs-1].name;
       $('#userfiles').text(fileName);
       console.log(fileName);
     });
+
     $('#eventupload').change(function(e){
       var fs=e.target.files.length;  // filesize
       var fileName = e.target.files[fs-1].name;
       $('#eventfiles').text(fileName);
       console.log(fileName);
     });
+
+
   });
 
 
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }} onClick={() => debut()}>
       <CssBaseline />
       <AppBar position="fixed" open={open} style={{ backgroundColor: '#4f4f4f' }}>
         <Toolbar>
