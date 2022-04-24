@@ -181,14 +181,11 @@ export default function WebProject() {
     setAnchorEl(null);
   };
 
-  const profilf = () =>{
-    fermer("profile");
-  }
 
   var ouvert = "principal";
   const fermer = (o) => {
     //alert(ouvert);
-    console.log(o);
+    console.log("ouvert = "+o);
     if (o){
       ouvert = o;
     }
@@ -198,6 +195,7 @@ export default function WebProject() {
     }
     $("#"+ouvert).css("display", "initial");
   };
+
 
   const inputButtons = ["userinputbutton", "placeinputbutton", "eventinputbutton"];
   const inputForms = ["userform", "placeform", "eventform"];
@@ -242,7 +240,8 @@ export default function WebProject() {
     $("#userselect").val(valu);
   }
 
-  $(document).ready(function() {
+  
+  window.addEventListener("load", function(event) {    
     fermer("principal");
     inputCard(inputButtons[selectedi]);
     tableCard(tableButtons[selectedt]);
@@ -287,9 +286,9 @@ export default function WebProject() {
             <MenuIcon />
           </IconButton>
           <div onClick={event =>  fermer("principal")}>
-          <Typography variant="h6" noWrap component="div" className="clickable">
-            Dashboard
-          </Typography>
+            <Typography variant="h6" noWrap component="div" className="clickable">
+              Dashboard
+            </Typography>
           </div>
 
           <div style={{ position: 'fixed', right: 100 }} >
@@ -317,7 +316,7 @@ export default function WebProject() {
                 <Typography paragraph style={{textAlign:'center'}}>
                 Dieu ?
                 </Typography>
-              <MenuItem onClick={()=>{profilf(); handleClose()}} disableRipple className="clickable">
+              <MenuItem onClick={(event)=>{handleClose(); fermer("profile")}} disableRipple className="clickable">
                 <EditIcon />
                 MyProfile
               </MenuItem>
@@ -331,9 +330,9 @@ export default function WebProject() {
           
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} onClick={handleDrawerClose}>
         
-        <DrawerHeader onClick={handleDrawerClose} className="clickable">
+        <DrawerHeader  className="clickable">
         <Typography variant="h4" className="centerDiv">
             Admin
           </Typography>
