@@ -42,6 +42,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 import UserTable from './UsersTable';
+import PlaceTable from './PlacesTable';
+import EventTable from './EventsTable';
 import Documentation from './Documentation';
 import UserProfile from './UserProfile';
 import './adminpage.css';
@@ -562,11 +564,11 @@ export default function WebProject() {
             </Box>
 
             <Box id="placetable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
-              <h1>Place</h1>
+              <PlaceTable/>
             </Box>
 
             <Box id="eventtable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
-              <h1>event</h1>
+              <EventTable/>
             </Box>
 
           </Card>

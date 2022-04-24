@@ -12,53 +12,23 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 
-function createDataUsers(image, firstname, name, surname, administrateur, password) {
-    return { image, firstname, name, surname, administrateur, password};
+function createDataUsers(image, name, date, description) {
+    return { image, name, date, description};
   }// add data
   var rowsUsers = [
-    createDataUsers(require('./images/faces/face8.jpg'), 'Sherlock', 'Holmes', 'Détective', "Oui", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Shinishi', 'Kudo', 'Lycéen', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Jules', 'Maigret', 'Commisaire', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'David', 'Panzoli', 'Dieu ?', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Naruto', 'Uzumaki', 'Hokage', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Monkey', 'Luffy', 'Pirate', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Natsu', 'Dragnir', 'Salamander', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Arnaud', 'Cros', 'Ark Tryharder', "Oui", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Antonin', 'Pidet', 'Fourmi', "Oui", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Amadéo', 'Soufflet', 'Pentester', "Oui", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'François', 'Pouit', 'PuitPuit', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Nicolas', 'Garric', 'Bricoleur', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Laura', 'Brillon', 'Matheuse', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Thierry', 'Montaut', 'Relou', "Non", "********"),
-  
+    createDataUsers(require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', "Grand carnaval"),
   ];
 
   const rowsUsers1 = [
-    createDataUsers(require('./images/faces/face8.jpg'), 'Sherlock', 'Holmes', 'Détective', "Oui", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Shinishi', 'Kudo', 'Lycéen', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Jules', 'Maigret', 'Commisaire', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'David', 'Panzoli', 'Dieu ?', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Naruto', 'Uzumaki', 'Hokage', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Monkey', 'Luffy', 'Pirate', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Natsu', 'Dragnir', 'Salamander', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Arnaud', 'Cros', 'Ark Tryharder', "Oui", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Antonin', 'Pidet', 'Fourmi', "Oui", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Amadéo', 'Soufflet', 'Pentester', "Oui", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'François', 'Pouit', 'PuitPuit', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Nicolas', 'Garric', 'Bricoleur', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Laura', 'Brillon', 'Matheuse', "Non", "********"),
-    createDataUsers(require('./images/faces/face8.jpg'), 'Thierry', 'Montaut', 'Relou', "Non", "********"),
-  
+    createDataUsers(require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', "Grand carnaval"),
   ];
   
   
   const columnsUsers = [
     { id: 'image'},
-    { id: 'firstname'},
     { id: 'name'},
-    { id: 'surname'},
-    { id: 'administrateur'},
-    { id: 'password'}
+    { id: 'date'},
+    { id: 'description'}
   ];
 
   export default function UsersTable() {
@@ -124,11 +94,9 @@ function createDataUsers(image, firstname, name, surname, administrateur, passwo
         <TableHead>
           <TableRow>
           <TableCell align="center" style={{fontWeight: "bold"}}>Image</TableCell>
-            <TableCell align="center" style={{fontWeight: "bold"}}>Prénom</TableCell>
             <TableCell align="center" style={{fontWeight: "bold"}}>Nom</TableCell>
-            <TableCell align="center" style={{fontWeight: "bold"}}>Pseudo</TableCell>
-            <TableCell align="center" style={{fontWeight: "bold"}}>Administrateur</TableCell>
-            <TableCell align="center" style={{fontWeight: "bold"}}>Mot de passe</TableCell>
+            <TableCell align="center" style={{fontWeight: "bold"}}>Date</TableCell>
+            <TableCell align="center" style={{fontWeight: "bold"}}>Description</TableCell>
             <TableCell align="center" style={{fontWeight: "bold"}}>Modifier</TableCell>
           </TableRow>
         </TableHead>
