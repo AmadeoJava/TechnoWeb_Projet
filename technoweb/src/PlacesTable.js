@@ -12,23 +12,23 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 
-function createDataUsers(image, name, latitude, longitude, caracteristiques, description) {
+function createDataPlaces(image, name, latitude, longitude, caracteristiques, description) {
     return { image, name, latitude, longitude, caracteristiques, description};
   }// add data
-  var rowsUsers = [
-    createDataUsers(require('./images/places/cath.jpg'), 'Cathédrale', '8', '9', "Lieu", "Grande cathédrale"),
-    createDataUsers(require('./images/places/laut.jpg'), 'Musée Lautrec', '9', '9', "Culture", "Musée avec des tableaux"),
-    createDataUsers(require('./images/places/mod.jpg'), 'Musée de la mode', '10', '12', "Culture Restaurant", "Musée avec des vêtements"),
+  var rowPlaces = [
+    createDataPlaces(require('./images/places/cath.jpg'), 'Cathédrale', '8', '9', "Lieu", "Grande cathédrale"),
+    createDataPlaces(require('./images/places/laut.jpg'), 'Musée Lautrec', '9', '9', "Culture", "Musée avec des tableaux"),
+    createDataPlaces(require('./images/places/mod.jpg'), 'Musée de la mode', '10', '12', "Culture Restaurant", "Musée avec des vêtements"),
   ];
 
-  const rowsUsers1 = [
-    createDataUsers(require('./images/places/cath.jpg'), 'Cathédrale', '8', '9', "Lieu", "Grande cathédrale"),
-    createDataUsers(require('./images/places/laut.jpg'), 'Musée Lautrec', '9', '9', "Culture", "Musée avec des tableaux"),
-    createDataUsers(require('./images/places/mod.jpg'), 'Musée de la mode', '10', '12', "Culture Restaurant", "Musée avec des vêtements"),
+  const rowPlaces1 = [
+    createDataPlaces(require('./images/places/cath.jpg'), 'Cathédrale', '8', '9', "Lieu", "Grande cathédrale"),
+    createDataPlaces(require('./images/places/laut.jpg'), 'Musée Lautrec', '9', '9', "Culture", "Musée avec des tableaux"),
+    createDataPlaces(require('./images/places/mod.jpg'), 'Musée de la mode', '10', '12', "Culture Restaurant", "Musée avec des vêtements"),
   ];
   
   
-  const columnsUsers = [
+  const columnsPlaces = [
     { id: 'image'},
     { id: 'name'},
     { id: 'latitude'},
@@ -37,7 +37,7 @@ function createDataUsers(image, name, latitude, longitude, caracteristiques, des
     { id: 'description'}
   ];
 
-  export default function UsersTable() {
+  export default function PlacesTable() {
     var timeou;
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -60,20 +60,20 @@ function createDataUsers(image, name, latitude, longitude, caracteristiques, des
       var val = $("#"+el).val();
       val = val.toUpperCase();
       //console.log(val);
-      rowsUsers=rowsUsers1;
+      rowPlaces=rowPlaces1;
       if (val){
         var ro=[];
-        for (let i = 0; i <rowsUsers.length; i++){
-          var r = ((rowsUsers[i].name).toUpperCase());
+        for (let i = 0; i <rowPlaces.length; i++){
+          var r = ((rowPlaces[i].name).toUpperCase())+" "+((rowPlaces[i].caracteristiques).toUpperCase())+" "+((rowPlaces[i].description).toUpperCase());
           //console.log(r);
           if(r.includes(val)){
-            ro.push(rowsUsers[i]);
+            ro.push(rowPlaces[i]);
           }
         }
-        rowsUsers=ro;
+        rowPlaces=ro;
       }
 
-      console.log(rowsUsers);
+      console.log(rowPlaces);
 
       setPage(1);
       timeou = setTimeout(myfonction, 1);
@@ -83,11 +83,11 @@ function createDataUsers(image, name, latitude, longitude, caracteristiques, des
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <div>
       <TextField
-          id="usersearch"
+          id="placesearch"
           label="Recherche"
           defaultValue=""
           variant="standard"
-          onChange={()=>montrer("usersearch")}
+          onChange={()=>montrer("placesearch")}
         />
       </div>
     <TableContainer sx={{ maxHeight: 440 }}>
@@ -104,10 +104,10 @@ function createDataUsers(image, name, latitude, longitude, caracteristiques, des
           </TableRow>
         </TableHead>
         <TableBody id="userrows">
-          {rowsUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+          {rowPlaces.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                  {columnsUsers.map((column) => {
+                  {columnsPlaces.map((column) => {
                     const value = row[column.id];
                     if((column.id)!='image'){
                       return (
@@ -124,7 +124,7 @@ function createDataUsers(image, name, latitude, longitude, caracteristiques, des
                     }
                   })}
                   <TableCell align="center">
-                    <IconButton id={row[columnsUsers[2].id]} onClick={event=>alert(row[columnsUsers[2].id])}>
+                    <IconButton id={row[columnsPlaces[2].id]} onClick={event=>alert(row[columnsPlaces[2].id])}>
                       <EditIcon style={{color: '#1976d2'}}/>
                     </IconButton>
                   </TableCell>
@@ -137,7 +137,7 @@ function createDataUsers(image, name, latitude, longitude, caracteristiques, des
     <TablePagination
 rowsPerPageOptions={[5, 10, 25, 100]}
 component="div"
-count={rowsUsers.length}
+count={rowPlaces.length}
 rowsPerPage={rowsPerPage}
 page={page}
 onPageChange={handleChangePage}

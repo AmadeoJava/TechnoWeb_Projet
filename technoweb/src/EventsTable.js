@@ -12,26 +12,26 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 
-function createDataUsers(image, name, date, description) {
+function createDataEvents(image, name, date, description) {
     return { image, name, date, description};
   }// add data
-  var rowsUsers = [
-    createDataUsers(require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', "Grand carnaval"),
+  var rowsEvents = [
+    createDataEvents(require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', "Grand carnaval"),
   ];
 
-  const rowsUsers1 = [
-    createDataUsers(require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', "Grand carnaval"),
+  const rowsEvents1 = [
+    createDataEvents(require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', "Grand carnaval"),
   ];
   
   
-  const columnsUsers = [
+  const columnEvents = [
     { id: 'image'},
     { id: 'name'},
     { id: 'date'},
     { id: 'description'}
   ];
 
-  export default function UsersTable() {
+  export default function EventsTable() {
     var timeou;
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -54,20 +54,20 @@ function createDataUsers(image, name, date, description) {
       var val = $("#"+el).val();
       val = val.toUpperCase();
       //console.log(val);
-      rowsUsers=rowsUsers1;
+      rowsEvents=rowsEvents1;
       if (val){
         var ro=[];
-        for (let i = 0; i <rowsUsers.length; i++){
-          var r = (rowsUsers[i].firstname).toUpperCase()+" "+(rowsUsers[i].name).toUpperCase()+" "+(rowsUsers[i].surname).toUpperCase();
+        for (let i = 0; i <rowsEvents.length; i++){
+          var r =(rowsEvents[i].name).toUpperCase();
           //console.log(r);
           if(r.includes(val)){
-            ro.push(rowsUsers[i]);
+            ro.push(rowsEvents[i]);
           }
         }
-        rowsUsers=ro;
+        rowsEvents=ro;
       }
 
-      console.log(rowsUsers);
+      console.log(rowsEvents);
 
       /*
       $('#userrows').remove();
@@ -82,11 +82,11 @@ function createDataUsers(image, name, date, description) {
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <div>
       <TextField
-          id="usersearch"
+          id="eventsearch"
           label="Recherche"
           defaultValue=""
           variant="standard"
-          onChange={()=>montrer("usersearch")}
+          onChange={()=>montrer("eventsearch")}
         />
       </div>
     <TableContainer sx={{ maxHeight: 440 }}>
@@ -101,10 +101,10 @@ function createDataUsers(image, name, date, description) {
           </TableRow>
         </TableHead>
         <TableBody id="userrows">
-          {rowsUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+          {rowsEvents.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                  {columnsUsers.map((column) => {
+                  {columnEvents.map((column) => {
                     const value = row[column.id];
                     if((column.id)!='image'){
                       return (
@@ -121,7 +121,7 @@ function createDataUsers(image, name, date, description) {
                     }
                   })}
                   <TableCell align="center">
-                    <IconButton id={row[columnsUsers[2].id]} onClick={event=>alert(row[columnsUsers[2].id])}>
+                    <IconButton id={row[columnEvents[2].id]} onClick={event=>alert(row[columnEvents[2].id])}>
                       <EditIcon style={{color: '#1976d2'}}/>
                     </IconButton>
                   </TableCell>
@@ -134,7 +134,7 @@ function createDataUsers(image, name, date, description) {
     <TablePagination
 rowsPerPageOptions={[5, 10, 25, 100]}
 component="div"
-count={rowsUsers.length}
+count={rowsEvents.length}
 rowsPerPage={rowsPerPage}
 page={page}
 onPageChange={handleChangePage}
