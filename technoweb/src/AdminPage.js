@@ -33,14 +33,6 @@ import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import Grid from '@mui/material/Grid';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import TablePagination from '@mui/material/TablePagination';
 import UserTable from './UsersTable';
 import PlaceTable from './PlacesTable';
 import EventTable from './EventsTable';
@@ -546,7 +538,7 @@ export default function WebProject() {
           <div style={{width:"100%",textAlign:"center"}}>
             <h1>Tables</h1>
           </div>
-          <Card className='centerDiv'>
+          <Card className='centerDiv' style={{height:"auto"}}>
             <nav className='liste'>
               <Button onClick={event=>tableCard("usertablebutton")} id="usertablebutton" style={{width: "50%"}} sx={{ mt: 3, mb: 2 }}>
                 Utilisateurs
@@ -558,18 +550,26 @@ export default function WebProject() {
                 Evènements
               </Button>
             </nav>
+            
+            <Box style={{width: "100%", display: "flex", flexFlow:"row nowrap", justifyContent: "center", alignItems: "center"}}>
 
-            <Box id="usertable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
-              <UserTable/>
+              <Box id="usertable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
+                <UserTable/>
+                <br/>
+              </Box>
+
+              <Box id="placetable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
+                <PlaceTable/>
+                <br/>
+              </Box>
+
+              <Box id="eventtable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
+                <EventTable/>
+                <br/>
+              </Box>
+              
             </Box>
 
-            <Box id="placetable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
-              <PlaceTable/>
-            </Box>
-
-            <Box id="eventtable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
-              <EventTable/>
-            </Box>
 
           </Card>
       </Box>
