@@ -1,7 +1,7 @@
 #barreTop{
     background-color: #e4e4e4;
     width: 100%;
-    height:22%;
+    height:100px;
     padding-top:1%;
 }
 
@@ -10,9 +10,16 @@
     padding-top:0;
 }
 
+#logotout{
+    width:40%;
+    height:40%;
+    display: block;
+}
 #logo{
-    width:20%;
-    height:20%;
+    display: none;
+}
+#logotexte{
+    display: none;
 }
 
 #Albivouac{
@@ -20,10 +27,14 @@
     color:black;
 }
 
-#boutons{
+#beaucoup{
     position: absolute;
     left:35%;
     right:35%;
+    top:0;
+}
+
+#boutons{
     display:flex;
 }
 
@@ -43,19 +54,27 @@
 }
 
 @media screen and (max-width: 800px) {
+    #barreTop{
+        height: 200px;
+    }
+    #beaucoup{
+        top:0;
+        display:inline;
+        margin-left: auto;
+        margin-right: auto;
+    }
     #boutons{
         display:inline;
-        top:30%;
+
     }
     .lienAccueil Button{
         display: block;
         font-size:100%;
-        margin-left: auto;
-        margin-right: auto;
         border-bottom: black 1px solid;
         width:100%;
         border-radius: 0;
-    }
+        text-align: center;
+        }
 
     #Albivouac{
         position:absolute;
@@ -65,10 +84,18 @@
         padding-right:30%;
         padding-bottom: 0;
     }
+    #logotout{
+        display: none;
+    }
     #logo{
-        height: 150px;
-        width: 150px;
-        margin-top: 20%;
-        margin-bottom: 20%;
+        padding-top:15%;
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    #logotexte{
+        width: 100%;
+        height: 100%;
+        display: block;
     }
 }

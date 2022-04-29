@@ -55,25 +55,29 @@ function Home() {
     <AppBar id="barreTop" position='relative'>
     <Toolbar>
       <div id='presentation'>
+      <img alt='logo' id='logotout' src={require('./images/logo/logo_tout.png')}/>
       <img alt='logo' id='logo' src={require('./images/logo/logo.png')}/>
-      <Typography id='Albivouac'>Albivouac</Typography>
+      
       </div>
-      <div id='boutons'>
-      <Link to="/form" class="lienAccueil">
-        <Button >
-        Questionnaire
-        </Button>
-      </Link>
-      <Link to="/login" class="lienAccueil">
-        <Button >
-          Connexion
-        </Button>
-      </Link>   
-      <Link to="/admin" class="lienAccueil">
-        <Button >
-          Dashboard
-        </Button>
-      </Link>  
+      <div id="beaucoup">
+        <img alt='logo' id='logotexte' src={require('./images/logo/logo_texte.png')}/>
+        <div id='boutons'>
+        <Link to="/form" class="lienAccueil">
+          <Button >
+          Questionnaire
+          </Button>
+        </Link>
+        <Link to="/login" class="lienAccueil">
+          <Button >
+            Connexion
+          </Button>
+        </Link>   
+        <Link to="/admin" class="lienAccueil">
+          <Button >
+            Dashboard
+          </Button>
+        </Link>  
+        </div>
       </div>
     </Toolbar>
   </AppBar>
