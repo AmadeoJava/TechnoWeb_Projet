@@ -92,7 +92,7 @@ function Home() {
 
   <MapComponent/>
 
-  <Card style={{position:'realative', bottom:'0', width:'100%', left:'0'}}>
+  <Card style={{position:'relative', bottom:'0', width:'100%', left:'0'}}>
   <FooterComponent/>
   </Card>
   </Box>
