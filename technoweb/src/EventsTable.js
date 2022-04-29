@@ -13,9 +13,6 @@ import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -160,7 +157,7 @@ function createDataEvents(identifiant, image, name, date, description) {
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columnEvents.map((column) => {
                     const value = row[column.id];
-                    if((column.id)!='image'){
+                    if((column.id)!=='image'){
                       return (
                         <TableCell key={column.id} align="center">
                           {value}
@@ -169,7 +166,7 @@ function createDataEvents(identifiant, image, name, date, description) {
                     }else{
                       return (
                         <TableCell key={column.id} align="center">
-                          <img src={value} style={{width: '50%'}}/>
+                          <img src={value} style={{width: '50%'}} alt=""/>
                         </TableCell>
                       );
                     }
