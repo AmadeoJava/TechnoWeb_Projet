@@ -59,17 +59,17 @@ function Home() {
       <Typography id='Albivouac'>Albivouac</Typography>
       </div>
       <div id='boutons'>
-      <Link to="/form" class="lienAccueil">
+      <Link to="/form" className="lienAccueil">
         <Button >
         Questionnaire
         </Button>
       </Link>
-      <Link to="/login" class="lienAccueil">
+      <Link to="/login" className="lienAccueil">
         <Button >
           Connexion
         </Button>
       </Link>   
-      <Link to="/admin" class="lienAccueil">
+      <Link to="/admin" className="lienAccueil">
         <Button >
           Dashboard
         </Button>
@@ -85,9 +85,8 @@ function Home() {
     </Typography>
     <HighlightOffIcon onClick={fonction}/>
   </Card>
-  <div id="mapAccueil" >
+
   <MapComponent/>
-  </div>
 
   <Card style={{position:'realative', bottom:'0', width:'100%', left:'0'}}>
   <FooterComponent/>

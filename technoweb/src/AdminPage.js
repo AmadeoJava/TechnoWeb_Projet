@@ -39,7 +39,7 @@ import EventTable from './EventsTable';
 import Documentation from './Documentation';
 import UserProfile from './UserProfile';
 import './adminpage.css';
-
+import { Link } from "react-router-dom";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -322,7 +322,8 @@ export default function WebProject() {
               </MenuItem>
               <MenuItem onClick={handleClose} disableRipple className="clickable">
                 <PowerSettingsNewIcon />
-                Sign Out
+                
+                <Link to="/">Sign Out</Link>
               </MenuItem>
 
             </StyledMenu>
