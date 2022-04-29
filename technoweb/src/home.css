@@ -1,0 +1,74 @@
+#barreTop{
+    background-color: #e4e4e4;
+    width: 100%;
+    height:22%;
+    padding-top:1%;
+}
+
+#presentation{
+    display:flex;
+    padding-top:0;
+}
+
+#logo{
+    width:20%;
+    height:20%;
+}
+
+#Albivouac{
+    font-size:200%;
+    color:black;
+}
+
+#boutons{
+    position: absolute;
+    left:35%;
+    right:35%;
+    display:flex;
+}
+
+.lienAccueil{
+    text-decoration:none;
+}
+.lienAccueil Button{
+    font-size:200%;
+    color:black;
+    text-align:center;
+}
+
+
+#mapAccueil{
+    top:22%; 
+    text-align:center;
+}
+
+@media screen and (max-width: 800px) {
+    #boutons{
+        display:inline;
+        top:30%;
+    }
+    .lienAccueil Button{
+        display: block;
+        font-size:100%;
+        margin-left: auto;
+        margin-right: auto;
+        border-bottom: black 1px solid;
+        width:100%;
+        border-radius: 0;
+    }
+
+    #Albivouac{
+        position:absolute;
+        flex-grow: 1;
+        border-bottom: black 1px solid;
+        left:180px;
+        padding-right:30%;
+        padding-bottom: 0;
+    }
+    #logo{
+        height: 150px;
+        width: 150px;
+        margin-top: 20%;
+        margin-bottom: 20%;
+    }
+}
