@@ -13,254 +13,251 @@ import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
 function createDataPlaces(identifiant, image, name, latitude, longitude, caracteristiques, description) {
-    return { identifiant, image, name, latitude, longitude, caracteristiques, description};
-  }// add data
-  var rowPlaces = [
-    createDataPlaces(1,require('./images/places/cath.jpg'), 'Cathédrale', '8', '9', "Lieu", "Grande cathédrale"),
-    createDataPlaces(2,require('./images/places/laut.jpg'), 'Musée Lautrec', '9', '9', "Culture", "Musée avec des tableaux"),
-    createDataPlaces(3,require('./images/places/mod.jpg'), 'Musée de la mode', '10', '12', "Culture Restaurant", "Musée avec des vêtements"),
-  ];
+  return { identifiant, image, name, latitude, longitude, caracteristiques, description };
+}// add data
+var rowPlaces = [
+  createDataPlaces(1, require('./images/places/cath.jpg'), 'Cathédrale', '8', '9', "Lieu", "Grande cathédrale"),
+  createDataPlaces(2, require('./images/places/laut.jpg'), 'Musée Lautrec', '9', '9', "Culture", "Musée avec des tableaux"),
+  createDataPlaces(3, require('./images/places/mod.jpg'), 'Musée de la mode', '10', '12', "Culture Restaurant", "Musée avec des vêtements"),
+];
 
-  const rowPlaces1 = [
-    createDataPlaces(1,require('./images/places/cath.jpg'), 'Cathédrale', '8', '9', "Lieu", "Grande cathédrale"),
-    createDataPlaces(2,require('./images/places/laut.jpg'), 'Musée Lautrec', '9', '9', "Culture", "Musée avec des tableaux"),
-    createDataPlaces(3,require('./images/places/mod.jpg'), 'Musée de la mode', '10', '12', "Culture Restaurant", "Musée avec des vêtements"),
-  ];
-  
-  
-  const columnsPlaces = [
-    { id: 'image'},
-    { id: 'name'},
-    { id: 'latitude'},
-    { id: 'longitude'},
-    { id: 'caracteristiques'},
-    { id: 'description'},
-    { id: 'identifiant' }
-  ];
+const rowPlaces1 = [
+  createDataPlaces(1, require('./images/places/cath.jpg'), 'Cathédrale', '8', '9', "Lieu", "Grande cathédrale"),
+  createDataPlaces(2, require('./images/places/laut.jpg'), 'Musée Lautrec', '9', '9', "Culture", "Musée avec des tableaux"),
+  createDataPlaces(3, require('./images/places/mod.jpg'), 'Musée de la mode', '10', '12', "Culture Restaurant", "Musée avec des vêtements"),
+];
 
-  var ind=0;
-  var nom="cat";
-  var description="rien";
 
-  export default function PlacesTable() {
-    var timeou;
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  
-    const handleChangePage = (event, newPage) => {
-      setPage(newPage);
-    };
-  
-    const handleChangeRowsPerPage = (event) => {
-      setRowsPerPage(+event.target.value);
-      setPage(0);
-    };
+const columnsPlaces = [
+  { id: 'image' },
+  { id: 'name' },
+  { id: 'latitude' },
+  { id: 'longitude' },
+  { id: 'caracteristiques' },
+  { id: 'description' },
+  { id: 'identifiant' }
+];
 
-    const myfonction = () =>{
-      setPage(0);
-      clearInterval(timeou);
-    };
+var ind = 0;
+var nom = "cat";
+var description = "rien";
 
-    const actualiser = () => {
-      timeou = setTimeout(myfonction, 1);
-    }
+export default function PlacesTable() {
+  var timeou;
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-    const montrer = (el) =>{
-      var val = $("#"+el).val();
-      val = val.toUpperCase();
-      //console.log(val);
-      rowPlaces=rowPlaces1;
-      if (val){
-        var ro=[];
-        for (let i = 0; i <rowPlaces.length; i++){
-          var r = ((rowPlaces[i].name).toUpperCase())+" "+((rowPlaces[i].caracteristiques).toUpperCase())+" "+((rowPlaces[i].description).toUpperCase());
-          //console.log(r);
-          if(r.includes(val)){
-            ro.push(rowPlaces[i]);
-          }
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  const myfonction = () => {
+    setPage(0);
+    clearInterval(timeou);
+  };
+
+  const actualiser = () => {
+    timeou = setTimeout(myfonction, 1);
+  }
+
+  const montrer = (el) => {
+    var val = $("#" + el).val();
+    val = val.toUpperCase();
+    //console.log(val);
+    rowPlaces = rowPlaces1;
+    if (val) {
+      var ro = [];
+      for (let i = 0; i < rowPlaces.length; i++) {
+        var r = ((rowPlaces[i].name).toUpperCase()) + " " + ((rowPlaces[i].caracteristiques).toUpperCase()) + " " + ((rowPlaces[i].description).toUpperCase());
+        //console.log(r);
+        if (r.includes(val)) {
+          ro.push(rowPlaces[i]);
         }
-        rowPlaces=ro;
       }
-
-      console.log(rowPlaces);
-
-      setPage(1);
-      actualiser();
+      rowPlaces = ro;
     }
 
-    const [open, setOpen] = React.useState(false);
+    console.log(rowPlaces);
 
-    const [verif, setVerif] = React.useState(false);
+    setPage(1);
+    actualiser();
+  }
 
-    const handleClose = () => {
-      setOpen(false);
-    };
+  const [open, setOpen] = React.useState(false);
 
-    const verifclose = () => {
-      setVerif(false);
-      console.log(verif);
-    }
+  const [verif, setVerif] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const verifclose = () => {
+    setVerif(false);
+    console.log(verif);
+  }
 
 
-    const verifier = () => {
-      handleClose();
-      setVerif(true);
-    }
+  const verifier = () => {
+    handleClose();
+    setVerif(true);
+  }
 
-    const supprimer = (i) => {
-      verifclose();
-      alert('lieu '+rowPlaces[i].name+" supprimé");
-    }
- 
+  const supprimer = (i) => {
+    verifclose();
+    alert('lieu ' + rowPlaces[i].name + " supprimé");
+  }
 
-    const changer = (i) => {
-      console.log(i);
-      ind=i-1;
-      nom = rowPlaces[ind].name;
-      description = rowPlaces[ind].description;
-      setOpen(true);
-    }
+
+  const changer = (i) => {
+    console.log(i);
+    ind = i - 1;
+    nom = rowPlaces[ind].name;
+    description = rowPlaces[ind].description;
+    setOpen(true);
+  }
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden', height: '100%' }}>
       <div>
-      <TextField
+        <TextField
           id="placesearch"
           label="Recherche"
           defaultValue=""
           variant="standard"
-          onChange={()=>montrer("placesearch")}
+          onChange={() => montrer("placesearch")}
         />
       </div>
-    <TableContainer sx={{ maxHeight: 700 }}>
-      <Table stickyHeader aria-label="sticky table" id="usertable">
-      <colgroup>
-          <col style={{width:'15%'}}/>
-          <col style={{width:'15%'}}/>
-          <col style={{width:'5%'}}/>
-          <col style={{width:'5%'}}/>
-          <col style={{width:'15%'}}/>
-          <col style={{width:'40%'}}/>
-          <col style={{width:'5%'}}/>
-        </colgroup>
-        <TableHead>
-          <TableRow>
-          <TableCell align="center" style={{fontWeight: "bold"}}>Image</TableCell>
-            <TableCell align="center" style={{fontWeight: "bold"}}>Nom</TableCell>
-            <TableCell align="center" style={{fontWeight: "bold"}}>Latitude</TableCell>
-            <TableCell align="center" style={{fontWeight: "bold"}}>Longitude</TableCell>
-            <TableCell align="center" style={{fontWeight: "bold"}}>Caractéristiques</TableCell>
-            <TableCell align="center" style={{fontWeight: "bold"}}>Description</TableCell>
-            <TableCell align="center" style={{fontWeight: "bold"}}>Modifier</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody id="userrows">
-          {rowPlaces.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+      <TableContainer sx={{ maxHeight: 700 }}>
+        <Table stickyHeader aria-label="sticky table" id="usertable">
+          <colgroup>
+            <col style={{ width: '15%' }} />
+            <col style={{ width: '15%' }} />
+            <col style={{ width: '5%' }} />
+            <col style={{ width: '5%' }} />
+            <col style={{ width: '15%' }} />
+            <col style={{ width: '40%' }} />
+            <col style={{ width: '5%' }} />
+          </colgroup>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>Image</TableCell>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>Nom</TableCell>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>Latitude</TableCell>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>Longitude</TableCell>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>Caractéristiques</TableCell>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>Description</TableCell>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>Modifier</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody id="userrows">
+            {rowPlaces.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+
                   {columnsPlaces.map((column) => {
                     const value = row[column.id];
-                    if((column.id)!='identifiant'){
-                      if((column.id)!='image'){
+                    if (((column.id) !== 'image' && (column.id) !== 'identifiant')) {
                         return (
                           <TableCell key={column.id} align="center">
                             {value}
                           </TableCell>
-                        );
-                      }else{
+                          );
+                      } else {
                         return (
                           <TableCell key={column.id} align="center">
-                            <img src={value} style={{width: '50%'}}/>
+                            <img src={value} style={{ width: '50%' }} alt="" />
                           </TableCell>
-                        );
+                          );
                       }
-                    }
+
                   })}
                   <TableCell align="center">
                     <IconButton id={row[columnsPlaces[2].id]} onClick={() => changer(row[columnsPlaces[6].id])}>
-                      <EditIcon style={{color: '#1976d2'}}/>
+                      <EditIcon style={{ color: '#1976d2' }} />
                     </IconButton>
                   </TableCell>
                 </TableRow>
               );
             })}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    <TablePagination
-rowsPerPageOptions={[5, 10, 25, 100]}
-component="div"
-count={rowPlaces.length}
-rowsPerPage={rowsPerPage}
-page={page}
-onPageChange={handleChangePage}
-onRowsPerPageChange={handleChangeRowsPerPage}
-/>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25, 100]}
+        component="div"
+        count={rowPlaces.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
 
-<Dialog onClose={handleClose} open={open} style={{textAlign: 'center', contentAlign: 'center'}} fullWidth maxwidth="sm">
-      <DialogTitle id="simple-dialog-title"><h2>Modifier utilisateur</h2></DialogTitle>
+      <Dialog onClose={handleClose} open={open} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
+        <DialogTitle id="simple-dialog-title"><h2>Modifier utilisateur</h2></DialogTitle>
         <Grid container direction={"column"} spacing={2}>
           <Grid Item>
             Nom
           </Grid>
           <Grid item>
-              <TextField id="placenom" name="placenom" label={nom} required margin="normal" style={{width: "90%"}}/>
+            <TextField id="placenom" name="placenom" label={nom} required margin="normal" style={{ width: "90%" }} />
           </Grid>
           <Grid Item>
-            <br/>
+            <br />
           </Grid>
           <Grid Item>
             Description
           </Grid>
           <Grid item>
-            <TextField id="placedescription" name="placedescription" label={description} required margin="normal" style={{width: "90%"}}/>
+            <TextField id="placedescription" name="placedescription" label={description} required margin="normal" style={{ width: "90%" }} />
           </Grid>
           <Grid item>
-            <Grid container spacing={2} style={{  justifyContent:"center"}}>
+            <Grid container spacing={2} style={{ justifyContent: "center" }}>
               <Grid item>
-                <Button variant="contained" onClick={()=>verifier(ind)} style={{backgroundColor:"red"}}>
-                  <DeleteIcon style={{verticalAlign: "middle"}}/>
+                <Button variant="contained" onClick={() => verifier(ind)} style={{ backgroundColor: "red" }}>
+                  <DeleteIcon style={{ verticalAlign: "middle" }} />
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="contained" onClick={()=>handleClose()}>Valider</Button>
+                <Button variant="contained" onClick={() => handleClose()}>Valider</Button>
               </Grid>
             </Grid>
           </Grid>
           <Grid item>
           </Grid>
         </Grid>
-    </Dialog>
+      </Dialog>
 
-    <Dialog open={verif} style={{textAlign: 'center', contentAlign: 'center'}} fullWidth maxwidth="sm">
-      <DialogTitle id="simple-dialog-title"><h2>Supprimer lieu</h2></DialogTitle>
+      <Dialog open={verif} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
+        <DialogTitle id="simple-dialog-title"><h2>Supprimer lieu</h2></DialogTitle>
         <Grid container direction={"column"} spacing={2}>
           <Grid item>
-            <Grid container spacing={2} style={{  justifyContent:"center"}}>
+            <Grid container spacing={2} style={{ justifyContent: "center" }}>
               <Grid item>
-                <Button variant="contained" onClick={()=>verifclose()} style={{backgroundColor:"red"}}>
+                <Button variant="contained" onClick={() => verifclose()} style={{ backgroundColor: "red" }}>
                   Annuler
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="contained" onClick={()=>supprimer(ind)}>Valider</Button>
+                <Button variant="contained" onClick={() => supprimer(ind)}>Valider</Button>
               </Grid>
             </Grid>
           </Grid>
           <Grid item>
           </Grid>
         </Grid>
-    </Dialog>
+      </Dialog>
 
-  </Paper>
+    </Paper>
   );
 }

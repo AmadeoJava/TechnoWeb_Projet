@@ -198,7 +198,7 @@ export default function WebProject() {
     for (let i=0 ;i<inputButtons.length; i++){
       $("#"+inputButtons[i]).css("color","#0e8cd4");
       $("#"+inputButtons[i]).css("background-color","#fff");
-      if(inputButtons[i]==el){
+      if(inputButtons[i]===el){
         selectedi=i;
       }
     }
@@ -214,7 +214,7 @@ export default function WebProject() {
     for (let i=0 ;i<tableButtons.length; i++){
       $("#"+tableButtons[i]).css("color","#0e8cd4");
       $("#"+tableButtons[i]).css("background-color","#fff");
-      if(tableButtons[i]==el){
+      if(tableButtons[i]===el){
         selectedt=i;
       }
     }
@@ -230,9 +230,7 @@ export default function WebProject() {
     $("#"+el).show();
   }
 
-  const setValue = (valu) => {
-    $("#userselect").val(valu);
-  }
+
 
   const debut = (function(){
     inputCard(inputButtons[selectedi]);
