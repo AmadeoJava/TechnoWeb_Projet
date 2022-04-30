@@ -89,11 +89,6 @@ constraint cle_Frequentation primary key (idFrequentation)
 DROP SEQUENCE IF EXISTS seqFrequentation;
 CREATE SEQUENCE seqFrequentation MINVALUE 1;
 
-CREATE TABLE Liaison_LieuEvents
-(idL int not null constraint fk_idL references Lieu(idLieu),
-idE int not null constraint fk_idE references Events(idEvent),
-constraint cle_Liaison_LieuEvents primary key (idL,idE)
-);
 
 CREATE TABLE Liaison_LieuFrequentation
 (idL int not null constraint fk_idL references Lieu(idLieu),
