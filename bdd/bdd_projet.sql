@@ -19,7 +19,7 @@ DROP DATABASE IF EXISTS BDD_Technoweb;
 
 CREATE DATABASE BDD_Technoweb ENCODING 'UTF8';
 
-CREATE TYPE carac AS ENUM ('Culturel', 'Restaurant');
+CREATE TYPE carac AS ENUM ('Culturel', 'Restaurant', 'Hotel');
 
 CREATE TABLE Utilisateur 
 (idUtilisateur int not null,
@@ -39,8 +39,8 @@ CREATE TABLE Lieu
 (idLieu int not null,
     lat float not null,
     long float not null,
-    intitulé varchar(80) not null,
-    caractéristque carac,
+    intitule varchar(80) not null,
+    caracteristque carac,
     note float,
     descriptionLieu varchar(5000),
     pathImgLieu varchar(1000),
