@@ -49,7 +49,7 @@ function Home() {
     $('#event').remove();
   };
 
-  return(<Box>
+  return(<Box id="fond">
   <Box position='relative'> 
     <CssBaseline />
     <AppBar id="barreTop" position='relative'>
@@ -92,7 +92,7 @@ function Home() {
 
   <MapComponent/>
 
-  <Card style={{position:'relative', bottom:'0', width:'100%', left:'0'}}>
+  <Card id="footer">
   <FooterComponent/>
   </Card>
   </Box>

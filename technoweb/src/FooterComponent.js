@@ -1,17 +1,19 @@
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
+import './FooterComponent.css';
 
 export default function FooterComponent() {
   return (
-    <footer>
+    <footer id="footer" >
       <Box
+        id="tout"
         bgcolor="text.secondary"
         color="white"
       >
         <Container maxWidth="lg">
-          <Box  style={{display:'flex', textAlign:'center', marginLeft:'auto', marginRight:'auto'}}>
-              <Box style={{ paddingRight:'10%'}}>
+          <Box id="groupe">
+              <Box className="colonnes">
               <Box borderBottom={1}>Help</Box>
               <Box>
                 <Link href="/" color="inherit">
@@ -29,7 +31,7 @@ export default function FooterComponent() {
                 </Link>
               </Box>
             </Box>
-            <Box style={{paddingRight:'10%'}}>
+            <Box className="colonnes">
               <Box borderBottom={1}>Account</Box>
               <Box>
                 <Link href="/" color="inherit">
@@ -42,7 +44,7 @@ export default function FooterComponent() {
                 </Link>
               </Box>
             </Box>
-            <Box>
+            <Box className="colonnes">
               <Box borderBottom={1} >Messages</Box>
               <Box>
                 <Link href="/" color="inherit">
@@ -61,7 +63,7 @@ export default function FooterComponent() {
               </Box>
             </Box>
           </Box>
-          <Box textAlign="center" >
+          <Box id="bas" textAlign="center" >
             Nous, les Créateurs Absolus &reg; {new Date().getFullYear()}
           </Box>
         </Container>
