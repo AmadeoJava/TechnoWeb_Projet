@@ -1,5 +1,7 @@
-import * as React from 'react';
+
+import React from 'react';
 import $ from "jquery";
+import { useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,6 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+const axios = require('axios');
+
 
 function Copyright(props) {
   return (
@@ -27,6 +31,29 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
+  const navigate = useNavigate();
+
+  const logIN = (e) => {
+    try {
+      const result = axios.get(
+        `/userLogin/${e.pseudo}/${e.password}`
+      );
+      
+      result.then((resp) =>
+        {if (resp.data===true){
+          navigate("/admin");
+        }
+      }
+      );
+
+    } catch (err) {
+      console.log(err);
+    }
+
+    
+
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -34,6 +61,7 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     });
+    logIN({pseudo:data.get('email'),password:data.get('password')});
     $('input').val('');
   };
 
@@ -88,6 +116,8 @@ export default function SignIn() {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
+
     </ThemeProvider>
+    
   );
 }
