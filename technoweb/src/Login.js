@@ -1,5 +1,7 @@
-import * as React from 'react';
+
+import React from 'react';
 import $ from "jquery";
+import { useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -29,18 +31,27 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
+  const navigate = useNavigate();
+
   const logIN = (e) => {
     try {
       const result = axios.get(
-        `/userLogin/${e}`
+        `/userLogin/${e.pseudo}/${e.password}`
       );
       
       result.then((resp) =>
-        console.log(resp)
+        {if (resp.data===true){
+          navigate("/admin");
+        }
+      }
       );
+
     } catch (err) {
       console.log(err);
     }
+
+    
+
   };
 
   const handleSubmit = (event) => {
@@ -50,7 +61,7 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     });
-    logIN(data.get('email'));
+    logIN({pseudo:data.get('email'),password:data.get('password')});
     $('input').val('');
   };
 
@@ -105,6 +116,8 @@ export default function SignIn() {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
+
     </ThemeProvider>
+    
   );
 }

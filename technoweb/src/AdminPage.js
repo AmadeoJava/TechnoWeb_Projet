@@ -477,9 +477,9 @@ export default function WebProject() {
                     <TextareaAutosize minRows={3} placeholder="Description du lieu" style={{ width: "98%" }}/>
                   </Grid>
                     <div>
-                      <label for="c1">Culturel</label>
+                      <label htmlFor="c1">Culturel</label>
                       <Checkbox id="c1" {...'label'} size="medium" />
-                      <label for="c2">Restaurant</label>
+                      <label htmlFor="c2">Restaurant</label>
                       <Checkbox id="c2" {...'label'} size="medium" />
                     </div>
                   <Grid item>

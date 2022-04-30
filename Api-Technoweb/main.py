@@ -14,14 +14,19 @@ path = "./images"
 
 class LogIN(Resource):
 
-    def get(self,user_name):
+    def get(self,user_name,user_paswd):
         cursor = db.cursor()
         sql = "SELECT * FROM Utilisateur"
         cursor.execute(sql)
         results = cursor.fetchall()
-        print(results)
-        return results
+        Login=False
+        
+        for i in range(0,len(results)):
+            if (results[i]["pseudo"]==user_name and results[i]["pwd"]==user_paswd):
+                Login=True
+        print(Login)
+        return Login
 
-api.add_resource(LogIN, '/userLogin/<user_name>')
+api.add_resource(LogIN, '/userLogin/<user_name>/<user_paswd>')
 if __name__ == '__main__':
     app.run(debug=True)

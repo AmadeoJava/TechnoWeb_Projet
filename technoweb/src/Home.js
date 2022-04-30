@@ -72,11 +72,6 @@ function Home() {
             Connexion
           </Button>
         </Link>   
-        <Link to="/admin" className="lienAccueil">
-          <Button id="lastButton" >
-            Dashboard
-          </Button>
-        </Link>  
         </div>
       </div>
     </Toolbar>
