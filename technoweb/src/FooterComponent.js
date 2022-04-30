@@ -14,57 +14,29 @@ export default function FooterComponent() {
         <Container maxWidth="lg">
           <Box id="groupe">
               <Box className="colonnes">
-              <Box borderBottom={1}>Help</Box>
               <Box>
-                <Link href="/" color="inherit">
-                  Contact
-                </Link>
-              </Box>
-              <Box>
-                <Link href="/" color="inherit">
-                  Support
-                </Link>
-              </Box>
-              <Box>
-                <Link href="/" color="inherit">
-                  Privacy
+                <Link href="/ml" color="inherit" className="a">
+                  Mentions Légales
                 </Link>
               </Box>
             </Box>
             <Box className="colonnes">
-              <Box borderBottom={1}>Account</Box>
               <Box>
-                <Link href="/" color="inherit">
+                <Link href="/login" color="inherit" className="a">
                   Login
                 </Link>
               </Box>
-              <Box>
-                <Link href="/" color="inherit">
-                  Register
-                </Link>
-              </Box>
             </Box>
             <Box className="colonnes">
-              <Box borderBottom={1} >Messages</Box>
               <Box>
-                <Link href="/" color="inherit">
-                  Backup
-                </Link>
-              </Box>
-              <Box>
-                <Link href="/" color="inherit">
-                  History
-                </Link>
-              </Box>
-              <Box>
-                <Link href="/" color="inherit">
-                  Roll
+                <Link href="/" color="inherit" className="a">
+                  Home
                 </Link>
               </Box>
             </Box>
           </Box>
           <Box id="bas" textAlign="center" >
-            Nous, les Créateurs Absolus &reg; {new Date().getFullYear()}
+            Albivouac &copy; {new Date().getFullYear()}
           </Box>
         </Container>
       </Box>

@@ -42,7 +42,7 @@ const AppBar = styled(MuiAppBar, {
 
 
 
-function Home() {
+function MentionsLegales() {
 
 
   const fonction = () =>{
@@ -82,20 +82,28 @@ function Home() {
     </Toolbar>
   </AppBar>
 
-  </Box>
-  <Card sx={{ display: 'flex', width:'100%' }} id="event" >
-    <Typography sx={{ flexGrow: 1 }}>
-    Ya un event
-    </Typography>
-    <HighlightOffIcon onClick={fonction}/>
-  </Card>
-
-  <MapComponent/>
-
-  <FooterComponent/>
-  </Box>
-  );
+    </Box>
+    <Box >
+        <h1>L'équipe:</h1>
+        <h2>Développeurs</h2>
+        <Typography>CROS Arnaud</Typography>
+        <Typography>SOUFFLET Amadéo</Typography>
+        <Typography>PIDET Antonin</Typography>
+        <h1>Contact:</h1>
+        <h2>Mail</h2>
+        <Typography>service-client@champo.cf</Typography>
+        <h1>Autres:</h1>
+        <h2>Hebergeur</h2>
+        <a href="https://www.alwaysdata.com/">alwaysdata</a>
+        <br></br>
+        <h1>Politique de confidentialité:</h1>
+        <Typography>Vos données sont utilisées pour vous espionner, trouver votre adresse et venir vous faire un bisou sur le front</Typography>
+        <br></br>
+    </Box>
+    <FooterComponent/>
+    </Box>
+    );
   
 }
 
-export default Home;
+export default MentionsLegales;
