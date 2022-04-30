@@ -1,6 +1,11 @@
-
-USE champo_bdd_technoweb;
-
+-- phpMyAdmin SQL Dump
+-- version 5.1.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: mysql-champo.alwaysdata.net
+-- Generation Time: Apr 30, 2022 at 03:46 PM
+-- Server version: 10.6.5-MariaDB
+-- PHP Version: 7.4.19
 DROP TABLE IF EXISTS Liaison_QuestionLReponseL;
 DROP TABLE IF EXISTS ReponseL;
 DROP TABLE IF EXISTS QuestionL;
@@ -15,117 +20,374 @@ DROP TABLE IF EXISTS Lieu;
 DROP TABLE IF EXISTS Events;
 DROP TABLE IF EXISTS Frequentation;
 
-CREATE TABLE Utilisateur 
-(idUtilisateur int not null AUTO_INCREMENT ,
-    administrateur boolean default false,
-    nom varchar(40) not null,
-    prenom varchar(40) not null,
-    pseudo varchar(80) not null UNIQUE,
-    pwd varchar(40) not null,
-    pathImgUtilisateur varchar(1000),
-	constraint cle_utilisateur primary key(idUtilisateur)
-);
-
-CREATE TABLE Lieu 
-(idLieu int not null AUTO_INCREMENT,
-    lat float not null,
-    longu float not null,
-    intitule varchar(80) not null,
-    caracteristque ENUM ('Culturel', 'Restaurant', 'Hotel'),
-    note float,
-    descriptionLieu varchar(5000),
-    pathImgLieu varchar(1000),
-	constraint cle_lieu primary key(idLieu)
-);
-
-CREATE TABLE Commentaire 
-(UtilisateurCom int not null,
-    FOREIGN KEY(UtilisateurCom) references Utilisateur(idUtilisateur),
-    LieuCom int not null,
-    FOREIGN KEY(LieuCom) references Lieu(idLieu),
-    texte varchar(5000)not null,
-    dat date not null,
-    tps time not null,
-    noteCom int,
-    constraint cle_com primary key (UtilisateurCom,LieuCom,dat,tps)
-);
-
-CREATE TABLE Events 
-(idEvent int not null AUTO_INCREMENT,
-    nomEvent varchar(80),
-    dateEvent date not null,
-    actif boolean default false,
-    descEvent varchar(5000) not null,
-    pathImgEvent varchar(1000),
-    constraint cle_event primary key (idEvent)
-);
-
-CREATE TABLE Liaison_LieuEvents
-(idL int not null,
-    FOREIGN KEY (idL) references Lieu(idLieu),
-    idE int not null,
-    FOREIGN KEY(idE) references Events(idEvent),
-    constraint cle_Liaison_LieuEvents primary key (idL,idE)
-);
-
-CREATE TABLE Frequentation
-(idFrequentation int not null AUTO_INCREMENT,
-    dateFrequentation date,
-    nbVisites int not null default 0,
-    constraint cle_Frequentation primary key (idFrequentation)
-);
-
-CREATE TABLE Liaison_LieuFrequentation
-(idL int not null,
-    FOREIGN KEY(idL) references Lieu(idLieu),
-    idF int not null,
-    FOREIGN KEY(idF) references Frequentation(idFrequentation),
-    constraint cle_Liaison_LieuFrequentation primary key (idL,idF)
-);
-
-CREATE TABLE QuestionC
-(idQuestionC int not null AUTO_INCREMENT,
-    texteQuestionC varchar(1000),
-    pathImgQuestionC varchar(1000),
-    constraint cle_QuestionC primary key (idQuestionC)
-);
-
-CREATE TABLE ReponseC
-(idReponseC int not null AUTO_INCREMENT,
-    texteReponseC varchar(1000),
-    RepC ENUM ('Culturel', 'Restaurant', 'Hotel'),
-    constraint cle_ReponseC primary key (idReponseC)
-);/*peut etre ajout image*/
-
-CREATE TABLE Liaison_QuestionCReponseC
-(idQC int not null,
-    FOREIGN KEY(idQC) references QuestionC(idQuestionC),
-    idRC int not null,
-    FOREIGN KEY(idRC) references ReponseC(idReponseC),
-    constraint cle_Liaison_QuestionCReponseC primary key (idQC,idRC)
-);
-
-CREATE TABLE QuestionL
-(idQuestionL int not null AUTO_INCREMENT,
-    texteQuestionL varchar(1000),
-    pathImgQuestionL varchar(1000),
-    constraint cle_QuestionL primary key (idQuestionL)
-);
-
-CREATE TABLE ReponseL
-(idReponseL int not null AUTO_INCREMENT,
-    texteReponseL varchar(1000),
-    RepL int not null,
-    FOREIGN KEY(RepL) references Lieu(idLieu),
-    constraint cle_ReponseL primary key (idReponseL)
-);/*peut etre ajout image*/
-
-CREATE TABLE Liaison_QuestionLReponseL
-(idQL int not null,
-    FOREIGN KEY (idQL) references QuestionL(idQuestionL),
-    idRL int not null,
-    FOREIGN KEY(idRL) references ReponseL(idReponseL),
-    constraint cle_Liaison_QuestionCReponseL primary key (idQL,idRL)
-);
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `champo_bdd_technoweb`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Commentaire`
+--
+
+CREATE TABLE `Commentaire` (
+  `UtilisateurCom` int(11) NOT NULL,
+  `LieuCom` int(11) NOT NULL,
+  `texte` varchar(5000) NOT NULL,
+  `dat` date NOT NULL,
+  `tps` time NOT NULL,
+  `noteCom` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Commentaire`
+--
+
+INSERT INTO `Commentaire` (`UtilisateurCom`, `LieuCom`, `texte`, `dat`, `tps`, `noteCom`) VALUES
+(1, 1, 'Grande, bien placée! :)', '2022-05-10', '15:24:19', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Events`
+--
+
+CREATE TABLE `Events` (
+  `idEvent` int(11) NOT NULL,
+  `nomEvent` varchar(80) DEFAULT NULL,
+  `dateEvent` date NOT NULL,
+  `actif` tinyint(1) DEFAULT 0,
+  `descEvent` varchar(5000) NOT NULL,
+  `pathImgEvent` varchar(1000) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Events`
+--
+
+INSERT INTO `Events` (`idEvent`, `nomEvent`, `dateEvent`, `actif`, `descEvent`, `pathImgEvent`) VALUES
+(1, 'Carnaval', '2023-02-16', 0, 'Voici le carnaval d\'albi!', './images/events/carnaval.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Frequentation`
+--
+
+CREATE TABLE `Frequentation` (
+  `idFrequentation` int(11) NOT NULL,
+  `dateFrequentation` date DEFAULT NULL,
+  `nbVisites` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Frequentation`
+--
+
+INSERT INTO `Frequentation` (`idFrequentation`, `dateFrequentation`, `nbVisites`) VALUES
+(1, '2022-05-10', 45);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Liaison_LieuEvents`
+--
+
+CREATE TABLE `Liaison_LieuEvents` (
+  `idL` int(11) NOT NULL,
+  `idE` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Liaison_LieuEvents`
+--
+
+INSERT INTO `Liaison_LieuEvents` (`idL`, `idE`) VALUES
+(1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Liaison_LieuFrequentation`
+--
+
+CREATE TABLE `Liaison_LieuFrequentation` (
+  `idL` int(11) NOT NULL,
+  `idF` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Liaison_LieuFrequentation`
+--
+
+INSERT INTO `Liaison_LieuFrequentation` (`idL`, `idF`) VALUES
+(1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Liaison_QuestionLReponseL`
+--
+
+CREATE TABLE `Liaison_QuestionLReponseL` (
+  `idQL` int(11) NOT NULL,
+  `idRL` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Liaison_QuestionLReponseL`
+--
+
+INSERT INTO `Liaison_QuestionLReponseL` (`idQL`, `idRL`) VALUES
+(1, 1),
+(1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Lieu`
+--
+
+CREATE TABLE `Lieu` (
+  `idLieu` int(11) NOT NULL,
+  `lat` float NOT NULL,
+  `longu` float NOT NULL,
+  `intitule` varchar(80) NOT NULL,
+  `caracteristque` enum('Culturel','Restaurant','Hotel') DEFAULT NULL,
+  `note` float DEFAULT NULL,
+  `descriptionLieu` varchar(5000) DEFAULT NULL,
+  `pathImgLieu` varchar(1000) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Lieu`
+--
+
+INSERT INTO `Lieu` (`idLieu`, `lat`, `longu`, `intitule`, `caracteristque`, `note`, `descriptionLieu`, `pathImgLieu`) VALUES
+(1, 43.9285, 2.1426, 'Cathedrale Sainte-Cecile', 'Culturel', NULL, 'Une Cathedrale.', './images/places/cath.jpg'),
+(2, 43.9287, 2.14277, 'Musee Toulouse-Lautrec', 'Culturel', 5, 'Musee ', './images/places/Toulouse-Lautrec.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `QuestionL`
+--
+
+CREATE TABLE `QuestionL` (
+  `idQuestionL` int(11) NOT NULL,
+  `texteQuestionL` varchar(1000) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `QuestionL`
+--
+
+INSERT INTO `QuestionL` (`idQuestionL`, `texteQuestionL`) VALUES
+(1, 'Préfères tu aller voir le musée toulouse lautrec ou la cathedrale?');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ReponseL`
+--
+
+CREATE TABLE `ReponseL` (
+  `idReponseL` int(11) NOT NULL,
+  `texteReponseL` varchar(1000) DEFAULT NULL,
+  `RepL` int(11) NOT NULL,
+  `pathImgReponseL` varchar(80) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ReponseL`
+--
+
+INSERT INTO `ReponseL` (`idReponseL`, `texteReponseL`, `RepL`, `pathImgReponseL`) VALUES
+(1, 'Cathedralerep', 1, './images/places/Cathedralerep.jpg'),
+(2, 'Toulouse-LautrecREP', 2, './images/places/Toulouse-LautrecREP.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Utilisateur`
+--
+
+CREATE TABLE `Utilisateur` (
+  `idUtilisateur` int(11) NOT NULL,
+  `administrateur` tinyint(1) DEFAULT 0,
+  `nom` varchar(40) NOT NULL,
+  `prenom` varchar(40) NOT NULL,
+  `pseudo` varchar(80) NOT NULL,
+  `pwd` varchar(40) NOT NULL,
+  `pathImgUtilisateur` varchar(1000) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Utilisateur`
+--
+
+INSERT INTO `Utilisateur` (`idUtilisateur`, `administrateur`, `nom`, `prenom`, `pseudo`, `pwd`, `pathImgUtilisateur`) VALUES
+(1, 1, 'Cros', 'Arnaud', 'Seyka', 'TechnoWeb4', './images/faces/notfound.png');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `Commentaire`
+--
+ALTER TABLE `Commentaire`
+  ADD PRIMARY KEY (`UtilisateurCom`,`LieuCom`,`dat`,`tps`),
+  ADD KEY `LieuCom` (`LieuCom`);
+
+--
+-- Indexes for table `Events`
+--
+ALTER TABLE `Events`
+  ADD PRIMARY KEY (`idEvent`);
+
+--
+-- Indexes for table `Frequentation`
+--
+ALTER TABLE `Frequentation`
+  ADD PRIMARY KEY (`idFrequentation`);
+
+--
+-- Indexes for table `Liaison_LieuEvents`
+--
+ALTER TABLE `Liaison_LieuEvents`
+  ADD PRIMARY KEY (`idL`,`idE`),
+  ADD KEY `idE` (`idE`);
+
+--
+-- Indexes for table `Liaison_LieuFrequentation`
+--
+ALTER TABLE `Liaison_LieuFrequentation`
+  ADD PRIMARY KEY (`idL`,`idF`),
+  ADD KEY `idF` (`idF`);
+
+--
+-- Indexes for table `Liaison_QuestionLReponseL`
+--
+ALTER TABLE `Liaison_QuestionLReponseL`
+  ADD PRIMARY KEY (`idQL`,`idRL`),
+  ADD KEY `idRL` (`idRL`);
+
+--
+-- Indexes for table `Lieu`
+--
+ALTER TABLE `Lieu`
+  ADD PRIMARY KEY (`idLieu`);
+
+--
+-- Indexes for table `QuestionL`
+--
+ALTER TABLE `QuestionL`
+  ADD PRIMARY KEY (`idQuestionL`);
+
+--
+-- Indexes for table `ReponseL`
+--
+ALTER TABLE `ReponseL`
+  ADD PRIMARY KEY (`idReponseL`),
+  ADD KEY `RepL` (`RepL`);
+
+--
+-- Indexes for table `Utilisateur`
+--
+ALTER TABLE `Utilisateur`
+  ADD PRIMARY KEY (`idUtilisateur`),
+  ADD UNIQUE KEY `pseudo` (`pseudo`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `Events`
+--
+ALTER TABLE `Events`
+  MODIFY `idEvent` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `Frequentation`
+--
+ALTER TABLE `Frequentation`
+  MODIFY `idFrequentation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `Lieu`
+--
+ALTER TABLE `Lieu`
+  MODIFY `idLieu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `QuestionL`
+--
+ALTER TABLE `QuestionL`
+  MODIFY `idQuestionL` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `ReponseL`
+--
+ALTER TABLE `ReponseL`
+  MODIFY `idReponseL` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `Utilisateur`
+--
+ALTER TABLE `Utilisateur`
+  MODIFY `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Commentaire`
+--
+ALTER TABLE `Commentaire`
+  ADD CONSTRAINT `Commentaire_ibfk_1` FOREIGN KEY (`UtilisateurCom`) REFERENCES `Utilisateur` (`idUtilisateur`),
+  ADD CONSTRAINT `Commentaire_ibfk_2` FOREIGN KEY (`LieuCom`) REFERENCES `Lieu` (`idLieu`);
+
+--
+-- Constraints for table `Liaison_LieuEvents`
+--
+ALTER TABLE `Liaison_LieuEvents`
+  ADD CONSTRAINT `Liaison_LieuEvents_ibfk_1` FOREIGN KEY (`idL`) REFERENCES `Lieu` (`idLieu`),
+  ADD CONSTRAINT `Liaison_LieuEvents_ibfk_2` FOREIGN KEY (`idE`) REFERENCES `Events` (`idEvent`);
+
+--
+-- Constraints for table `Liaison_LieuFrequentation`
+--
+ALTER TABLE `Liaison_LieuFrequentation`
+  ADD CONSTRAINT `Liaison_LieuFrequentation_ibfk_1` FOREIGN KEY (`idL`) REFERENCES `Lieu` (`idLieu`),
+  ADD CONSTRAINT `Liaison_LieuFrequentation_ibfk_2` FOREIGN KEY (`idF`) REFERENCES `Frequentation` (`idFrequentation`);
+
+--
+-- Constraints for table `Liaison_QuestionLReponseL`
+--
+ALTER TABLE `Liaison_QuestionLReponseL`
+  ADD CONSTRAINT `Liaison_QuestionLReponseL_ibfk_1` FOREIGN KEY (`idQL`) REFERENCES `QuestionL` (`idQuestionL`),
+  ADD CONSTRAINT `Liaison_QuestionLReponseL_ibfk_2` FOREIGN KEY (`idRL`) REFERENCES `ReponseL` (`idReponseL`);
+
+--
+-- Constraints for table `ReponseL`
+--
+ALTER TABLE `ReponseL`
+  ADD CONSTRAINT `ReponseL_ibfk_1` FOREIGN KEY (`RepL`) REFERENCES `Lieu` (`idLieu`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
