@@ -17,11 +17,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+const axios = require('axios');
 
 function createDataUsers(identifiant, image, firstname, name, surname, administrateur) {
   return { identifiant, image, firstname, name, surname, administrateur };
 }// add data
+
+
+
 var rowsUsers = [
   createDataUsers(1, require('./images/faces/face8.jpg'), 'Sherlock', 'Holmes', 'Détective', "Oui"),
   createDataUsers(2, require('./images/faces/face8.jpg'), 'Shinishi', 'Kudo', 'Lycéen', "Non"),
@@ -58,7 +61,19 @@ const rowsUsers1 = [
 
 ];
 
+try {
+  const result = axios.get(
+    `/utilisateur`
+  );
+  
+  result.then((resp) =>
+    console.log(resp)
+    
+  );
 
+} catch (err) {
+  console.log(err);
+}
 const columnsUsers = [
   { id: 'image' },
   { id: 'firstname' },

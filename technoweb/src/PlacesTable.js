@@ -32,7 +32,20 @@ const rowPlaces1 = [
   createDataPlaces(2, require('./images/places/laut.jpg'), 'Musée Lautrec', '9', '9', "Culture", "Musée avec des tableaux"),
   createDataPlaces(3, require('./images/places/mod.jpg'), 'Musée de la mode', '10', '12', "Culture Restaurant", "Musée avec des vêtements"),
 ];
+const axios = require('axios');
+try {
+  const result = axios.get(
+    `/lieux`
+  );
+  
+  result.then((resp) =>
+    console.log(resp)
+    
+  );
 
+} catch (err) {
+  console.log(err);
+}
 
 const columnsPlaces = [
   { id: 'image' },
