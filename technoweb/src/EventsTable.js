@@ -157,7 +157,8 @@ function createDataEvents(identifiant, image, name, date, description) {
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columnEvents.map((column) => {
                     const value = row[column.id];
-                    if((column.id)!=='image'){
+                    if((column.id) !== 'identifiant'){
+                      if ((column.id) !== 'image' ) {
                       return (
                         <TableCell key={column.id} align="center">
                           {value}
@@ -170,6 +171,7 @@ function createDataEvents(identifiant, image, name, date, description) {
                         </TableCell>
                       );
                     }
+                  }
                   })}
                   <TableCell align="center">
                     <IconButton id={row[columnEvents[2].id]} onClick={event=>changer(row[columnEvents[4].id])}>

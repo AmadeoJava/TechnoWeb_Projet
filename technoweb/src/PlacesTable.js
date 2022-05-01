@@ -167,7 +167,8 @@ export default function PlacesTable() {
 
                   {columnsPlaces.map((column) => {
                     const value = row[column.id];
-                    if (((column.id) !== 'image' && (column.id) !== 'identifiant')) {
+                    if((column.id) !== 'identifiant'){
+                        if ((column.id) !== 'image' ) {
                         return (
                           <TableCell key={column.id} align="center">
                             {value}
@@ -180,7 +181,7 @@ export default function PlacesTable() {
                           </TableCell>
                           );
                       }
-
+                    }
                   })}
                   <TableCell align="center">
                     <IconButton id={row[columnsPlaces[2].id]} onClick={() => changer(row[columnsPlaces[6].id])}>

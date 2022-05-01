@@ -200,23 +200,24 @@ export default function UsersTable() {
             {rowsUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                  {columnsUsers.map((column) => {
+                  {columnsUsers.map((column, index) => {
                     const value = row[column.id];
 
-                    if ((column.id) !== 'image' && (column.id) !== 'identifiant') {
-                      return (
-                        <TableCell key={column.id} align="center">
-                          {value}
-                        </TableCell>
-                      );
-                    } else {
-                      return (
-                        <TableCell key={column.id} align="center">
-                          <img src={value} style={{ width: "30%", borderRadius: '50%' }} alt="" />
-                        </TableCell>
-                      );
+                    if ((column.id) !== 'identifiant'){
+                      if ((column.id) !== 'image') {
+                        return (
+                          <TableCell align="center">
+                            {value}
+                          </TableCell>
+                        );
+                      } else {
+                        return (
+                          <TableCell align="center">
+                            <img src={value} style={{ width: "30%", borderRadius: '50%' }} alt="" />
+                          </TableCell>
+                        );
+                      }
                     }
-
 
                   })}
                   <TableCell align="center">
