@@ -30,3 +30,5 @@ class LogIN(Resource):
 api.add_resource(LogIN, '/userLogin/<user_name>/<user_paswd>')
 if __name__ == '__main__':
     app.run(debug=True)
+    
+    
