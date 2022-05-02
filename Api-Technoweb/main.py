@@ -31,7 +31,7 @@ class user(Resource):
     def get(self):
         cursor = db.cursor()
         sql = "SELECT idUtilisateur,pathImgUtilisateur,prenom,nom,pseudo,administrateur FROM Utilisateur"
-        cursor.execute(sql)
+        cursor.execute(sql)  # Il y a une erreur ici
         results = cursor.fetchall()
         return results
 
@@ -49,12 +49,22 @@ class event(Resource):
         sql = "SELECT idEvent,pathImgEvent,nomEvent,dateEventDeb,dateEventFin,descEvent,actif FROM Events"
         cursor.execute(sql)
         results = cursor.fetchall()
-        return results     
+        return results
+
+class userAdd(Resource):
+    def get(self):
+        cursor = db.cursor()
+        sql = "INSERT INTO Utilisateur (pathImgUtilisateur,prenom,nom,pseudo,pwd,administrateur) VALUES (%s, %s, %s, %s, %s, %s)"
+        data=('none.png', 'amadeo', 'soufflet', 'pentester', 'motDePasse', 1)
+        cursor.execute(sql, data)
+        #results = cursor.fetchall()
+        return True
 
 api.add_resource(LogIN, '/userLogin/<user_name>/<user_paswd>')
 api.add_resource(user, '/utilisateur')
 api.add_resource(lieu, '/lieux')
 api.add_resource(event, '/event')
+api.add_resource(userAdd, '/userAdd/<user_firstname>/<user_name>/<user_pseudo>/<user_path>/<user_admin>')
 
 if __name__ == '__main__':
     app.run(debug=True)
