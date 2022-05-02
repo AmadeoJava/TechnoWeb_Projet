@@ -39,7 +39,10 @@ import EventTable from './EventsTable';
 import Documentation from './Documentation';
 import UserProfile from './UserProfile';
 import './adminpage.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+const axios = require('axios');
+
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -154,6 +157,40 @@ const StyledMenu = styled((props) => (
 const icones=[<CreateIcon/>, <BorderAllIcon/>, <BarChartIcon/>];
 
 export default function WebProject() {
+
+/*
+  const navigate = useNavigate();
+
+  const addUser = (e) => {
+    var prenom = "Amadéo";
+    var nom = "Soufflet";
+    var pseudo = "pentester";
+    var pathImg = "images/faces/face9.jpg"
+    var pass = "passwordSecure";
+    var admin = 1;
+    try {
+      const result = axios.get(
+        
+        `/userAdd/${prenom}/${nom}/${pseudo}/${pathImg}/${pass}/${admin}`
+      );
+
+    } catch (err) {
+      console.log(err);
+    }
+
+  };
+
+  const handleSubmitUser = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
+    addUser({pseudo:data.get('email'),password:data.get('password')});
+    $('input').val('');
+  };
+*/
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
