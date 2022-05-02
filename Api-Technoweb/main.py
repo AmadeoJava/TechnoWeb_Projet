@@ -27,7 +27,7 @@ class LogIN(Resource):
         print(Login)
         return Login
 
-class user(Resource):
+class utilisateur(Resource):
     def get(self):
         cursor = db.cursor()
         sql = "SELECT idUtilisateur,pathImgUtilisateur,prenom,nom,pseudo,administrateur FROM Utilisateur"
@@ -49,13 +49,23 @@ class event(Resource):
         sql = "SELECT idEvent,pathImgEvent,nomEvent,dateEventDeb,dateEventFin,descEvent,actif FROM Events"
         cursor.execute(sql)
         results = cursor.fetchall()
-        return results     
+        return results   
+
+class user(Resource):
+    def get(self,user_name):
+        print(user_name)
+        cursor = db.cursor()
+        
+        sql ="SELECT pathImgUtilisateur,prenom,nom,pseudo,administrateur FROM Utilisateur WHERE pseudo="+"'"+str(user_name)+"'"
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        return results
 
 api.add_resource(LogIN, '/userLogin/<user_name>/<user_paswd>')
-api.add_resource(user, '/utilisateur')
+api.add_resource(utilisateur, '/utilisateur')
 api.add_resource(lieu, '/lieux')
 api.add_resource(event, '/event')
-
+api.add_resource(user, '/user/<user_name>')
 if __name__ == '__main__':
     app.run(debug=True)
     

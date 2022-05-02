@@ -28,20 +28,20 @@ function createDataEvents(identifiant, image, name, date, description) {
     createDataEvents(1,require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', "Grand carnaval"),
   ];
   
-  const axios = require('axios');
-  try {
-    const result = axios.get(
-      `/event`
-    );
+  // const axios = require('axios');
+  // try {
+  //   const result = axios.get(
+  //     `/event`
+  //   );
     
-    result.then((resp) =>
-      console.log(resp)
+  //   result.then((resp) =>
+  //     console.log(resp)
       
-    );
+  //   );
 
-  } catch (err) {
-    console.log(err);
-  }
+  // } catch (err) {
+  //   console.log(err);
+  // }
   const columnEvents = [
     { id: 'image'},
     { id: 'name'},

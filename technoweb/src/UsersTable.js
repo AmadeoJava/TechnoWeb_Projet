@@ -61,19 +61,19 @@ const rowsUsers1 = [
 
 ];
 
-try {
-  const result = axios.get(
-    `/utilisateur`
-  );
+// try {
+//   const result = axios.get(
+//     `/utilisateur`
+//   );
   
-  result.then((resp) =>
-    console.log(resp)
+//   result.then((resp) =>
+//     console.log(resp)
     
-  );
+//   );
 
-} catch (err) {
-  console.log(err);
-}
+// } catch (err) {
+//   console.log(err);
+// }
 const columnsUsers = [
   { id: 'image' },
   { id: 'firstname' },
@@ -91,7 +91,6 @@ export default function UsersTable() {
   var nom = "Soufflet";
   var prenom = "Amadéo";
   var pseudo = "Ace25";
-  console.log(pseudo);
 
   var admini = true;
   var timeou;

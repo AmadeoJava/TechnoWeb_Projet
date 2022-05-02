@@ -41,7 +41,7 @@ export default function SignIn() {
       
       result.then((resp) =>
         {if (resp.data===true){
-          navigate("/admin");
+          navigate("/admin?id="+e.pseudo);
         }
       }
       );

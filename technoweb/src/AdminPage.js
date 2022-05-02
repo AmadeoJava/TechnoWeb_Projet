@@ -21,7 +21,6 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-import profile from './images/faces/face8.jpg';
 import Card from '@mui/material/Card';
 import CreateIcon from '@mui/icons-material/Create';
 import BorderAllIcon from '@mui/icons-material/BorderAll';
@@ -39,8 +38,21 @@ import EventTable from './EventsTable';
 import Documentation from './Documentation';
 import UserProfile from './UserProfile';
 import './adminpage.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+const axios = require('axios');
 const drawerWidth = 240;
+
+const answer = window.location.href;
+let answer_array = [];
+
+answer_array = answer.split('=');
+
+
+
+
+
+
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -150,11 +162,27 @@ const StyledMenu = styled((props) => (
   },
 }));
 
+const userLoginfunc= async(pseudo)=>{
+  try {
+    const result = axios.get(
+      `/user/${pseudo}`
+    );
+    return result
 
-const icones=[<CreateIcon/>, <BorderAllIcon/>, <BarChartIcon/>];
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+const icones = [<CreateIcon />, <BorderAllIcon />, <BarChartIcon />];
+
 
 export default function WebProject() {
-
+  const navigate = useNavigate();
+  const [userLogin,setUserLogin]= React.useState({});
+ 
+  
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const listeBox = ["principal", "editer", "table", "graphe", "doc", "profile"];
@@ -179,93 +207,109 @@ export default function WebProject() {
   var ouvert = "principal";
   const fermer = (o) => {
     //alert(ouvert);
-    console.log("ouvert = "+o);
-    if (o){
+    console.log("ouvert = " + o);
+    if (o) {
       ouvert = o;
     }
-    for (let i=0;  i<(listeBox.length); i++){
+    for (let i = 0; i < (listeBox.length); i++) {
       var a = listeBox[i];
-      $("#"+a).css("display", "none");
+      $("#" + a).css("display", "none");
     }
-    $("#"+ouvert).css("display", "initial");
+    $("#" + ouvert).css("display", "initial");
   };
-
 
   const inputButtons = ["userinputbutton", "placeinputbutton", "eventinputbutton"];
   const inputForms = ["userform", "placeform", "eventform"];
-  var selectedi=0;
-  const inputCard = (el) =>{
-    for (let i=0 ;i<inputButtons.length; i++){
-      $("#"+inputButtons[i]).css("color","#0e8cd4");
-      $("#"+inputButtons[i]).css("background-color","#fff");
-      if(inputButtons[i]===el){
-        selectedi=i;
+  var selectedi = 0;
+  const inputCard = (el) => {
+    for (let i = 0; i < inputButtons.length; i++) {
+      $("#" + inputButtons[i]).css("color", "#0e8cd4");
+      $("#" + inputButtons[i]).css("background-color", "#fff");
+      if (inputButtons[i] === el) {
+        selectedi = i;
       }
     }
-    $("#"+el).css("background-color","#0e8cd4");
-    $("#"+el).css("color","#fff");
-    cardchosed(inputForms,inputForms[selectedi]);
+    $("#" + el).css("background-color", "#0e8cd4");
+    $("#" + el).css("color", "#fff");
+    cardchosed(inputForms, inputForms[selectedi]);
   }
 
   const tableButtons = ["usertablebutton", "placetablebutton", "eventtablebutton"];
   const tableForms = ["usertable", "placetable", "eventtable"];
-  var selectedt=0;
-  const tableCard = (el) =>{
-    for (let i=0 ;i<tableButtons.length; i++){
-      $("#"+tableButtons[i]).css("color","#0e8cd4");
-      $("#"+tableButtons[i]).css("background-color","#fff");
-      if(tableButtons[i]===el){
-        selectedt=i;
+  var selectedt = 0;
+  const tableCard = (el) => {
+    for (let i = 0; i < tableButtons.length; i++) {
+      $("#" + tableButtons[i]).css("color", "#0e8cd4");
+      $("#" + tableButtons[i]).css("background-color", "#fff");
+      if (tableButtons[i] === el) {
+        selectedt = i;
       }
     }
-    $("#"+el).css("background-color","#0e8cd4");
-    $("#"+el).css("color","#fff");
-    cardchosed(tableForms,tableForms[selectedt]);
+    $("#" + el).css("background-color", "#0e8cd4");
+    $("#" + el).css("color", "#fff");
+    cardchosed(tableForms, tableForms[selectedt]);
   }
 
-  const cardchosed = (tab,el) =>{
-    for(let i=0; i<tab.length; i++){
-      $("#"+tab[i]).hide();
+  const cardchosed = (tab, el) => {
+    for (let i = 0; i < tab.length; i++) {
+      $("#" + tab[i]).hide();
     }
-    $("#"+el).show();
+    $("#" + el).show();
   }
 
 
 
-  const debut = (function(){
+  const debut = (function () {
     inputCard(inputButtons[selectedi]);
     tableCard(tableButtons[selectedt]);
   })
+
+  window.onbeforeunload = function () {
+    if (answer_array[1] == null) {
+      console.log("je suis ici");
+      navigate("/login");
+    }
+  }
+
   
-  window.onload=(function(event) {
+  window.onload = (function (event) {
+    if (answer_array[1] == null) {
+      console.log("je suis ici");
+      navigate("/login");
+    }
+    userLoginfunc(answer_array[1]).then((resp) =>{
+      
+      setUserLogin(resp.data[0]);
+
+    },{});
+    
     cardchosed(inputForms[0]);
 
-    $('#placeupload').change(function(e){
-      var fs=e.target.files.length;  // filesize
-      var fileName = e.target.files[fs-1].name;
+    $('#placeupload').change(function (e) {
+      var fs = e.target.files.length;  // filesize
+      var fileName = e.target.files[fs - 1].name;
       $('#placefiles').text(fileName);
       console.log(fileName);
     });
 
-    $('#userupload').change(function(e){
-      var fs=e.target.files.length;  // filesize
-      var fileName = e.target.files[fs-1].name;
+    $('#userupload').change(function (e) {
+      var fs = e.target.files.length;  // filesize
+      var fileName = e.target.files[fs - 1].name;
       $('#userfiles').text(fileName);
       console.log(fileName);
     });
 
-    $('#eventupload').change(function(e){
-      var fs=e.target.files.length;  // filesize
-      var fileName = e.target.files[fs-1].name;
+    $('#eventupload').change(function (e) {
+      var fs = e.target.files.length;  // filesize
+      var fileName = e.target.files[fs - 1].name;
       $('#eventfiles').text(fileName);
       console.log(fileName);
     });
 
 
+ 
   });
-
-
-
+  
   return (
     <Box sx={{ display: 'flex' }} onClick={() => debut()}>
       <CssBaseline />
@@ -283,14 +327,14 @@ export default function WebProject() {
           >
             <MenuIcon />
           </IconButton>
-          <div onClick={event =>  fermer("principal")}>
+          <div onClick={event => fermer("principal")}>
             <Typography variant="h6" noWrap component="div" className="clickable">
               Dashboard
             </Typography>
           </div>
 
           <div style={{ position: 'fixed', right: 100 }} >
-          <Avatar alt="D" src={profile} onClick={handleClick}  className="clickable" />
+            <Avatar alt="img" src={""} onClick={handleClick} className="clickable" />
             <StyledMenu
               id="demo-customized-menu"
               MenuListProps={{
@@ -300,39 +344,41 @@ export default function WebProject() {
               open={openit}
               onClose={handleClose}
             >
-              <img src={profile} alt="Profile" 
-              style={{display: 'block',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                width:'100px',
-                height:'100px' ,
-                borderRadius:100}}>
-                </img>
-                <Typography paragraph style={{textAlign:'center'}}>
-                David Panzoli
-                </Typography>
-                <Typography paragraph style={{textAlign:'center'}}>
-                Dieu ?
-                </Typography>
-              <MenuItem onClick={(event)=>{handleClose(); fermer("profile")}} disableRipple className="clickable">
+              <img src={""}  alt="Profile"
+                style={{
+                  display: 'block',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  width: '100px',
+                  height: '100px',
+                  borderRadius: 100
+                }}>
+              </img>
+              <Typography paragraph style={{ textAlign: 'center' }}>
+                {userLogin.nom} {userLogin.prenom}
+              </Typography>
+              <Typography paragraph style={{ textAlign: 'center' }}>
+                {userLogin.pseudo}
+              </Typography>
+              <MenuItem onClick={(event) => { handleClose(); fermer("profile") }} disableRipple className="clickable">
                 <EditIcon />
                 MyProfile
               </MenuItem>
               <MenuItem onClick={handleClose} disableRipple className="clickable">
                 <PowerSettingsNewIcon />
-                
+
                 <Link to="/">Sign Out</Link>
               </MenuItem>
 
             </StyledMenu>
           </div>
-          
+
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open} onClick={handleDrawerClose}>
-        
-        <DrawerHeader  className="clickable">
-        <Typography variant="h4" className="centerDiv">
+
+        <DrawerHeader className="clickable">
+          <Typography variant="h4" className="centerDiv">
             Admin
           </Typography>
           <IconButton >
@@ -345,7 +391,7 @@ export default function WebProject() {
           {['Ajouter des éléments', 'Tables', 'Graphiques'].map((text, index) => (
             <ListItemButton
               className="clickable"
-              onClick={event =>  fermer(listeBox[index+1])}
+              onClick={event => fermer(listeBox[index + 1])}
               key={text}
               sx={{
                 minHeight: 48,
@@ -368,152 +414,152 @@ export default function WebProject() {
         </List>
         <Divider />
         <List>
-            <ListItemButton onClick={event =>  fermer("doc")}
-              className="clickable"
-              key="Documentation"
+          <ListItemButton onClick={event => fermer("doc")}
+            className="clickable"
+            key="Documentation"
+            sx={{
+              minHeight: 48,
+              justifyContent: open ? 'initial' : 'center',
+              px: 2.5,
+            }}
+          >
+            <ListItemIcon
               sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
+                minWidth: 0,
+                mr: open ? 3 : 'auto',
+                justifyContent: 'center',
               }}
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                <ArticleIcon/>
-              </ListItemIcon>
-              <ListItemText primary="Documentation" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
+              <ArticleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Documentation" sx={{ opacity: open ? 1 : 0 }} />
+          </ListItemButton>
         </List>
       </Drawer>
 
-      <Box component="main" id="principal" sx={{ flexGrow: 1, p: 3 }} style={{display:"initial"}}>
+      <Box component="main" id="principal" sx={{ flexGrow: 1, p: 3 }} style={{ display: "initial" }}>
         <DrawerHeader />
-          <Card className='centerDiv'>
-            <h2>Endroit le plus visité</h2>
-            <img src={require('./logo.png')} alt="logo" />
-          </Card>
+        <Card className='centerDiv'>
+          <h2>Endroit le plus visité</h2>
+          <img src={require('./logo.png')} alt="logo" />
+        </Card>
       </Box>
 
-      <Box component="main" id="editer" sx={{ flexGrow: 1, p: 3 }} style={{display:"none"}}>
+      <Box component="main" id="editer" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
         <DrawerHeader />
-          <div style={{width:"100%",textAlign:"center"}}>
-            <h1>Ajouter des éléments</h1>
-          </div>
-          <Card className='centerDiv'>
-            <nav className='liste'>
-              <Button onClick={event=>inputCard("userinputbutton")} id="userinputbutton" style={{width: "50%"}} sx={{ mt: 3, mb: 2 }}>
-                Utilisateurs
-              </Button>
-              <Button onClick={event=>inputCard("placeinputbutton")} id="placeinputbutton" style={{width: "50%"}} sx={{ mt: 3, mb: 2 }}>
-                Lieux
-              </Button>
-              <Button onClick={event=>inputCard("eventinputbutton")} id="eventinputbutton" style={{width: "50%"}} sx={{ mt: 3, mb: 2 }}>
-                Evènements
-              </Button>
-            </nav>
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <h1>Ajouter des éléments</h1>
+        </div>
+        <Card className='centerDiv'>
+          <nav className='liste'>
+            <Button onClick={event => inputCard("userinputbutton")} id="userinputbutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }}>
+              Utilisateurs
+            </Button>
+            <Button onClick={event => inputCard("placeinputbutton")} id="placeinputbutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }}>
+              Lieux
+            </Button>
+            <Button onClick={event => inputCard("eventinputbutton")} id="eventinputbutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }}>
+              Evènements
+            </Button>
+          </nav>
 
-            <Box id="userform" component="form" onSubmit={event => fermer("principal")} noValidate sx={{ mt: 1 }}>
-              <FormControl style={{ width: "98%"}}>
-                <Grid container direction={"column"} spacing={2}>
-                  <Grid item>
-                    <TextField id="userprenom" name="userprenom" label="Prénom" required autoComplete="Prénom"  margin="normal" style={{width: "98%"}}/>
-                  </Grid>
-                  <Grid item>
-                    <TextField id="usernom" name="usernom" margin="normal" required style={{width: "98%"}} label="Nom" autoComplete="Nom" />
-                  </Grid>
-                  <Grid item>
-                    <TextField id="pseudo" name="pseudo" margin="normal" required style={{width: "98%"}} label="Identifiant" autoComplete="Identifiant" />
-                  </Grid>
-                  <Grid item>    
-                    <TextField id="password" name="password" margin="normal" required style={{width: "98%"}} label="Mot de passe" type="password" autoComplete="Mot de passe"/>
-                  </Grid>
-                  <Grid item>
-                    <TextField select label="Choisissez le niveau de l'utilisateur" id="userlevel" style={{width: "98%"}} required>
-                      <MenuItem value={"gerant"}>
-                            Gérant
-                      </MenuItem>
-                      <MenuItem value={"administrateur"}>
-                        Administrateur
-                      </MenuItem>
-                    </TextField>
-                  </Grid>
-                  <Grid item>
-                    <Button id="buttonuser" variant="contained" component="label" style={{ width: "98%"}}>
-                      Upload File
-                      <input type="file" id="userupload" hidden/>
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <div id="userfiles">
-                    </div>
-                  </Grid>
-                  <Grid item>
-                    <Button type="submit" style={{width: "98%"}} variant="contained" sx={{ mt: 3, mb: 2 }}>
-                      Ajouter
-                    </Button>
-                  </Grid>
-                </Grid>
-              </FormControl>
-            </Box>
-
-            <Box id="placeform" component="form" onSubmit={event =>  fermer("principal")} noValidate sx={{ mt: 1 }}>
-              <FormControl style={{ width: "98%"}}>
-                <Grid container direction={"column"} spacing={2}>
-                  <Grid item>
-                    <TextField id="placenom" name="placenom" label="Nom du lieu" required autoComplete="Nom du lieu"  margin="normal" style={{width: "98%"}}/>
-                  </Grid>
-                  <Grid item>
-                    <TextField id="placelat" name="placelat" margin="normal" required style={{width: "98%"}} label="Latitude" autoComplete="Latitude" type="number" />
-                  </Grid>
-                  <Grid item>
-                    <TextField id="placelon" name="placelon" margin="normal" required style={{width: "98%"}} label="Longitude" autoComplete="Longitude" type="number" />
-                  </Grid>
-                  <Grid item>
-                    <TextareaAutosize minRows={3} placeholder="Description du lieu" style={{ width: "98%" }}/>
-                  </Grid>
-                    <div>
-                      <label htmlFor="c1">Culturel</label>
-                      <Checkbox id="c1" {...'label'} size="medium" />
-                      <label htmlFor="c2">Restaurant</label>
-                      <Checkbox id="c2" {...'label'} size="medium" />
-                    </div>
-                  <Grid item>
-                    <Button id="buttonplace" variant="contained" component="label" style={{ width: "98%"}}>
-                      Upload File
-                      <input type="file" id="placeupload" hidden/>
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <div id="placefiles">
-                    </div>
-                  </Grid>
-                  <Grid item>
-                    <Button type="submit" style={{width: "98%"}} variant="contained" sx={{ mt: 3, mb: 2 }}>
-                      Ajouter
-                    </Button>
-                  </Grid>
-                </Grid>
-              </FormControl>
-            </Box>
-
-            <Box id="eventform" component="form" onSubmit={event =>fermer("principal")} noValidate sx={{ mt: 1 }}>
-              <FormControl style={{ width: "98%"}}>
+          <Box id="userform" component="form" onSubmit={event => fermer("principal")} noValidate sx={{ mt: 1 }}>
+            <FormControl style={{ width: "98%" }}>
               <Grid container direction={"column"} spacing={2}>
                 <Grid item>
-                  <TextField id="eventnom" name="eventnom" label="Nom de l'évènement" required autoComplete="Nom de l'évènement"  margin="normal" style={{width: "98%"}}/>
+                  <TextField id="userprenom" name="userprenom" label="Prénom" required autoComplete="Prénom" margin="normal" style={{ width: "98%" }} />
                 </Grid>
                 <Grid item>
-                  <TextField id="eventdate" name="eventdate" margin="normal" required style={{width: "98%"}} type="date" autoComplete="Date de l'évènement"/>
+                  <TextField id="usernom" name="usernom" margin="normal" required style={{ width: "98%" }} label="Nom" autoComplete="Nom" />
                 </Grid>
                 <Grid item>
-                  <Button id="buttonevent" variant="contained" component="label" style={{ width: "98%"}}>
+                  <TextField id="pseudo" name="pseudo" margin="normal" required style={{ width: "98%" }} label="Identifiant" autoComplete="Identifiant" />
+                </Grid>
+                <Grid item>
+                  <TextField id="password" name="password" margin="normal" required style={{ width: "98%" }} label="Mot de passe" type="password" autoComplete="Mot de passe" />
+                </Grid>
+                <Grid item>
+                  <TextField select label="Choisissez le niveau de l'utilisateur" id="userlevel" style={{ width: "98%" }} required>
+                    <MenuItem value={"gerant"}>
+                      Gérant
+                    </MenuItem>
+                    <MenuItem value={"administrateur"}>
+                      Administrateur
+                    </MenuItem>
+                  </TextField>
+                </Grid>
+                <Grid item>
+                  <Button id="buttonuser" variant="contained" component="label" style={{ width: "98%" }}>
                     Upload File
-                    <input type="file" id="eventupload" hidden/>
+                    <input type="file" id="userupload" hidden />
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <div id="userfiles">
+                  </div>
+                </Grid>
+                <Grid item>
+                  <Button type="submit" style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                    Ajouter
+                  </Button>
+                </Grid>
+              </Grid>
+            </FormControl>
+          </Box>
+
+          <Box id="placeform" component="form" onSubmit={event => fermer("principal")} noValidate sx={{ mt: 1 }}>
+            <FormControl style={{ width: "98%" }}>
+              <Grid container direction={"column"} spacing={2}>
+                <Grid item>
+                  <TextField id="placenom" name="placenom" label="Nom du lieu" required autoComplete="Nom du lieu" margin="normal" style={{ width: "98%" }} />
+                </Grid>
+                <Grid item>
+                  <TextField id="placelat" name="placelat" margin="normal" required style={{ width: "98%" }} label="Latitude" autoComplete="Latitude" type="number" />
+                </Grid>
+                <Grid item>
+                  <TextField id="placelon" name="placelon" margin="normal" required style={{ width: "98%" }} label="Longitude" autoComplete="Longitude" type="number" />
+                </Grid>
+                <Grid item>
+                  <TextareaAutosize minRows={3} placeholder="Description du lieu" style={{ width: "98%" }} />
+                </Grid>
+                <div>
+                  <label htmlFor="c1">Culturel</label>
+                  <Checkbox id="c1" {...'label'} size="medium" />
+                  <label htmlFor="c2">Restaurant</label>
+                  <Checkbox id="c2" {...'label'} size="medium" />
+                </div>
+                <Grid item>
+                  <Button id="buttonplace" variant="contained" component="label" style={{ width: "98%" }}>
+                    Upload File
+                    <input type="file" id="placeupload" hidden />
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <div id="placefiles">
+                  </div>
+                </Grid>
+                <Grid item>
+                  <Button type="submit" style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                    Ajouter
+                  </Button>
+                </Grid>
+              </Grid>
+            </FormControl>
+          </Box>
+
+          <Box id="eventform" component="form" onSubmit={event => fermer("principal")} noValidate sx={{ mt: 1 }}>
+            <FormControl style={{ width: "98%" }}>
+              <Grid container direction={"column"} spacing={2}>
+                <Grid item>
+                  <TextField id="eventnom" name="eventnom" label="Nom de l'évènement" required autoComplete="Nom de l'évènement" margin="normal" style={{ width: "98%" }} />
+                </Grid>
+                <Grid item>
+                  <TextField id="eventdate" name="eventdate" margin="normal" required style={{ width: "98%" }} type="date" autoComplete="Date de l'évènement" />
+                </Grid>
+                <Grid item>
+                  <Button id="buttonevent" variant="contained" component="label" style={{ width: "98%" }}>
+                    Upload File
+                    <input type="file" id="eventupload" hidden />
                   </Button>
                 </Grid>
                 <Grid item>
@@ -521,90 +567,91 @@ export default function WebProject() {
                   </div>
                 </Grid>
                 <Grid item>
-                  <Button type="submit" style={{width: "98%"}} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  <Button type="submit" style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
                     Ajouter
                   </Button>
                 </Grid>
               </Grid>
-              </FormControl>
-            </Box>
+            </FormControl>
+          </Box>
 
-          </Card>
-      </Box>
-
-      <Box component="main" id="table" sx={{ flexGrow: 1, p: 3 }} style={{display:"none"}}>
-        <DrawerHeader />
-          <div style={{width:"100%",textAlign:"center"}}>
-            <h1>Tables</h1>
-          </div>
-          <Card className='centerDiv' style={{height:"auto"}}>
-            <nav className='liste'>
-              <Button onClick={event=>tableCard("usertablebutton")} id="usertablebutton" style={{width: "50%"}} sx={{ mt: 3, mb: 2 }}>
-                Utilisateurs
-              </Button>
-              <Button onClick={event=>tableCard("placetablebutton")} id="placetablebutton" style={{width: "50%"}} sx={{ mt: 3, mb: 2 }}>
-                Lieux
-              </Button>
-              <Button onClick={event=>tableCard("eventtablebutton")} id="eventtablebutton" style={{width: "50%"}} sx={{ mt: 3, mb: 2 }}>
-                Evènements
-              </Button>
-            </nav>
-            
-            <Box style={{width: "100%", display: "flex", flexFlow:"row nowrap", justifyContent: "center", alignItems: "center"}}>
-
-              <Box id="usertable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
-                <UserTable/>
-                <br/>
-              </Box>
-
-              <Box id="placetable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
-                <PlaceTable/>
-                <br/>
-              </Box>
-
-              <Box id="eventtable" component="table" noValidate sx={{ mt: 1 }} style={{width: "98%"}}>
-                <EventTable/>
-                <br/>
-              </Box>
-              
-            </Box>
-
-
-          </Card>
-      </Box>
-
-      <Box component="main" id="graphe" sx={{ flexGrow: 1, p: 3 }} style={{display:"none"}}>
-        <DrawerHeader />
-          <div style={{width:"100%",textAlign:"center"}}>
-            <h1>Graphes</h1>
-          </div>
-          <Card className='centerDiv'>
-            <h2>Mets les graphes ici</h2>
-          </Card>
-      </Box>
-
-      <Box component="main" id="doc" sx={{ flexGrow: 1, p: 3 }} style={{display:"none"}}>
-        <DrawerHeader />
-          <div style={{width:"100%",textAlign:"center"}}>
-            <h1>Documentation</h1>
-          </div>
-          
-          <br/>
-          <Documentation que="Quels sont les différents niveaux d'utilisateurs ?" rep={["Administrateur : Droit de modifier Les lieux, évènements et utilisateurs", "Basique : Droit de modifier Les lieux et évènements"]}/>
-          <br/>
-          <Documentation que="Quelles sont les différentes pages ?" rep={["Principale : Accueil", "Stylo : Permet d'ajouter des éléments", "Table : Permet de voir les différents éléments et de les modifier", "Graphes : Permet d'avoir des statistiques sur le site", "Documentation : Permet de trouver les réponses à des questions"]}/>
-      </Box>
-      
-      <Box component="main" id="profile" sx={{ flexGrow: 1, p: 3 }} style={{display:"none"}}>
-        <DrawerHeader />
-        <div style={{width:"100%",textAlign:"center"}}>
-          <h1>Profil</h1>
-        </div>
-        <Card>
-          <UserProfile el={["Prénom", "Nom", "Pseudo", "Admninistrateur", "Mot de passe"]} rep={["David", "Panzoli", "Dieu ?", "Oui", "********"]}/>
         </Card>
       </Box>
 
+      <Box component="main" id="table" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
+        <DrawerHeader />
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <h1>Tables</h1>
+        </div>
+        <Card className='centerDiv' style={{ height: "auto" }}>
+          <nav className='liste'>
+            <Button onClick={event => tableCard("usertablebutton")} id="usertablebutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }}>
+              Utilisateurs
+            </Button>
+            <Button onClick={event => tableCard("placetablebutton")} id="placetablebutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }}>
+              Lieux
+            </Button>
+            <Button onClick={event => tableCard("eventtablebutton")} id="eventtablebutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }}>
+              Evènements
+            </Button>
+          </nav>
+
+          <Box style={{ width: "100%", display: "flex", flexFlow: "row nowrap", justifyContent: "center", alignItems: "center" }}>
+
+            <Box id="usertable" component="table" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
+              <UserTable />
+              <br />
+            </Box>
+
+            <Box id="placetable" component="table" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
+              <PlaceTable />
+              <br />
+            </Box>
+
+            <Box id="eventtable" component="table" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
+              <EventTable />
+              <br />
+            </Box>
+
+          </Box>
+
+
+        </Card>
+      </Box>
+
+      <Box component="main" id="graphe" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
+        <DrawerHeader />
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <h1>Graphes</h1>
+        </div>
+        <Card className='centerDiv'>
+          <h2>Mets les graphes ici</h2>
+        </Card>
+      </Box>
+
+      <Box component="main" id="doc" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
+        <DrawerHeader />
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <h1>Documentation</h1>
+        </div>
+
+        <br />
+        <Documentation que="Quels sont les différents niveaux d'utilisateurs ?" rep={["Administrateur : Droit de modifier Les lieux, évènements et utilisateurs", "Basique : Droit de modifier Les lieux et évènements"]} />
+        <br />
+        <Documentation que="Quelles sont les différentes pages ?" rep={["Principale : Accueil", "Stylo : Permet d'ajouter des éléments", "Table : Permet de voir les différents éléments et de les modifier", "Graphes : Permet d'avoir des statistiques sur le site", "Documentation : Permet de trouver les réponses à des questions"]} />
+      </Box>
+
+      <Box component="main" id="profile" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
+        <DrawerHeader />
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <h1>Profil</h1>
+        </div>
+        <Card>
+          <UserProfile el={["Prénom", "Nom", "Pseudo", "Admninistrateur", "Mot de passe"]} 
+          rep={[userLogin.nom, userLogin.prenom, userLogin.pseudo, String(userLogin.administrateur===1), "********"]} />
+        </Card>
+      </Box>
+      
     </Box>
   );
 }
