@@ -40,7 +40,7 @@ export default function Documentation(r) {
           <Collapse in={expand}>
             <br/>
             {r.rep.map((re,index) =>(
-              <div>
+              <div key={index}>
                 <Typography>{re}</Typography>
                 <br/>
               </div>

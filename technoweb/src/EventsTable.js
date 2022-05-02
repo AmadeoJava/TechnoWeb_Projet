@@ -54,8 +54,9 @@ function createDataEvents(identifiant, image, name, date, description) {
   var nom;
   var date;
   var description;
-
+  var index=0;
   export default function EventsTable() {
+    
     var timeou;
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -137,7 +138,6 @@ function createDataEvents(identifiant, image, name, date, description) {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden', height: '100%' }}>
-      <div>
       <TextField
           id="eventsearch"
           label="Recherche"
@@ -145,7 +145,7 @@ function createDataEvents(identifiant, image, name, date, description) {
           variant="standard"
           onChange={()=>montrer("eventsearch")}
         />
-      </div>
+
     <TableContainer sx={{ maxHeight: 440 }}>
       <Table stickyHeader aria-label="sticky table" id="usertable">
       <colgroup>
@@ -166,24 +166,28 @@ function createDataEvents(identifiant, image, name, date, description) {
         </TableHead>
         <TableBody id="userrows">
           {rowsEvents.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+            {index=index+1;}
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                   {columnEvents.map((column) => {
+                    {index=index+1;}
                     const value = row[column.id];
                     if((column.id) !== 'identifiant'){
                       if ((column.id) !== 'image' ) {
                       return (
-                        <TableCell key={column.id} align="center">
+                        <TableCell   key={index} align="center">
                           {value}
                         </TableCell>
                       );
                     }else{
                       return (
-                        <TableCell key={column.id} align="center">
+                        <TableCell key={index} align="center">
                           <img src={value} style={{width: '50%'}} alt=""/>
                         </TableCell>
                       );
                     }
+                  }else{
+
                   }
                   })}
                   <TableCell align="center">
@@ -198,14 +202,14 @@ function createDataEvents(identifiant, image, name, date, description) {
       </Table>
     </TableContainer>
     <TablePagination
-rowsPerPageOptions={[5, 10, 25, 100]}
-component="div"
-count={rowsEvents.length}
-rowsPerPage={rowsPerPage}
-page={page}
-onPageChange={handleChangePage}
-onRowsPerPageChange={handleChangeRowsPerPage}
-/>
+      rowsPerPageOptions={[5, 10, 25, 100]}
+      component="div"
+      count={rowsEvents.length}
+      rowsPerPage={rowsPerPage}
+      page={page}
+      onPageChange={handleChangePage}
+      onRowsPerPageChange={handleChangeRowsPerPage}
+    />
 
 <Dialog onClose={handleClose} open={open} style={{textAlign: 'center', contentAlign: 'center'}} fullWidth maxwidth="sm">
       <DialogTitle id="simple-dialog-title"><h2>Modifier utilisateur</h2></DialogTitle>

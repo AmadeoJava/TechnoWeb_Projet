@@ -60,7 +60,7 @@ const columnsPlaces = [
 var ind = 0;
 var nom = "cat";
 var description = "rien";
-
+var indexkey=0;
 export default function PlacesTable() {
   var timeou;
   const [page, setPage] = React.useState(0);
@@ -142,136 +142,141 @@ export default function PlacesTable() {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden', height: '100%' }}>
-      <div>
-        <TextField
-          id="placesearch"
-          label="Recherche"
-          defaultValue=""
-          variant="standard"
-          onChange={() => montrer("placesearch")}
-        />
-      </div>
-      <TableContainer sx={{ maxHeight: 700 }}>
-        <Table stickyHeader aria-label="sticky table" id="usertable">
-          <colgroup>
-            <col style={{ width: '15%' }} />
-            <col style={{ width: '15%' }} />
-            <col style={{ width: '5%' }} />
-            <col style={{ width: '5%' }} />
-            <col style={{ width: '15%' }} />
-            <col style={{ width: '40%' }} />
-            <col style={{ width: '5%' }} />
-          </colgroup>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>Image</TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>Nom</TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>Latitude</TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>Longitude</TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>Caractéristiques</TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>Description</TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>Modifier</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody id="userrows">
-            {rowPlaces.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
 
-                  {columnsPlaces.map((column) => {
-                    const value = row[column.id];
-                    if((column.id) !== 'identifiant'){
-                        if ((column.id) !== 'image' ) {
-                        return (
-                          <TableCell key={column.id} align="center">
-                            {value}
-                          </TableCell>
-                          );
-                      } else {
-                        return (
-                          <TableCell key={column.id} align="center">
-                            <img src={value} style={{ width: '50%' }} alt="" />
-                          </TableCell>
-                          );
-                      }
-                    }
-                  })}
-                  <TableCell align="center">
-                    <IconButton id={row[columnsPlaces[2].id]} onClick={() => changer(row[columnsPlaces[6].id])}>
-                      <EditIcon style={{ color: '#1976d2' }} />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25, 100]}
-        component="div"
-        count={rowPlaces.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+      <TextField
+        id="placesearch"
+        label="Recherche"
+        defaultValue=""
+        variant="standard"
+        onChange={() => montrer("placesearch")}
       />
 
-      <Dialog onClose={handleClose} open={open} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
-        <DialogTitle id="simple-dialog-title"><h2>Modifier utilisateur</h2></DialogTitle>
-        <Grid container direction={"column"} spacing={2}>
-          <Grid Item>
-            Nom
-          </Grid>
-          <Grid item>
-            <TextField id="placenom" name="placenom" label={nom} required margin="normal" style={{ width: "90%" }} />
-          </Grid>
-          <Grid Item>
-            <br />
-          </Grid>
-          <Grid Item>
-            Description
-          </Grid>
-          <Grid item>
-            <TextField id="placedescription" name="placedescription" label={description} required margin="normal" style={{ width: "90%" }} />
-          </Grid>
-          <Grid item>
-            <Grid container spacing={2} style={{ justifyContent: "center" }}>
-              <Grid item>
-                <Button variant="contained" onClick={() => verifier(ind)} style={{ backgroundColor: "red" }}>
-                  <DeleteIcon style={{ verticalAlign: "middle" }} />
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" onClick={() => handleClose()}>Valider</Button>
-              </Grid>
+    <TableContainer sx={{ maxHeight: 700 }}>
+      <Table stickyHeader aria-label="sticky table" id="usertable">
+        <colgroup>
+          <col style={{ width: '15%' }} />
+          <col style={{ width: '15%' }} />
+          <col style={{ width: '5%' }} />
+          <col style={{ width: '5%' }} />
+          <col style={{ width: '15%' }} />
+          <col style={{ width: '40%' }} />
+          <col style={{ width: '5%' }} />
+        </colgroup>
+        <TableHead>
+          <TableRow>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>Image</TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>Nom</TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>Latitude</TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>Longitude</TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>Caractéristiques</TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>Description</TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>Modifier</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody id="userrows">
+          {rowPlaces.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+            { indexkey=indexkey+=1;}
+            return (
+              <TableRow hover role="checkbox" tabIndex={-1} key={indexkey}>
+
+                {columnsPlaces.map((column) => {
+                  const value = row[column.id];
+                  indexkey=indexkey+=1;
+                  if((column.id) !== 'identifiant'){
+                      if ((column.id) !== 'image' ) {
+                      return (
+                        <TableCell key={indexkey} align="center">
+                          {value}
+                        </TableCell>
+                        );
+                    } else {
+                      return (
+                        <TableCell key={indexkey} align="center">
+                          <img src={value} style={{ width: '50%' }} alt="" />
+                        </TableCell>
+                        );
+                    }
+                  }else{
+                    
+                  }
+                })}
+                <TableCell align="center">
+                  <IconButton id={row[columnsPlaces[2].id]} onClick={() => changer(row[columnsPlaces[6].id])}>
+                    <EditIcon style={{ color: '#1976d2' }} />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    <TablePagination
+      rowsPerPageOptions={[5, 10, 25, 100]}
+      component="div"
+      count={rowPlaces.length}
+      rowsPerPage={rowsPerPage}
+      page={page}
+      onPageChange={handleChangePage}
+      onRowsPerPageChange={handleChangeRowsPerPage}
+    />
+
+    <Dialog onClose={handleClose} open={open} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
+      <DialogTitle id="simple-dialog-title"><h2>Modifier utilisateur</h2></DialogTitle>
+      <Grid container direction={"column"} spacing={2}>
+        <Grid Item>
+          Nom
+        </Grid>
+        <Grid item>
+          <TextField id="placenom" name="placenom" label={nom} required margin="normal" style={{ width: "90%" }} />
+        </Grid>
+        <Grid Item>
+          <br />
+        </Grid>
+        <Grid Item>
+          Description
+        </Grid>
+        <Grid item>
+          <TextField id="placedescription" name="placedescription" label={description} required margin="normal" style={{ width: "90%" }} />
+        </Grid>
+        <Grid item>
+          <Grid container spacing={2} style={{ justifyContent: "center" }}>
+            <Grid item>
+              <Button variant="contained" onClick={() => verifier(ind)} style={{ backgroundColor: "red" }}>
+                <DeleteIcon style={{ verticalAlign: "middle" }} />
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" onClick={() => handleClose()}>Valider</Button>
             </Grid>
           </Grid>
-          <Grid item>
-          </Grid>
         </Grid>
-      </Dialog>
+        <Grid item>
+        </Grid>
+      </Grid>
+    </Dialog>
 
-      <Dialog open={verif} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
-        <DialogTitle id="simple-dialog-title"><h2>Supprimer lieu</h2></DialogTitle>
-        <Grid container direction={"column"} spacing={2}>
-          <Grid item>
-            <Grid container spacing={2} style={{ justifyContent: "center" }}>
-              <Grid item>
-                <Button variant="contained" onClick={() => verifclose()} style={{ backgroundColor: "red" }}>
-                  Annuler
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" onClick={() => supprimer(ind)}>Valider</Button>
-              </Grid>
+    <Dialog open={verif} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
+      <DialogTitle id="simple-dialog-title"><h2>Supprimer lieu</h2></DialogTitle>
+      <Grid container direction={"column"} spacing={2}>
+        <Grid item>
+          <Grid container spacing={2} style={{ justifyContent: "center" }}>
+            <Grid item>
+              <Button variant="contained" onClick={() => verifclose()} style={{ backgroundColor: "red" }}>
+                Annuler
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" onClick={() => supprimer(ind)}>Valider</Button>
             </Grid>
           </Grid>
-          <Grid item>
-          </Grid>
         </Grid>
-      </Dialog>
+        <Grid item>
+        </Grid>
+      </Grid>
+    </Dialog>
 
-    </Paper>
+  </Paper>
+
   );
 }

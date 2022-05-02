@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled, useTheme, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -44,12 +44,7 @@ const axios = require('axios');
 const drawerWidth = 240;
 
 const answer = window.location.href;
-let answer_array = [];
-
-answer_array = answer.split('=');
-
-
-
+const answer_array = answer.split('=');
 
 
 
@@ -162,13 +157,13 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-const userLoginfunc= async(pseudo)=>{
+const userLoginfunc = (pseudo) => {
   try {
     const result = axios.get(
       `/user/${pseudo}`
     );
-    return result
 
+    return result;
   } catch (err) {
     console.log(err);
   }
@@ -178,11 +173,21 @@ const userLoginfunc= async(pseudo)=>{
 const icones = [<CreateIcon />, <BorderAllIcon />, <BarChartIcon />];
 
 
+
 export default function WebProject() {
+
   const navigate = useNavigate();
-  const [userLogin,setUserLogin]= React.useState({});
- 
-  
+
+  const [userLogin, setUserLogin] = useState({});
+
+
+  useEffect(() => {
+    userLoginfunc(answer_array[1]).then((resp) => setUserLogin(resp.data[0]));
+  }, []);
+  console.log(userLogin);
+
+
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const listeBox = ["principal", "editer", "table", "graphe", "doc", "profile"];
@@ -269,20 +274,18 @@ export default function WebProject() {
       console.log("je suis ici");
       navigate("/login");
     }
+
   }
 
-  
+
   window.onload = (function (event) {
+
+
     if (answer_array[1] == null) {
       console.log("je suis ici");
       navigate("/login");
     }
-    userLoginfunc(answer_array[1]).then((resp) =>{
-      
-      setUserLogin(resp.data[0]);
 
-    },{});
-    
     cardchosed(inputForms[0]);
 
     $('#placeupload').change(function (e) {
@@ -307,10 +310,11 @@ export default function WebProject() {
     });
 
 
- 
+
   });
-  
+
   return (
+
     <Box sx={{ display: 'flex' }} onClick={() => debut()}>
       <CssBaseline />
       <AppBar position="fixed" open={open} style={{ backgroundColor: '#4f4f4f' }}>
@@ -327,14 +331,15 @@ export default function WebProject() {
           >
             <MenuIcon />
           </IconButton>
-          <div onClick={event => fermer("principal")}>
-            <Typography variant="h6" noWrap component="div" className="clickable">
-              Dashboard
-            </Typography>
-          </div>
+
+          <Typography onClick={event => fermer("principal")} variant="h6" noWrap component="div" className="clickable">
+            Dashboard
+          </Typography>
+
 
           <div style={{ position: 'fixed', right: 100 }} >
-            <Avatar alt="img" src={""} onClick={handleClick} className="clickable" />
+            {userLogin.pathImgUtilisateur === null ? (<Avatar alt="img" src={require(userLogin.pathImgUtilisateur + ".png")} onClick={handleClick} className="clickable" />)
+              : (<Avatar alt="img" src={""} onClick={handleClick} className="clickable" />)}
             <StyledMenu
               id="demo-customized-menu"
               MenuListProps={{
@@ -344,19 +349,21 @@ export default function WebProject() {
               open={openit}
               onClose={handleClose}
             >
-              <img src={""}  alt="Profile"
-                style={{
-                  display: 'block',
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                  width: '100px',
-                  height: '100px',
-                  borderRadius: 100
-                }}>
-              </img>
+              {/* <img src={require(userLogin.pathImgUtilisateur + ".png")}  alt="Profile"
+              style={{
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                width: '100px',
+                height: '100px',
+                borderRadius: 100
+              }}>
+            </img> */}
+
               <Typography paragraph style={{ textAlign: 'center' }}>
                 {userLogin.nom} {userLogin.prenom}
               </Typography>
+
               <Typography paragraph style={{ textAlign: 'center' }}>
                 {userLogin.pseudo}
               </Typography>
@@ -447,9 +454,8 @@ export default function WebProject() {
 
       <Box component="main" id="editer" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
         <DrawerHeader />
-        <div style={{ width: "100%", textAlign: "center" }}>
-          <h1>Ajouter des éléments</h1>
-        </div>
+        <h1 style={{ width: "100%", textAlign: "center" }}>Ajouter des éléments</h1>
+
         <Card className='centerDiv'>
           <nav className='liste'>
             <Button onClick={event => inputCard("userinputbutton")} id="userinputbutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }}>
@@ -495,8 +501,8 @@ export default function WebProject() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <div id="userfiles">
-                  </div>
+                  {/* <div id="userfiles">
+                  </div> */}
                 </Grid>
                 <Grid item>
                   <Button type="submit" style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
@@ -522,12 +528,12 @@ export default function WebProject() {
                 <Grid item>
                   <TextareaAutosize minRows={3} placeholder="Description du lieu" style={{ width: "98%" }} />
                 </Grid>
-                <div>
-                  <label htmlFor="c1">Culturel</label>
-                  <Checkbox id="c1" {...'label'} size="medium" />
-                  <label htmlFor="c2">Restaurant</label>
-                  <Checkbox id="c2" {...'label'} size="medium" />
-                </div>
+
+                <label htmlFor="c1">Culturel</label>
+                <Checkbox id="c1" {...'label'} size="medium" />
+                <label htmlFor="c2">Restaurant</label>
+                <Checkbox id="c2" {...'label'} size="medium" />
+
                 <Grid item>
                   <Button id="buttonplace" variant="contained" component="label" style={{ width: "98%" }}>
                     Upload File
@@ -535,8 +541,8 @@ export default function WebProject() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <div id="placefiles">
-                  </div>
+                  {/* <div id="placefiles">
+                  </div> */}
                 </Grid>
                 <Grid item>
                   <Button type="submit" style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
@@ -563,8 +569,8 @@ export default function WebProject() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <div id="eventfiles">
-                  </div>
+                  {/* <div id="eventfiles">
+                  </div> */}
                 </Grid>
                 <Grid item>
                   <Button type="submit" style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
@@ -580,9 +586,8 @@ export default function WebProject() {
 
       <Box component="main" id="table" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
         <DrawerHeader />
-        <div style={{ width: "100%", textAlign: "center" }}>
-          <h1>Tables</h1>
-        </div>
+        <h1 style={{ width: "100%", textAlign: "center" }}>Tables</h1>
+
         <Card className='centerDiv' style={{ height: "auto" }}>
           <nav className='liste'>
             <Button onClick={event => tableCard("usertablebutton")} id="usertablebutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }}>
@@ -598,19 +603,18 @@ export default function WebProject() {
 
           <Box style={{ width: "100%", display: "flex", flexFlow: "row nowrap", justifyContent: "center", alignItems: "center" }}>
 
-            <Box id="usertable" component="table" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
-              <UserTable />
-              <br />
+            <Box id="placetable" component="table" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
+                <UserTable />
             </Box>
 
             <Box id="placetable" component="table" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
               <PlaceTable />
-              <br />
+              
             </Box>
 
             <Box id="eventtable" component="table" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
               <EventTable />
-              <br />
+              
             </Box>
 
           </Box>
@@ -621,9 +625,8 @@ export default function WebProject() {
 
       <Box component="main" id="graphe" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
         <DrawerHeader />
-        <div style={{ width: "100%", textAlign: "center" }}>
-          <h1>Graphes</h1>
-        </div>
+        <h1 style={{ width: "100%", textAlign: "center" }}>Graphes</h1>
+
         <Card className='centerDiv'>
           <h2>Mets les graphes ici</h2>
         </Card>
@@ -631,27 +634,26 @@ export default function WebProject() {
 
       <Box component="main" id="doc" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
         <DrawerHeader />
-        <div style={{ width: "100%", textAlign: "center" }}>
-          <h1>Documentation</h1>
-        </div>
+        <h1 style={{ width: "100%", textAlign: "center" }}>Documentation</h1>
 
-        <br />
+
         <Documentation que="Quels sont les différents niveaux d'utilisateurs ?" rep={["Administrateur : Droit de modifier Les lieux, évènements et utilisateurs", "Basique : Droit de modifier Les lieux et évènements"]} />
-        <br />
+
         <Documentation que="Quelles sont les différentes pages ?" rep={["Principale : Accueil", "Stylo : Permet d'ajouter des éléments", "Table : Permet de voir les différents éléments et de les modifier", "Graphes : Permet d'avoir des statistiques sur le site", "Documentation : Permet de trouver les réponses à des questions"]} />
       </Box>
 
       <Box component="main" id="profile" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
         <DrawerHeader />
-        <div style={{ width: "100%", textAlign: "center" }}>
-          <h1>Profil</h1>
-        </div>
+        <h1 style={{ width: "100%", textAlign: "center" }}>Profil</h1>
+
         <Card>
-          <UserProfile el={["Prénom", "Nom", "Pseudo", "Admninistrateur", "Mot de passe"]} 
-          rep={[userLogin.nom, userLogin.prenom, userLogin.pseudo, String(userLogin.administrateur===1), "********"]} />
+          <UserProfile el={["Prénom", "Nom", "Pseudo", "Admninistrateur", "Mot de passe"]}
+            rep={[userLogin.nom, userLogin.prenom, userLogin.pseudo, String(userLogin.administrateur === 1), "********"]} />
         </Card>
       </Box>
-      
+
     </Box>
+
   );
 }
+

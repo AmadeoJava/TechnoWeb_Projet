@@ -82,7 +82,7 @@ const columnsUsers = [
   { id: 'administrateur' },
   { id: "identifiant" }
 ];
-
+var indexkey=0;
 
 
 export default function UsersTable() {
@@ -181,15 +181,15 @@ export default function UsersTable() {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden', height: '100%' }}>
-      <div>
-        <TextField
-          id="usersearch"
-          label="Recherche"
-          defaultValue=""
-          variant="standard"
-          onChange={() => montrer("usersearch")}
-        />
-      </div>
+
+      <TextField
+        id="usersearch"
+        label="Recherche"
+        defaultValue=""
+        variant="standard"
+        onChange={() => montrer("usersearch")}
+      />
+
       <TableContainer sx={{ maxHeight: 700 }}>
         <Table stickyHeader aria-label="sticky table" id="usertable">
           <colgroup>
@@ -212,21 +212,22 @@ export default function UsersTable() {
           </TableHead>
           <TableBody id="userrows">
             {rowsUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+              {indexkey=indexkey+=1;}
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={indexkey}>
                   {columnsUsers.map((column, index) => {
                     const value = row[column.id];
-
+                    indexkey=indexkey+=1;
                     if ((column.id) !== 'identifiant'){
                       if ((column.id) !== 'image') {
                         return (
-                          <TableCell align="center">
+                          <TableCell key={indexkey} align="center">
                             {value}
                           </TableCell>
                         );
                       } else {
                         return (
-                          <TableCell align="center">
+                          <TableCell key={indexkey} align="center">
                             <img src={value} style={{ width: "30%", borderRadius: '50%' }} alt="" />
                           </TableCell>
                         );
