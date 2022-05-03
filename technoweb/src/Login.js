@@ -33,8 +33,16 @@ const theme = createTheme();
 export default function SignIn() {
   const navigate = useNavigate();
 
+  const sha512 = (str) => {
+    return crypto.subtle.digest("SHA-512", new TextEncoder("utf-8").encode(str)).then(buf => {
+      return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
+    });
+  }
+
   const logIN = (e) => {
     try {
+      var motDePasse=sha512(e.password);
+      console.log(motDePasse);
       const result = axios.get(
         `/userLogin/${e.pseudo}/${e.password}`
       );
@@ -49,9 +57,6 @@ export default function SignIn() {
     } catch (err) {
       console.log(err);
     }
-
-    
-
   };
 
   const handleSubmit = (event) => {

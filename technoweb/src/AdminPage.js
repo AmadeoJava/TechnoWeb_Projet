@@ -528,12 +528,12 @@ export default function WebProject() {
                 <Grid item>
                   <TextareaAutosize minRows={3} placeholder="Description du lieu" style={{ width: "98%" }} />
                 </Grid>
-
-                <label htmlFor="c1">Culturel</label>
-                <Checkbox id="c1" {...'label'} size="medium" />
-                <label htmlFor="c2">Restaurant</label>
-                <Checkbox id="c2" {...'label'} size="medium" />
-
+                <Grid item>
+                  <label htmlFor="c1">Culturel</label>
+                  <Checkbox id="c1" size="medium" />
+                  <label htmlFor="c2">Restaurant</label>
+                  <Checkbox id="c2" size="medium" />
+                </Grid>
                 <Grid item>
                   <Button id="buttonplace" variant="contained" component="label" style={{ width: "98%" }}>
                     Upload File
@@ -603,18 +603,16 @@ export default function WebProject() {
 
           <Box style={{ width: "100%", display: "flex", flexFlow: "row nowrap", justifyContent: "center", alignItems: "center" }}>
 
-            <Box id="placetable" component="table" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
+            <Box id="placetable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
                 <UserTable />
             </Box>
 
-            <Box id="placetable" component="table" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
+            <Box id="placetable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
               <PlaceTable />
-              
             </Box>
 
-            <Box id="eventtable" component="table" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
+            <Box id="eventtable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
               <EventTable />
-              
             </Box>
 
           </Box>

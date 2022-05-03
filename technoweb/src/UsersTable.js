@@ -82,7 +82,7 @@ const columnsUsers = [
   { id: 'administrateur' },
   { id: "identifiant" }
 ];
-var indexkey=0;
+var indexKey=0;
 
 
 export default function UsersTable() {
@@ -212,22 +212,21 @@ export default function UsersTable() {
           </TableHead>
           <TableBody id="userrows">
             {rowsUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-              {indexkey=indexkey+=1;}
+              {indexKey=indexKey+1;}
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={indexkey}>
-                  {columnsUsers.map((column, index) => {
+                <TableRow hover role="checkbox" tabIndex={-1} key={indexKey} >
+                  {columnsUsers.map((column) => {
                     const value = row[column.id];
-                    indexkey=indexkey+=1;
                     if ((column.id) !== 'identifiant'){
                       if ((column.id) !== 'image') {
                         return (
-                          <TableCell key={indexkey} align="center">
+                          <TableCell align="center">
                             {value}
                           </TableCell>
                         );
                       } else {
                         return (
-                          <TableCell key={indexkey} align="center">
+                          <TableCell align="center">
                             <img src={value} style={{ width: "30%", borderRadius: '50%' }} alt="" />
                           </TableCell>
                         );
@@ -241,6 +240,7 @@ export default function UsersTable() {
                     </IconButton>
                   </TableCell>
                 </TableRow>
+                
               );
             })}
           </TableBody>
