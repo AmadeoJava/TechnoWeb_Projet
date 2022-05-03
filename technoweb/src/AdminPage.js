@@ -501,8 +501,8 @@ export default function WebProject() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  {/* <div id="userfiles">
-                  </div> */}
+                  <div id="userfiles">
+                  </div>
                 </Grid>
                 <Grid item>
                   <Button type="submit" style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
@@ -533,6 +533,8 @@ export default function WebProject() {
                   <Checkbox id="c1" size="medium" />
                   <label htmlFor="c2">Restaurant</label>
                   <Checkbox id="c2" size="medium" />
+                  <label htmlFor="c3">Hotel</label>
+                  <Checkbox id="c3" size="medium" />
                 </Grid>
                 <Grid item>
                   <Button id="buttonplace" variant="contained" component="label" style={{ width: "98%" }}>
@@ -541,8 +543,8 @@ export default function WebProject() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  {/* <div id="placefiles">
-                  </div> */}
+                  <div id="placefiles">
+                  </div>
                 </Grid>
                 <Grid item>
                   <Button type="submit" style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
@@ -560,7 +562,10 @@ export default function WebProject() {
                   <TextField id="eventnom" name="eventnom" label="Nom de l'évènement" required autoComplete="Nom de l'évènement" margin="normal" style={{ width: "98%" }} />
                 </Grid>
                 <Grid item>
-                  <TextField id="eventdate" name="eventdate" margin="normal" required style={{ width: "98%" }} type="date" autoComplete="Date de l'évènement" />
+                  <div>
+                    <TextField id="eventdatedeb" label="Date de début" type="date" sx={{ width: "40%", left:"-5%" }} InputLabelProps={{shrink: true}}/>
+                    <TextField id="eventdatefin" label="Date de fin" type="date" sx={{ width: "40%", left:"5%" }} InputLabelProps={{shrink: true}}/>
+                  </div>
                 </Grid>
                 <Grid item>
                   <Button id="buttonevent" variant="contained" component="label" style={{ width: "98%" }}>
@@ -569,8 +574,8 @@ export default function WebProject() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  {/* <div id="eventfiles">
-                  </div> */}
+                  <div id="eventfiles">
+                  </div> 
                 </Grid>
                 <Grid item>
                   <Button type="submit" style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
