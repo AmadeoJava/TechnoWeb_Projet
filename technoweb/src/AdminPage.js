@@ -603,7 +603,7 @@ export default function WebProject() {
 
           <Box style={{ width: "100%", display: "flex", flexFlow: "row nowrap", justifyContent: "center", alignItems: "center" }}>
 
-            <Box id="placetable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
+            <Box id="usertable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
                 <UserTable />
             </Box>
 
