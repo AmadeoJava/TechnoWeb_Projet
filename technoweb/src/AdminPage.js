@@ -176,6 +176,12 @@ const icones = [<CreateIcon />, <BorderAllIcon />, <BarChartIcon />];
 
 export default function WebProject() {
 
+  const sha512 = (str) => {
+    return crypto.subtle.digest("SHA-512", new TextEncoder("utf-8").encode(str)).then(buf => {
+      return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
+    });
+  }
+
   const navigate = useNavigate();
 
   const [userLogin, setUserLogin] = useState({});
@@ -277,9 +283,50 @@ export default function WebProject() {
 
   }
 
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  const delCookie = (cname) => {
+    var d = new Date();
+    d.setTime(d.getTime() + (0*60*1000));
+    var expires = "expires="+d.toUTCString();  
+    document.cookie = cname + "=" + '' + ";" + expires + ";path=/";
+  }
+
+  const verifIP = (function() {
+    if(getCookie("Token")){
+      $.getJSON("https://api.ipify.org?format=json", function(data) {
+        sha512(data.ip).then(i=>{
+          if(i!=getCookie("Token")){
+            delCookie("Token");
+            console.log("Pas bon");
+            window.location.href="/";
+          }
+        })
+      })
+    }else{
+      console.log("Pas de cookie");
+      window.location.href="/";
+    }
+
+  })
+
 
   window.onload = (function (event) {
-
+    verifIP();
 
     if (answer_array[1] == null) {
       console.log("je suis ici");
@@ -317,7 +364,7 @@ export default function WebProject() {
 
     <Box sx={{ display: 'flex' }} onClick={() => debut()}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} style={{ backgroundColor: '#4f4f4f' }}>
+      <AppBar position="fixed" open={open} style={{ backgroundColor: 'rgb(30, 82, 166)' }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -349,17 +396,7 @@ export default function WebProject() {
               open={openit}
               onClose={handleClose}
             >
-              {/* <img src={require(userLogin.pathImgUtilisateur + ".png")}  alt="Profile"
-              style={{
-                display: 'block',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                width: '100px',
-                height: '100px',
-                borderRadius: 100
-              }}>
-            </img> */}
-
+              <br/>
               <Typography paragraph style={{ textAlign: 'center' }}>
                 {userLogin.nom} {userLogin.prenom}
               </Typography>
@@ -368,11 +405,11 @@ export default function WebProject() {
                 {userLogin.pseudo}
               </Typography>
               <MenuItem onClick={(event) => { handleClose(); fermer("profile") }} disableRipple className="clickable">
-                <EditIcon />
+                <EditIcon style={{color:'#0e8cd4'}}/>
                 MyProfile
               </MenuItem>
               <MenuItem onClick={handleClose} disableRipple className="clickable">
-                <PowerSettingsNewIcon />
+                <PowerSettingsNewIcon style={{color:'red'}}/>
 
                 <Link to="/">Sign Out</Link>
               </MenuItem>

@@ -33,26 +33,38 @@ const theme = createTheme();
 export default function SignIn() {
   const navigate = useNavigate();
 
+
   const sha512 = (str) => {
     return crypto.subtle.digest("SHA-512", new TextEncoder("utf-8").encode(str)).then(buf => {
       return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
     });
   }
 
+
+
   const logIN = (e) => {
     try {
-      var motDePasse=sha512(e.password);
-      console.log(motDePasse);
-      const result = axios.get(
-        `/userLogin/${e.pseudo}/${e.password}`
-      );
-      
-      result.then((resp) =>
+      sha512(e.password).then(x => {
+        const result = axios.get(
+          `/userLogin/${e.pseudo}/${x}`
+        );
+        result.then((resp) =>
         {if (resp.data===true){
+          $.getJSON("https://api.ipify.org?format=json", function(data) {
+            sha512(data.ip).then(i=>{
+              document.cookie = "Token="+i;
+            })
+          })
           navigate("/admin?id="+e.pseudo);
         }
       }
       );
+        
+      });
+      console.log((e.pseudo));
+      console.log((e.password));
+      
+
 
     } catch (err) {
       console.log(err);
@@ -61,17 +73,34 @@ export default function SignIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    logIN({pseudo:data.get('email'),password:data.get('password')});
-    $('input').val('');
+    if($("#pseudo").val().length>0 && $("#password").val().length>0 ){
+      const data = new FormData(event.currentTarget);
+      console.log({
+        pseudo: data.get('pseudo'),
+        password: data.get('password'),
+      });
+      console.log({
+        pseudo: data.get('pseudo'),
+        password: sha512(data.get('password')),
+      });
+      logIN({pseudo:data.get('pseudo'),password:(data.get('password'))});
+      $('input').val('');
+    }else{
+      alert("Vous n'avez pas rempli toutes les conditions");
+    }
+
   };
 
+  const delCookie = (cname) => {
+    var d = new Date();
+    d.setTime(d.getTime() + (0*60*1000));
+    var expires = "expires="+d.toUTCString();  
+    document.cookie = cname + "=" + '' + ";" + expires + ";path=/";
+  }
+
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} onload={delCookie('Token')}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -93,10 +122,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="pseudo"
+              label="Pseudo"
+              name="pseudo"
+              autoComplete="pseudo"
               autoFocus
             />
             <TextField
