@@ -127,9 +127,9 @@ export default function SignIn() {
 
 
 
-
+  zeroCookie();
   return (
-    <ThemeProvider theme={theme} onload={zeroCookie()}>
+    <ThemeProvider theme={theme} >
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

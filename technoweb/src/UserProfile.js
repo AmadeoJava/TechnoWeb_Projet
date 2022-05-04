@@ -2,12 +2,12 @@ import * as React from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import './adminpage.css';
 
-  export default function UsersTable(r) {
+export default function UsersProfile(r) {
 
   return (
     <div className="base">
         {r.el.map((e,index) =>(
-            <div  style={{width: "100%"}} id={e}>
+            <div key={index} style={{width: "100%"}} id={e}>
                 <div style={{width: "80%", display:"inline-block"}}>
                     <div style={{marginLeft:"25%", width: "30%", display:"inline-block"}}>
                         <h2 className="gris">{e} : </h2>

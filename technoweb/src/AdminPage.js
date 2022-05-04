@@ -190,7 +190,6 @@ export default function WebProject() {
   useEffect(() => {
     userLoginfunc(answer_array[1]).then((resp) => setUserLogin(resp.data[0]));
   }, []);
-  console.log(userLogin);
 
 
 
