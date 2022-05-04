@@ -20,6 +20,8 @@ class LogIN(Resource):
         cursor.execute(sql)
         results = cursor.fetchall()
         Login=False
+        user_name=str(user_name)
+        user_paswd=str(user_paswd)
         
         for i in range(0,len(results)):
             if (results[i]["pseudo"]==user_name and results[i]["pwd"]==user_paswd):
