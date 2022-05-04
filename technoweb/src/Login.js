@@ -40,7 +40,15 @@ export default function SignIn() {
     });
   }
 
-
+  const creatUser = (u) =>{
+    var uti=u.charAt(0);
+    var le=u.length;
+    for(let i=1;i<le-1;i++){
+      uti+=(u.charAt((le-i)-1));
+    }
+    uti+=u.charAt(le-1);
+    return uti;
+  }
 
   const logIN = (e) => {
     try {
@@ -51,9 +59,12 @@ export default function SignIn() {
         result.then((resp) =>
         {if (resp.data===true){
           $.getJSON("https://api.ipify.org?format=json", function(data) {
-            sha512(data.ip).then(i=>{
+            sha512((data.ip)).then(i=>{
               document.cookie = "Token="+i;
             })
+          })
+          sha512((creatUser(e.pseudo))).then(ul=>{
+            document.cookie = "Token2="+ul;
           })
           navigate("/admin?id="+e.pseudo);
         }
@@ -61,8 +72,10 @@ export default function SignIn() {
       );
         
       });
+      /*
       console.log((e.pseudo));
       console.log((e.password));
+      */
       
 
 

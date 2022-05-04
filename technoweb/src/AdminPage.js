@@ -324,9 +324,40 @@ export default function WebProject() {
 
   })
 
+  const verifUser = (function(u){
+    if(getCookie("Token2")){
+        sha512(u).then(i=>{
+          if(i!=getCookie("Token2")){
+            delCookie("Token2");
+            console.log("Pas bon");
+            window.location.href="/";
+          }
+        })
+    }else{
+      console.log("Pas de cookie");
+      window.location.href="/";
+    }
+  })
+
+  const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+
+  const creatUser = (u) =>{
+    var uti=u.charAt(0);
+    var le=u.length;
+    for(let i=1;i<le-1;i++){
+      uti+=(u.charAt((le-i)-1));
+    }
+    uti+=u.charAt(le-1);
+    return uti;
+  }
 
   window.onload = (function (event) {
+    let utilisat = creatUser(params.id);
+    //console.log("utilisateur = "+utilisat);
     verifIP();
+    verifUser(utilisat);
 
     if (answer_array[1] == null) {
       console.log("je suis ici");
