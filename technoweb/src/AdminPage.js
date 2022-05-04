@@ -353,6 +353,16 @@ export default function WebProject() {
     return uti;
   }
 
+  console.log("------------")
+  var today = new Date();
+  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  var time = today.getHours() + ":" + today.getMinutes();
+  var seco = today.getSeconds();
+
+  console.log("date = "+date);
+  console.log("temps = "+time);
+  console.log("sec = "+seco);
+
   window.onload = (function (event) {
     let utilisat = creatUser(params.id);
     //console.log("utilisateur = "+utilisat);

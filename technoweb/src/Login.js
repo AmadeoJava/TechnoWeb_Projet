@@ -97,6 +97,14 @@ export default function SignIn() {
         password: sha512(data.get('password')),
       });
       logIN({pseudo:data.get('pseudo'),password:(data.get('password'))});
+      var today = new Date();
+      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+      var time = today.getHours() + ":" + today.getMinutes();
+      var seco = today.getSeconds();
+    
+      console.log("date = "+date);
+      console.log("temps = "+time);
+      console.log("sec = "+seco);
       $('input').val('');
     }else{
       alert("Vous n'avez pas rempli toutes les conditions");
@@ -111,9 +119,17 @@ export default function SignIn() {
     document.cookie = cname + "=" + '' + ";" + expires + ";path=/";
   }
 
+  const zeroCookie = () =>{
+    delCookie('Token');
+    delCookie('Token2')
+  }
+
+
+
+
 
   return (
-    <ThemeProvider theme={theme} onload={delCookie('Token')}>
+    <ThemeProvider theme={theme} onload={zeroCookie()}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
