@@ -100,7 +100,7 @@ function Home() {
   <Card sx={{ display: 'flex', width:'100%' }} id="event" style={{backgroundColor:"rgb(30, 82, 166)"}}>
     <div style={{width:"100%"}}>
         <div style={{width:"92%", display:"inline-block", textAlign:"center"}}>
-          <h1 style={{color:"#fff"}}>Evènement</h1>
+          <h1 style={{color:"#fff"}}>Evénement</h1>
         </div>
         <div style={{width:"8%", display:"inline-block", cursor:"pointer"}}>
           <HighlightOffIcon onClick={fonction}  style={{color:"#fff"}}/>

@@ -65,7 +65,8 @@ INSERT INTO `Commentaire` (`UtilisateurCom`, `LieuCom`, `texte`, `dat`, `tps`, `
 CREATE TABLE `Events` (
   `idEvent` int(11) NOT NULL,
   `nomEvent` varchar(80) DEFAULT NULL,
-  `dateEvent` date NOT NULL,
+  `dateEventDeb` date NOT NULL,
+  `dateEventFin` date NOT NULL,
   `actif` tinyint(1) DEFAULT 0,
   `descEvent` varchar(5000) NOT NULL,
   `pathImgEvent` varchar(1000) DEFAULT NULL
@@ -75,8 +76,8 @@ CREATE TABLE `Events` (
 -- Dumping data for table `Events`
 --
 
-INSERT INTO `Events` (`idEvent`, `nomEvent`, `dateEvent`, `actif`, `descEvent`, `pathImgEvent`) VALUES
-(1, 'Carnaval', '2023-02-16', 0, 'Voici le carnaval d\'albi!', './images/events/carnaval.jpg');
+INSERT INTO `Events` (`idEvent`, `nomEvent`, `dateEventDeb`, `dateEventFin`, `actif`, `descEvent`, `pathImgEvent`) VALUES
+(1, 'Carnaval', '2023-02-21', '2023-02-25', 0, 'Voici le carnaval d albi!', './images/events/carnaval.jpg');
 
 -- --------------------------------------------------------
 
@@ -150,7 +151,13 @@ CREATE TABLE `Liaison_QuestionLReponseL` (
 
 INSERT INTO `Liaison_QuestionLReponseL` (`idQL`, `idRL`) VALUES
 (1, 1),
-(1, 2);
+(1, 2),
+(1, 3),
+(1, 4),
+(2, 5),
+(2, 6),
+(2, 7),
+(2, 8);
 
 -- --------------------------------------------------------
 
@@ -193,7 +200,8 @@ CREATE TABLE `QuestionL` (
 --
 
 INSERT INTO `QuestionL` (`idQuestionL`, `texteQuestionL`) VALUES
-(1, 'Préfères tu aller voir le musée toulouse lautrec ou la cathedrale?');
+(1, 'Quelle plante a permis à Albi de s enrichir?'),
+(2, 'Quel minerai était extrait à Carmaux, à proximité d Albi?');
 
 -- --------------------------------------------------------
 
@@ -204,17 +212,23 @@ INSERT INTO `QuestionL` (`idQuestionL`, `texteQuestionL`) VALUES
 CREATE TABLE `ReponseL` (
   `idReponseL` int(11) NOT NULL,
   `texteReponseL` varchar(1000) DEFAULT NULL,
-  `RepL` int(11) NOT NULL,
-  `pathImgReponseL` varchar(80) NOT NULL
+  `pathImgReponseL` varchar(80) NOT NULL,
+  `bonneRep` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `ReponseL`
 --
 
-INSERT INTO `ReponseL` (`idReponseL`, `texteReponseL`, `RepL`, `pathImgReponseL`) VALUES
-(1, 'Cathedralerep', 1, './images/places/Cathedralerep.jpg'),
-(2, 'Toulouse-LautrecREP', 2, './images/places/Toulouse-LautrecREP.jpg');
+INSERT INTO `ReponseL` (`idReponseL`, `texteReponseL`, `pathImgReponseL`, `bonneRep`) VALUES
+(1, 'Le Pastel', './images/places/pastel.jpg', 1),
+(2, 'Le Lin', './images/places/lin.jpg', 0),
+(3, 'Le Coton', './images/places/coton.jpg', 0),
+(4, 'L Orge', './images/places/orge.jpg', 0),
+(5, 'Le Charbon', './images/places/pastel.jpg', 0),
+(6, 'Le Fer', './images/places/lin.jpg', 0),
+(7, 'La Houille', './images/places/coton.jpg', 1),
+(8, 'Le Cuivre', './images/places/orge.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -254,7 +268,8 @@ ALTER TABLE `Commentaire`
 -- Indexes for table `Events`
 --
 ALTER TABLE `Events`
-  ADD PRIMARY KEY (`idEvent`);
+  ADD PRIMARY KEY (`idEvent`),
+  ADD CONSTRAINT `checkDate` CHECK (( `dateEventFin` > `dateEventDeb` ));
 
 --
 -- Indexes for table `Frequentation`
@@ -299,8 +314,7 @@ ALTER TABLE `QuestionL`
 -- Indexes for table `ReponseL`
 --
 ALTER TABLE `ReponseL`
-  ADD PRIMARY KEY (`idReponseL`),
-  ADD KEY `RepL` (`RepL`);
+  ADD PRIMARY KEY (`idReponseL`);
 
 --
 -- Indexes for table `Utilisateur`
@@ -381,12 +395,6 @@ ALTER TABLE `Liaison_QuestionLReponseL`
   ADD CONSTRAINT `Liaison_QuestionLReponseL_ibfk_1` FOREIGN KEY (`idQL`) REFERENCES `QuestionL` (`idQuestionL`),
   ADD CONSTRAINT `Liaison_QuestionLReponseL_ibfk_2` FOREIGN KEY (`idRL`) REFERENCES `ReponseL` (`idReponseL`);
 
---
--- Constraints for table `ReponseL`
---
-ALTER TABLE `ReponseL`
-  ADD CONSTRAINT `ReponseL_ibfk_1` FOREIGN KEY (`RepL`) REFERENCES `Lieu` (`idLieu`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
