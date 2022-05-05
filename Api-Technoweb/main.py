@@ -1,6 +1,9 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 import pymysql
+import os
+from flask import send_file
+import werkzeug
 
 db = pymysql.connect(host='mysql-champo.alwaysdata.net',
                              user='champo',
@@ -33,7 +36,7 @@ class utilisateur(Resource):
     def get(self):
         cursor = db.cursor()
         sql = "SELECT idUtilisateur,pathImgUtilisateur,prenom,nom,pseudo,administrateur FROM Utilisateur"
-        cursor.execute(sql)  # Il y a une erreur ici
+        cursor.execute(sql)  
         results = cursor.fetchall()
         return results
 
@@ -81,13 +84,45 @@ class userAdd(Resource):
         #results = cursor.fetchall()
         return True
 
+
+class Graph(Resource):
+    def get(self):
+        cursor = db.cursor()
+        sql ="SELECT * FROM Frequentation"
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        print(results[0]["dateFrequentation"])
+        for i in range(0,len(results)):
+            results[i]["dateFrequentation"]=str(results[0]["dateFrequentation"])
+        
+        return results
+
+class ProfileImg(Resource):
+    def get(self, user_name):
+        try:
+            try:
+                imgAEnvoi = path + '/' + user_name +'.jpg'
+                return send_file(imgAEnvoi, mimetype='image/gif')
+            except:
+                imgAEnvoi = path + '/' + user_name +'.png'
+                return send_file(imgAEnvoi, mimetype='image/gif')
+        except Exception:
+            imgAEnvoi=path+'/notfound.png'
+            return send_file(imgAEnvoi, mimetype='image/gif')
+
+
+
+
+
 api.add_resource(LogIN, '/userLogin/<user_name>/<user_paswd>')
 api.add_resource(utilisateur, '/utilisateur')
 api.add_resource(lieu, '/lieux')
 api.add_resource(event, '/event')
 api.add_resource(user, '/user/<user_name>')
+api.add_resource(Graph, '/graph')
 api.add_resource(userAdd, '/userAdd/<user_firstname>/<user_name>/<user_pseudo>/<user_path>/<user_admin>')
 api.add_resource(listQuestionsReponses, '/listQuestionsReponses')
+api.add_resource(ProfileImg, '/getImgProfile/<user_name>')
 
 if __name__ == '__main__':
     app.run(debug=True)
