@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiAppBar from '@mui/material/AppBar';
@@ -20,10 +20,7 @@ import QuestionRad from './QuestionRad'
 const axios = require('axios');
 
 //import './index.css';
-
-
 const drawerWidth = 240;
-
 
 
 const AppBar = styled(MuiAppBar, {
@@ -47,10 +44,30 @@ const AppBar = styled(MuiAppBar, {
 
 var guide = 0;
 var piste = false;
-var question ="Souhaitez vous faire le jeu de piste spécialement conçu pour vous ? ";
+
+const requeteQuestions = async () => {
+  try {
+    const result = axios.get(
+      `/listQuestionsReponses`
+    );
+
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 function Home() {
 
+  const [question,setQuestion] = useState("Souhaitez vous faire le jeu de piste spécialement conçu pour vous ? ");
+
+  const [reponses,setReponses] = useState({});
+
+  const [questions, setQuestions] = useState({});
+  useEffect(() => {
+    requeteQuestions().then((resp) => {console.log(resp); setQuestions(resp.data)});
+    
+  }, []);
   function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -74,7 +91,7 @@ function Home() {
     document.cookie = cname + "=" + '' + ";" + expires + ";path=/";
   }
 
-  const [openD, setOpenD] = React.useState(false);
+  const [openD, setOpenD] = useState(false);
 
   const handleCloseD = () => {
     setOpenD(false);
@@ -91,13 +108,16 @@ function Home() {
   const OuiJeu = () =>{
     handleCloseD();
     piste=true;
-    question="autre question";
-    document.cookie = "jeu=oui"
+    var hasard=Math.floor(Math.random() * (Math.floor(questions.length/4))-1)*4;
+    setQuestion(questions[hasard].texteQuestionL);
+    setReponses({resp:[questions[hasard].idRL,questions[hasard+1].idRL,questions[hasard+2].idRL,questions[hasard+3].idRL],reponse:[questions[hasard].texteReponseL,questions[hasard+1].texteReponseL,questions[hasard+2].texteReponseL,questions[hasard+3].texteReponseL],ima:[questions[hasard].pathImgReponseL,questions[hasard+1].pathImgReponseL,questions[hasard+2].pathImgReponseL,questions[hasard+3].pathImgReponseL]});
+
+    document.cookie = "jeu=oui";
   }
 
   const NonJeu = () =>{
     handleCloseD();
-    document.cookie = "jeu=non"
+    document.cookie = "jeu=non";
   }
 
   window.onload = () => {
@@ -116,8 +136,8 @@ function Home() {
       }
       console.log(resultat);
       alert(resultat);
-      $("img").removeClass("chek").addClass("unchek");
   }
+  
 
   return(
   <Box id="fond">
@@ -182,7 +202,7 @@ function Home() {
             <Grid item>
               <Grid container direction={"column"} spacing={2}>
                 <Grid item>
-                  <QuestionRad resp={['cathedrale','lautrec','mode']} reponse={['Cathédrale', "Musée Lautrec", "Musée de la mode"]} type="lieux" ima={[require("./images/places/cath.jpg"), require("./images/places/laut.jpg"), require("./images/places/mod.jpg")]}/>
+                  <QuestionRad resp={reponses.resp} reponse={reponses.reponse} type="lieux" ima={reponses.ima}/>
                 </Grid>
                 <Grid item>
                 </Grid>

@@ -63,6 +63,15 @@ class user(Resource):
         results = cursor.fetchall()
         return results
 
+class listQuestionsReponses(Resource):
+    def get(self):
+        cursor = db.cursor()
+        
+        sql ="SELECT * FROM QuestionL INNER JOIN Liaison_QuestionLReponseL ON QuestionL.idQuestionL=Liaison_QuestionLReponseL.idQL INNER JOIN ReponseL ON Liaison_QuestionLReponseL.idRL=ReponseL.idReponseL "
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        return results
+
 class userAdd(Resource):
     def get(self):
         cursor = db.cursor()
@@ -78,6 +87,7 @@ api.add_resource(lieu, '/lieux')
 api.add_resource(event, '/event')
 api.add_resource(user, '/user/<user_name>')
 api.add_resource(userAdd, '/userAdd/<user_firstname>/<user_name>/<user_pseudo>/<user_path>/<user_admin>')
+api.add_resource(listQuestionsReponses, '/listQuestionsReponses')
 
 if __name__ == '__main__':
     app.run(debug=True)
