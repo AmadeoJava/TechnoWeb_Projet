@@ -38,6 +38,7 @@ class utilisateur(Resource):
         sql = "SELECT idUtilisateur,pathImgUtilisateur,prenom,nom,pseudo,administrateur FROM Utilisateur"
         cursor.execute(sql)  
         results = cursor.fetchall()
+
         return results
 
 class lieu(Resource):
@@ -61,7 +62,7 @@ class user(Resource):
         print(user_name)
         cursor = db.cursor()
         
-        sql ="SELECT pathImgUtilisateur,prenom,nom,pseudo,administrateur FROM Utilisateur WHERE pseudo="+"'"+str(user_name)+"'"
+        sql ="SELECT prenom,nom,pseudo,administrateur FROM Utilisateur WHERE pseudo="+"'"+str(user_name)+"'"
         cursor.execute(sql)
         results = cursor.fetchall()
         return results
@@ -78,7 +79,7 @@ class listQuestionsReponses(Resource):
 class userAdd(Resource):
     def get(self):
         cursor = db.cursor()
-        sql = "INSERT INTO Utilisateur (pathImgUtilisateur,prenom,nom,pseudo,pwd,administrateur) VALUES (%s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO Utilisateur (prenom,nom,pseudo,pwd,administrateur) VALUES (%s, %s, %s, %s, %s, %s)"
         data=('none.png', 'amadeo', 'soufflet', 'pentester', 'motDePasse', 1)
         cursor.execute(sql, data)
         #results = cursor.fetchall()
@@ -98,19 +99,27 @@ class Graph(Resource):
         return results
 
 class ProfileImg(Resource):
-    def get(self, user_name):
+    def get(self, pathImg):
         try:
             try:
-                imgAEnvoi = path + '/' + user_name +'.jpg'
+                imgAEnvoi = path + '/profile/' + pathImg +'.jpg'
                 return send_file(imgAEnvoi, mimetype='image/gif')
             except:
-                imgAEnvoi = path + '/' + user_name +'.png'
+                imgAEnvoi = path + '/profile/' + pathImg +'.png'
                 return send_file(imgAEnvoi, mimetype='image/gif')
         except Exception:
-            imgAEnvoi=path+'/notfound.png'
+            imgAEnvoi=path+'/profile/notfound.png'
             return send_file(imgAEnvoi, mimetype='image/gif')
 
-
+class AnswerImg(Resource):
+    def get(self, pathImg):
+      
+        try:
+            imgAEnvoi = path+'/answer/'+pathImg
+            return send_file(imgAEnvoi, mimetype='image/gif')
+        except Exception:
+            imgAEnvoi=path+'/answer/notfound.png'
+            return send_file(imgAEnvoi, mimetype='image/gif')
 
 
 
@@ -122,8 +131,8 @@ api.add_resource(user, '/user/<user_name>')
 api.add_resource(Graph, '/graph')
 api.add_resource(userAdd, '/userAdd/<user_firstname>/<user_name>/<user_pseudo>/<user_path>/<user_admin>')
 api.add_resource(listQuestionsReponses, '/listQuestionsReponses')
-api.add_resource(ProfileImg, '/getImgProfile/<user_name>')
-
+api.add_resource(ProfileImg, '/getImgProfile/<pathImg>')
+api.add_resource(AnswerImg, '/getImgAnswer/<pathImg>')
 if __name__ == '__main__':
     app.run(debug=True)
     

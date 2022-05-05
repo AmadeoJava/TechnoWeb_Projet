@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
@@ -65,7 +64,7 @@ function Home() {
 
   const [questions, setQuestions] = useState({});
   useEffect(() => {
-    requeteQuestions().then((resp) => {console.log(resp); setQuestions(resp.data)});
+    requeteQuestions().then((resp) => {setQuestions(resp.data)});
     
   }, []);
   function getCookie(cname) {
@@ -111,7 +110,7 @@ function Home() {
     var hasard=Math.floor(Math.random() * (Math.floor(questions.length/4))-1)*4;
     setQuestion(questions[hasard].texteQuestionL);
     setReponses({resp:[questions[hasard].idRL,questions[hasard+1].idRL,questions[hasard+2].idRL,questions[hasard+3].idRL],reponse:[questions[hasard].texteReponseL,questions[hasard+1].texteReponseL,questions[hasard+2].texteReponseL,questions[hasard+3].texteReponseL],ima:[questions[hasard].pathImgReponseL,questions[hasard+1].pathImgReponseL,questions[hasard+2].pathImgReponseL,questions[hasard+3].pathImgReponseL]});
-
+    
     document.cookie = "jeu=oui";
   }
 
