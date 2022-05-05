@@ -8,15 +8,15 @@ export default function FooterComponent() {
     <footer id="footer" >
       <Box
         id="tout"
-        bgcolor="text.secondary"
-        color="white"
+        bgcolor="#aeb1b5"
+        color="black"
       >
         <Container maxWidth="lg">
           <Box id="groupe">
               <Box className="colonnes">
               <Box>
-                <Link href="/ml" color="inherit" className="a">
-                  Mentions Légales
+                <Link href="/" color="inherit" className="a">
+                  Home
                 </Link>
               </Box>
             </Box>
@@ -29,14 +29,14 @@ export default function FooterComponent() {
             </Box>
             <Box className="colonnes">
               <Box>
-                <Link href="/" color="inherit" className="a">
-                  Home
+                <Link href="/ml" color="inherit" className="a">
+                Mentions Légales
                 </Link>
               </Box>
             </Box>
           </Box>
           <Box id="bas" textAlign="center" >
-            Albivouac &copy; {new Date().getFullYear()}
+            Albivouac &copy; 9 Mai 2022
           </Box>
         </Container>
       </Box>

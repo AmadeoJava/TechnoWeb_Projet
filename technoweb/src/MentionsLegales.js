@@ -67,9 +67,9 @@ function MentionsLegales() {
           Accueil
           </Button>
         </Link>
-        <Link to="/form" className="lienAccueil">
+        <Link to="/" className="lienAccueil">
           <Button >
-          Questionnaire
+          Jeu de piste
           </Button>
         </Link>
         <Link to="/login" className="lienAccueil">

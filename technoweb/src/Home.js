@@ -13,6 +13,10 @@ import $ from "jquery";
 import MapComponent from "./MapComponent";
 import { Link } from "react-router-dom";
 import FooterComponent from "./FooterComponent";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import Grid from '@mui/material/Grid';
+const axios = require('axios');
 
 //import './index.css';
 
@@ -40,16 +44,26 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 
-
+var guide = 0;
 
 function Home() {
 
+  const [openD, setOpenD] = React.useState(true);
+
+  const handleCloseD = () => {
+    setOpenD(false);
+  };
+
+  const handleOpenD = () => {
+    setOpenD(true);
+  };
 
   const fonction = () =>{
     $('#event').remove();
   };
 
-  return(<Box id="fond">
+  return(
+  <Box id="fond">
   <Box position='relative'> 
     <CssBaseline />
     <AppBar id="barreTop" position='relative'>
@@ -67,11 +81,11 @@ function Home() {
           Accueil
           </Button>
         </Link>
-        <Link to="/form" className="lienAccueil">
-          <Button >
-          Questionnaire
+        <div className="lienAccueil">
+          <Button onClick={()=>handleOpenD()}>
+          Jeu de piste
           </Button>
-        </Link>
+        </div>
         <Link to="/login" className="lienAccueil">
           <Button id="lastButton" >
           Connexion
@@ -83,14 +97,37 @@ function Home() {
   </AppBar>
 
   </Box>
-  <Card sx={{ display: 'flex', width:'100%' }} id="event" >
-    <Typography sx={{ flexGrow: 1 }}>
-    Ya un event
-    </Typography>
-    <HighlightOffIcon onClick={fonction}/>
+  <Card sx={{ display: 'flex', width:'100%' }} id="event" style={{backgroundColor:"rgb(30, 82, 166)"}}>
+    <div style={{width:"100%"}}>
+        <div style={{width:"92%", display:"inline-block", textAlign:"center"}}>
+          <h1 style={{color:"#fff"}}>Evènement</h1>
+        </div>
+        <div style={{width:"8%", display:"inline-block", cursor:"pointer"}}>
+          <HighlightOffIcon onClick={fonction}  style={{color:"#fff"}}/>
+        </div>
+    </div>
   </Card>
 
   <MapComponent/>
+
+  <Dialog onClose={handleCloseD} open={openD} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
+      <DialogTitle id="simple-dialog-title">
+        <h2>Jeu de piste</h2>
+      </DialogTitle>
+      <Grid container direction={"column"} spacing={2}>
+        <Grid Item>
+          Souhaitez vous faire le jeu de piste spécialement conçu pour vous ? 
+        </Grid>
+        <Grid Item>
+          <br />
+        </Grid>
+        <Grid item>
+          <Button variant="contained" onClick={()=>handleCloseD()}>Valider</Button>
+        </Grid>
+        <Grid item>
+        </Grid>
+      </Grid>
+    </Dialog>
 
   <FooterComponent/>
   </Box>

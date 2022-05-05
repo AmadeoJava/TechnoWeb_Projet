@@ -172,7 +172,12 @@ const userLoginfunc = (pseudo) => {
 
 const icones = [<CreateIcon />, <BorderAllIcon />, <BarChartIcon />];
 
+var tableButtons = ["usertablebutton", "placetablebutton", "eventtablebutton"];
+var tableForms = ["usertable", "placetable", "eventtable"];
 
+
+var inputButtons = ["userinputbutton", "placeinputbutton", "eventinputbutton"];
+var inputForms = ["userform", "placeform", "eventform"];
 
 export default function WebProject() {
 
@@ -217,7 +222,7 @@ export default function WebProject() {
   var ouvert = "principal";
   const fermer = (o) => {
     //alert(ouvert);
-    console.log("ouvert = " + o);
+    //console.log("ouvert = " + o);
     if (o) {
       ouvert = o;
     }
@@ -228,8 +233,6 @@ export default function WebProject() {
     $("#" + ouvert).css("display", "initial");
   };
 
-  const inputButtons = ["userinputbutton", "placeinputbutton", "eventinputbutton"];
-  const inputForms = ["userform", "placeform", "eventform"];
   var selectedi = 0;
   const inputCard = (el) => {
     for (let i = 0; i < inputButtons.length; i++) {
@@ -244,8 +247,7 @@ export default function WebProject() {
     cardchosed(inputForms, inputForms[selectedi]);
   }
 
-  const tableButtons = ["usertablebutton", "placetablebutton", "eventtablebutton"];
-  const tableForms = ["usertable", "placetable", "eventtable"];
+
   var selectedt = 0;
   const tableCard = (el) => {
     for (let i = 0; i < tableButtons.length; i++) {
@@ -276,7 +278,7 @@ export default function WebProject() {
 
   window.onbeforeunload = function () {
     if (answer_array[1] == null) {
-      console.log("je suis ici");
+      //console.log("je suis ici");
       navigate("/login");
     }
 
@@ -352,24 +354,26 @@ export default function WebProject() {
     return uti;
   }
 
-  console.log("------------")
-  var today = new Date();
-  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  var time = today.getHours() + ":" + today.getMinutes();
-  var seco = today.getSeconds();
+  // adminLevel = classe pour les éléments en + pour admin
 
-  console.log("date = "+date);
-  console.log("temps = "+time);
-  console.log("sec = "+seco);
+  const pasAdmin = () =>{
+    tableButtons = ["placetablebutton", "eventtablebutton"];
+    tableForms = ["placetable", "eventtable"];
+    inputButtons = ["placeinputbutton", "eventinputbutton"];
+    inputForms = ["placeform", "eventform"];
+    debut();
+    $(".adminLevel").remove();
+
+  }
 
   window.onload = (function (event) {
     let utilisat = creatUser(params.id);
-    //console.log("utilisateur = "+utilisat);
+    console.log("utilisateur = "+userLogin.nom);
     verifIP();
     verifUser(utilisat);
 
     if (answer_array[1] == null) {
-      console.log("je suis ici");
+      //console.log("je suis ici");
       navigate("/login");
     }
 
@@ -379,21 +383,21 @@ export default function WebProject() {
       var fs = e.target.files.length;  // filesize
       var fileName = e.target.files[fs - 1].name;
       $('#placefiles').text(fileName);
-      console.log(fileName);
+      //console.log(fileName);
     });
 
     $('#userupload').change(function (e) {
       var fs = e.target.files.length;  // filesize
       var fileName = e.target.files[fs - 1].name;
       $('#userfiles').text(fileName);
-      console.log(fileName);
+      //console.log(fileName);
     });
 
     $('#eventupload').change(function (e) {
       var fs = e.target.files.length;  // filesize
       var fileName = e.target.files[fs - 1].name;
       $('#eventfiles').text(fileName);
-      console.log(fileName);
+      //console.log(fileName);
     });
 
 
@@ -535,7 +539,7 @@ export default function WebProject() {
 
         <Card className='centerDiv'>
           <nav className='liste'>
-            <Button onClick={event => inputCard("userinputbutton")} id="userinputbutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }}>
+            <Button onClick={event => inputCard("userinputbutton")} id="userinputbutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }} className="adminLevel">
               Utilisateurs
             </Button>
             <Button onClick={event => inputCard("placeinputbutton")} id="placeinputbutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }}>
@@ -546,7 +550,7 @@ export default function WebProject() {
             </Button>
           </nav>
 
-          <Box id="userform" component="form" onSubmit={event => fermer("principal")} noValidate sx={{ mt: 1 }}>
+          <Box id="userform" component="form" onSubmit={event => fermer("principal")} noValidate sx={{ mt: 1 }} className="adminLevel">
             <FormControl style={{ width: "98%" }}>
               <Grid container direction={"column"} spacing={2}>
                 <Grid item>
@@ -672,7 +676,7 @@ export default function WebProject() {
 
         <Card className='centerDiv' style={{ height: "auto" }}>
           <nav className='liste'>
-            <Button onClick={event => tableCard("usertablebutton")} id="usertablebutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }}>
+            <Button onClick={event => tableCard("usertablebutton")} id="usertablebutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }} className="adminLevel">
               Utilisateurs
             </Button>
             <Button onClick={event => tableCard("placetablebutton")} id="placetablebutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }}>
@@ -685,7 +689,7 @@ export default function WebProject() {
 
           <Box style={{ width: "100%", display: "flex", flexFlow: "row nowrap", justifyContent: "center", alignItems: "center" }}>
 
-            <Box id="usertable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
+            <Box id="usertable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }} className="adminLevel">
                 <UserTable />
             </Box>
 
@@ -736,4 +740,3 @@ export default function WebProject() {
 
   );
 }
-

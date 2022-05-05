@@ -217,17 +217,16 @@ export default function UsersTable() {
                 <TableRow hover role="checkbox" tabIndex={-1} key={indexKey} >
                   {columnsUsers.map((column) => {
                     const value = row[column.id];
-                    indexKey=indexKey+=1;
                     if ((column.id) !== 'identifiant'){
                       if ((column.id) !== 'image') {
                         return (
-                          <TableCell key={indexKey} align="center">
+                          <TableCell align="center">
                             {value}
                           </TableCell>
                         );
                       } else {
                         return (
-                          <TableCell key={indexKey} align="center">
+                          <TableCell align="center">
                             <img src={value} style={{ width: "30%", borderRadius: '50%' }} alt="" />
                           </TableCell>
                         );

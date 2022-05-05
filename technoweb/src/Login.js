@@ -1,4 +1,3 @@
-
 import React from 'react';
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
@@ -60,13 +59,13 @@ export default function SignIn() {
         {if (resp.data===true){
           $.getJSON("https://api.ipify.org?format=json", function(data) {
             sha512((data.ip)).then(i=>{
-              document.cookie = "Token="+i;
+              document.cookie = "Token="+i; // donne comme cookie l'addresse IP cryptée
             })
           })
           sha512((creatUser(e.pseudo))).then(ul=>{
             document.cookie = "Token2="+ul;
           })
-          navigate("/admin?id="+e.pseudo);
+          navigate("/admin?id="+e.pseudo);  // donne en cookie le pseudo mélangé et crypté
         }
       }
       );
