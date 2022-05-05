@@ -19,10 +19,13 @@ function QuestionRad(rep) {  // On donne en paramètre la question, les réponse
             <h1>
                 {rep.que}
             </h1>
-                <div className='image'>
+                <div className='image'  style={{display:"flex" }}>
                     {rep.resp.map((r,index) =>(
-                            <img src={rep.ima[index]} alt={r} id={r} className='unchek' onClick={() => imageClick({r})}></img>
-                        ))}
+                        <div style={{width:"100%"}}>
+                            <h3>{rep.reponse[index]}</h3>
+                            <img src={rep.ima[index]} alt={r} id={r} className='unchek' onClick={() => imageClick({r})} style={{width:"100%", height:"100%"}}></img>
+                        </div>
+                    ))}
                 </div>
 
                     

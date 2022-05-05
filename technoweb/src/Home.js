@@ -16,6 +16,7 @@ import FooterComponent from "./FooterComponent";
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
+import QuestionRad from './QuestionRad'
 const axios = require('axios');
 
 //import './index.css';
@@ -46,6 +47,7 @@ const AppBar = styled(MuiAppBar, {
 
 var guide = 0;
 var piste = false;
+var question ="Souhaitez vous faire le jeu de piste spécialement conçu pour vous ? ";
 
 function Home() {
 
@@ -88,6 +90,8 @@ function Home() {
 
   const OuiJeu = () =>{
     handleCloseD();
+    piste=true;
+    question="autre question";
     document.cookie = "jeu=oui"
   }
 
@@ -100,6 +104,19 @@ function Home() {
     if(! getCookie("jeu")){
       setOpenD(true);
     }
+  }
+
+  const test = () =>{
+      handleCloseD();
+      var resultat;
+      var t = $(".chek");
+      console.log(t);
+      for(var a of t){
+        resultat=a.id;
+      }
+      console.log(resultat);
+      alert(resultat);
+      $("img").removeClass("chek").addClass("unchek");
   }
 
   return(
@@ -156,21 +173,40 @@ function Home() {
       </DialogTitle>
       <Grid container direction={"column"} spacing={2}>
         <Grid Item>
-          Souhaitez vous faire le jeu de piste spécialement conçu pour vous ? 
+          {question}
         </Grid>
         <Grid Item>
           <br />
         </Grid>
-        <Grid item>
-        <Box component="span" m={1} display="flex" justifyContent="space-between" alignItems="center">
-          <Button variant="contained" sx={{ height: 40 }} onClick={()=>NonJeu()} style={{backgroundColor:"#e63622"}}>
-            Pas interessé
-          </Button>
-          <Button variant="contained" sx={{ height: 40 }} onClick={()=>OuiJeu()}>
-            Oui, bien sûr
-          </Button>
-        </Box>
-        </Grid>
+        { piste ?
+            <Grid item>
+              <Grid container direction={"column"} spacing={2}>
+                <Grid item>
+                  <QuestionRad resp={['cathedrale','lautrec','mode']} reponse={['Cathédrale', "Musée Lautrec", "Musée de la mode"]} type="lieux" ima={[require("./images/places/cath.jpg"), require("./images/places/laut.jpg"), require("./images/places/mod.jpg")]}/>
+                </Grid>
+                <Grid item>
+                </Grid>
+                <Grid item>
+                  <Button  variant="contained" id="valider" onClick={()=>{test()}}>Valider</Button>
+                </Grid>
+              </Grid>
+            </Grid>
+
+
+          :
+          <Grid item>
+          <Box component="span" m={1} display="flex" justifyContent="space-between" alignItems="center">
+            <Button variant="contained" sx={{ height: 40 }} onClick={()=>NonJeu()} style={{backgroundColor:"#e63622"}}>
+              Pas interessé
+            </Button>
+            <Button variant="contained" sx={{ height: 40 }} onClick={()=>OuiJeu()}>
+              Oui, bien sûr
+            </Button>
+          </Box>
+          </Grid>
+
+        }
+
         <Grid item>
         </Grid>
       </Grid>
