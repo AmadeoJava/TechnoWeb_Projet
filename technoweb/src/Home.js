@@ -45,10 +45,34 @@ const AppBar = styled(MuiAppBar, {
 
 
 var guide = 0;
+var piste = false;
 
 function Home() {
 
-  const [openD, setOpenD] = React.useState(true);
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  const delCookie = (cname) => {
+    var d = new Date();
+    d.setTime(d.getTime() + (0*60*1000));
+    var expires = "expires="+d.toUTCString();  
+    document.cookie = cname + "=" + '' + ";" + expires + ";path=/";
+  }
+
+  const [openD, setOpenD] = React.useState(false);
 
   const handleCloseD = () => {
     setOpenD(false);
@@ -61,6 +85,22 @@ function Home() {
   const fonction = () =>{
     $('#event').remove();
   };
+
+  const OuiJeu = () =>{
+    handleCloseD();
+    document.cookie = "jeu=oui"
+  }
+
+  const NonJeu = () =>{
+    handleCloseD();
+    document.cookie = "jeu=non"
+  }
+
+  window.onload = () => {
+    if(! getCookie("jeu")){
+      setOpenD(true);
+    }
+  }
 
   return(
   <Box id="fond">
@@ -82,7 +122,7 @@ function Home() {
           </Button>
         </Link>
         <div className="lienAccueil">
-          <Button onClick={()=>handleOpenD()}>
+          <Button onClick={()=>{delCookie("jeu");handleOpenD()}}>
           Jeu de piste
           </Button>
         </div>
@@ -122,7 +162,14 @@ function Home() {
           <br />
         </Grid>
         <Grid item>
-          <Button variant="contained" onClick={()=>handleCloseD()}>Valider</Button>
+        <Box component="span" m={1} display="flex" justifyContent="space-between" alignItems="center">
+          <Button variant="contained" sx={{ height: 40 }} onClick={()=>NonJeu()} style={{backgroundColor:"#e63622"}}>
+            Pas interessé
+          </Button>
+          <Button variant="contained" sx={{ height: 40 }} onClick={()=>OuiJeu()}>
+            Oui, bien sûr
+          </Button>
+        </Box>
         </Grid>
         <Grid item>
         </Grid>
