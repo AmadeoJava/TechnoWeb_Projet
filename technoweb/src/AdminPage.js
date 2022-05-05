@@ -16,7 +16,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Button from '@mui/material/Button';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit';
@@ -37,6 +36,7 @@ import PlaceTable from './PlacesTable';
 import EventTable from './EventsTable';
 import Documentation from './Documentation';
 import UserProfile from './UserProfile';
+import ChartGraphe from './ChartGraphe';
 import './adminpage.css';
 import { Link, useNavigate } from "react-router-dom";
 
@@ -179,6 +179,7 @@ var tableForms = ["usertable", "placetable", "eventtable"];
 var inputButtons = ["userinputbutton", "placeinputbutton", "eventinputbutton"];
 var inputForms = ["userform", "placeform", "eventform"];
 
+
 export default function WebProject() {
 
   const sha512 = (str) => {
@@ -187,9 +188,12 @@ export default function WebProject() {
     });
   }
 
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const [images, setAvatarImages] = useState([]);
   const [userLogin, setUserLogin] = useState({});
+
+
 
 
   useEffect(() => {
@@ -277,7 +281,7 @@ export default function WebProject() {
   })
 
   window.onbeforeunload = function () {
-    if (answer_array[1] == null) {
+    if (answer_array[1] === null) {
       //console.log("je suis ici");
       navigate("/login");
     }
@@ -290,10 +294,10 @@ export default function WebProject() {
     let ca = decodedCookie.split(';');
     for(let i = 0; i <ca.length; i++) {
       let c = ca[i];
-      while (c.charAt(0) == ' ') {
+      while (c.charAt(0) === ' ') {
         c = c.substring(1);
       }
-      if (c.indexOf(name) == 0) {
+      if (c.indexOf(name) === 0) {
         return c.substring(name.length, c.length);
       }
     }
@@ -311,7 +315,7 @@ export default function WebProject() {
     if(getCookie("Token")){
       $.getJSON("https://api.ipify.org?format=json", function(data) {
         sha512(data.ip).then(i=>{
-          if(i!=getCookie("Token")){
+          if(i!==getCookie("Token")){
             delCookie("Token");
             console.log("Pas bon");
             window.location.href="/";
@@ -328,7 +332,7 @@ export default function WebProject() {
   const verifUser = (function(u){
     if(getCookie("Token2")){
         sha512(u).then(i=>{
-          if(i!=getCookie("Token2")){
+          if(i!==getCookie("Token2")){
             delCookie("Token2");
             console.log("Pas bon");
             window.location.href="/";
@@ -367,12 +371,22 @@ export default function WebProject() {
   }
 
   window.onload = (function (event) {
+    try {
+      axios.get(`/getImgProfile/${answer_array[1]}`);
+      const imagesv2 = [
+        `http://localhost:5000/getImgProfile/${answer_array[1]}`
+      ];
+      setAvatarImages(imagesv2);
+    } catch (err) {
+      console.log(err);
+    }
+  
     let utilisat = creatUser(params.id);
     console.log("utilisateur = "+userLogin.nom);
     verifIP();
     verifUser(utilisat);
 
-    if (answer_array[1] == null) {
+    if (answer_array[1] === null) {
       //console.log("je suis ici");
       navigate("/login");
     }
@@ -429,8 +443,14 @@ export default function WebProject() {
 
 
           <div style={{ position: 'fixed', right: 100 }} >
-            {userLogin.pathImgUtilisateur === null ? (<Avatar alt="img" src={require(userLogin.pathImgUtilisateur + ".png")} onClick={handleClick} className="clickable" />)
-              : (<Avatar alt="img" src={""} onClick={handleClick} className="clickable" />)}
+            <img alt="imgAvatar" src={images} onClick={handleClick} className="clickable" style={{
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                width: '45px',
+                height: '45px',
+                borderRadius: 100
+              }}/>
             <StyledMenu
               id="demo-customized-menu"
               MenuListProps={{
@@ -440,7 +460,15 @@ export default function WebProject() {
               open={openit}
               onClose={handleClose}
             >
-              <br/>
+            <img src={images}  alt="Profile"
+              style={{
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                width: '100px',
+                height: '100px',
+                borderRadius: 100
+              }}/>
               <Typography paragraph style={{ textAlign: 'center' }}>
                 {userLogin.nom} {userLogin.prenom}
               </Typography>
@@ -707,12 +735,12 @@ export default function WebProject() {
         </Card>
       </Box>
 
-      <Box component="main" id="graphe" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
+      <Box component="main" id="graphe" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none"}}>
         <DrawerHeader />
         <h1 style={{ width: "100%", textAlign: "center" }}>Graphes</h1>
 
-        <Card className='centerDiv'>
-          <h2>Mets les graphes ici</h2>
+        <Card className='centerDiv' style={{display: "block",marginLeft: "auto",marginRight: "auto"}} >
+          <ChartGraphe />
         </Card>
       </Box>
 

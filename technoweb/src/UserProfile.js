@@ -7,7 +7,7 @@ import './adminpage.css';
   return (
     <div className="base">
         {r.el.map((e,index) =>(
-            <div  style={{width: "100%"}} id={e}>
+            <div key={index} style={{width: "100%"}} id={e}>
                 <div style={{width: "80%", display:"inline-block"}}>
                     <div style={{marginLeft:"25%", width: "30%", display:"inline-block"}}>
                         <h2 className="gris">{e} : </h2>
