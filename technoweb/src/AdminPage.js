@@ -37,14 +37,14 @@ import EventTable from './EventsTable';
 import Documentation from './Documentation';
 import UserProfile from './UserProfile';
 import ChartGraphe from './ChartGraphe';
+import ReactDOM from 'react-dom';
 import './adminpage.css';
 import { Link, useNavigate } from "react-router-dom";
 
 const axios = require('axios');
 const drawerWidth = 240;
 
-const answer = window.location.href;
-const answer_array = answer.split('=');
+
 
 
 
@@ -157,17 +157,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-const userLoginfunc = (pseudo) => {
-  try {
-    const result = axios.get(
-      `/user/${pseudo}`
-    );
 
-    return result;
-  } catch (err) {
-    console.log(err);
-  }
-}
 
 
 const icones = [<CreateIcon />, <BorderAllIcon />, <BarChartIcon />];
@@ -179,8 +169,12 @@ var tableForms = ["usertable", "placetable", "eventtable"];
 var inputButtons = ["userinputbutton", "placeinputbutton", "eventinputbutton"];
 var inputForms = ["userform", "placeform", "eventform"];
 
+const userValid=false;
+var answer;
+var answer_array;
 
 export default function WebProject() {
+
 
   const sha512 = (str) => {
     return crypto.subtle.digest("SHA-512", new TextEncoder("utf-8").encode(str)).then(buf => {
@@ -201,10 +195,20 @@ export default function WebProject() {
     }
   }
 
-  useEffect(() => {
-    userLoginfunc(answer_array[1]).then((resp) => {afficherAdmin(resp.data[0])});
-  }, []);
+  const userLoginfunc = (pseudo) => {
+    try {
+      const result = axios.get(
+        `/user/${pseudo}`
+      );
+  
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  /*
 
+*/
 
 
   const theme = useTheme();
@@ -281,6 +285,7 @@ export default function WebProject() {
 
 
   const debut = (function () {
+
     inputCard(inputButtons[selectedi]);
     tableCard(tableButtons[selectedt]);
     //console.log($("#Administrateur").id);
@@ -292,8 +297,15 @@ export default function WebProject() {
       //console.log("je suis ici");
       navigate("/login");
     }
+    let utilisat = creatUser(params.id);
+    verifIP();
+    verifUser(utilisat);
 
   }
+
+  useEffect(() => {
+    userLoginfunc(answer_array[1]).then((resp) => {afficherAdmin(resp.data[0])});
+  }, []);
 
   function getCookie(cname) {
     let name = cname + "=";
@@ -377,7 +389,24 @@ export default function WebProject() {
 
   }
 
+  const verifierTout = () =>{
+    let utilisat = creatUser(params.id);
+    let v1 = verifIP();
+    let v2 = verifUser(utilisat);
+  }
+
+
+  answer = window.location.href;
+  console.log(answer);
+  answer_array = answer.split('=');
+  debut();
+
   window.onload = (function (event) {
+
+    verifierTout();
+    debut();
+    
+
     try {
       axios.get(`/getImgProfile/${answer_array[1]}`);
       const imagesv2 = [
@@ -388,9 +417,7 @@ export default function WebProject() {
       console.log(err);
     }
   
-    let utilisat = creatUser(params.id);
-    verifIP();
-    verifUser(utilisat);
+
 
     if (answer_array[1] === null) {
       //console.log("je suis ici");
@@ -420,15 +447,14 @@ export default function WebProject() {
       //console.log(fileName);
     });
 
-
   });
 
   return (
 
-    <Box sx={{ display: 'flex' }} onClick={() => debut()}>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} style={{ backgroundColor: 'rgb(30, 82, 166)' }}>
-        <Toolbar>
+      <AppBar position="fixed" open={open} style={{ backgroundColor: 'rgb(30, 82, 166)' }} >
+        <Toolbar id="appBarre">
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -446,53 +472,53 @@ export default function WebProject() {
             Dashboard
           </Typography>
 
+          <div style={{ position: 'fixed', right: 100 }}>
+      <img alt="imgAvatar" src={images} onClick={handleClick} className="clickable" style={{
+          display: 'block',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          width: '45px',
+          height: '45px',
+          borderRadius: 100
+        }}/>
+      <StyledMenu
+        id="demo-customized-menu"
+        MenuListProps={{
+          'aria-labelledby': 'demo-customized-button',
+        }}
+        anchorEl={anchorEl}
+        open={openit}
+        onClose={handleClose}
+      >
+      <img src={images}  alt="Profile"
+        style={{
+          display: 'block',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          width: '100px',
+          height: '100px',
+          borderRadius: 100
+        }}/>
+        <Typography paragraph style={{ textAlign: 'center' }}>
+          {userLogin.nom} {userLogin.prenom}
+        </Typography>
 
-          <div style={{ position: 'fixed', right: 100 }} >
-            <img alt="imgAvatar" src={images} onClick={handleClick} className="clickable" style={{
-                display: 'block',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                width: '45px',
-                height: '45px',
-                borderRadius: 100
-              }}/>
-            <StyledMenu
-              id="demo-customized-menu"
-              MenuListProps={{
-                'aria-labelledby': 'demo-customized-button',
-              }}
-              anchorEl={anchorEl}
-              open={openit}
-              onClose={handleClose}
-            >
-            <img src={images}  alt="Profile"
-              style={{
-                display: 'block',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                width: '100px',
-                height: '100px',
-                borderRadius: 100
-              }}/>
-              <Typography paragraph style={{ textAlign: 'center' }}>
-                {userLogin.nom} {userLogin.prenom}
-              </Typography>
+        <Typography paragraph style={{ textAlign: 'center' }}>
+          {userLogin.pseudo}
+        </Typography>
+        <MenuItem onClick={(event) => { handleClose(); fermer("profile") }} disableRipple className="clickable">
+          <EditIcon style={{color:'#0e8cd4'}}/>
+          MyProfile
+        </MenuItem>
+        <MenuItem onClick={handleClose} disableRipple className="clickable">
+          <PowerSettingsNewIcon style={{color:'red'}}/>
 
-              <Typography paragraph style={{ textAlign: 'center' }}>
-                {userLogin.pseudo}
-              </Typography>
-              <MenuItem onClick={(event) => { handleClose(); fermer("profile") }} disableRipple className="clickable">
-                <EditIcon style={{color:'#0e8cd4'}}/>
-                MyProfile
-              </MenuItem>
-              <MenuItem onClick={handleClose} disableRipple className="clickable">
-                <PowerSettingsNewIcon style={{color:'red'}}/>
+          <Link to="/">Sign Out</Link>
+        </MenuItem>
 
-                <Link to="/">Sign Out</Link>
-              </MenuItem>
-
-            </StyledMenu>
-          </div>
+      </StyledMenu>
+    </div>
+          
 
         </Toolbar>
       </AppBar>
@@ -566,8 +592,9 @@ export default function WebProject() {
         </Card>
       </Box>
 
+
       <Box component="main" id="editer" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
-        <DrawerHeader />
+      <DrawerHeader />
         <h1 style={{ width: "100%", textAlign: "center" }}>Ajouter des éléments</h1>
 
         <Card className='centerDiv'>
@@ -702,9 +729,9 @@ export default function WebProject() {
 
         </Card>
       </Box>
-
+      
       <Box component="main" id="table" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
-        <DrawerHeader />
+      <DrawerHeader />
         <h1 style={{ width: "100%", textAlign: "center" }}>Tables</h1>
 
         <Card className='centerDiv' style={{ height: "auto" }}>
