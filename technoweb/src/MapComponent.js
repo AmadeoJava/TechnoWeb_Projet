@@ -5,11 +5,10 @@ import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
 import "leaflet-easybutton";
 import React, { useEffect, useState } from 'react';
-import Geolocation from 'react-native-geolocation-service';
 import pieton from './images/map/pieton.png';
 import car from './images/map/car.png';
 import './home.css';
-import useGeolocation from "react-navigator-geolocation";
+import "https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js";
 var tabTest = [];
 const getMap = (data) => {
 
@@ -22,51 +21,20 @@ const getMap = (data) => {
     return [];
   }
 };
-
-
+ 
+var afficherounon=true;
 const MapComponent = (r) => {
-  const [mapInfo, setmapInfo] = useState([]);
-
 
   function LocationMarker() {
-    const [position, setPosition] = useState(null);
     var map = useMap();;
+    if (afficherounon){
 
-    useEffect(() => {
+      L.control.locate().addTo(map);
+      console.log("slt");
+      afficherounon=false;
+    }
 
-      if ("geolocation" in navigator) {
-        Geolocation.getCurrentPosition(
-
-          (position) => {
-            const interval = setInterval(() => {
-              //console.log(position);
-              setPosition([position.coords.latitude, position.coords.longitude]);
-              // map.flyTo([position.coords.latitude, position.coords.longitude]);
-            }, 1000);
-            return () => clearInterval(interval);
-          },
-          (error) => {
-            // See error code charts below.
-            console.log(error.code, error.message);
-          },
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-
-
-        );
-      }
-
-    }, [map]);
-
-    return position === null ? null : (
-      <Circle
-        center={position}
-        position={position}
-        radius={5}
-        fillColor="blue"
-
-      />
-
-    );
+    return null;
   }
 
   var myRouter = null;
@@ -128,6 +96,7 @@ const MapComponent = (r) => {
     popupAnchor: [0, -46],
   });
   getMap(r["el"]);
+  
   return <div>
 
     <MapContainer className="mapcontainer" >
@@ -141,7 +110,7 @@ const MapComponent = (r) => {
       <RoutingMachine />
 
 
-      {/* <LocationMarker />  */}
+      <LocationMarker /> 
       {tabTest.map((city, idx) => {
         
         if ((city.caracteristque) === 'Culturel') {
