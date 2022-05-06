@@ -44,7 +44,7 @@ const AppBar = styled(MuiAppBar, {
 var guide = 0;
 var piste = false;
 
-const requeteQuestions = async () => {
+const requeteQuestions = () => {
   try {
     const result = axios.get(
       `/listQuestionsReponses`
@@ -55,18 +55,29 @@ const requeteQuestions = async () => {
     console.log(err);
   }
 }
-
+const requetemap = () => {
+  try {
+    const result = axios.get(
+      `/map`
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+}
 function Home() {
 
   const [question,setQuestion] = useState("Souhaitez vous faire le jeu de piste spécialement conçu pour vous ? ");
 
   const [reponses,setReponses] = useState({});
+  const [map,setmap] = useState({});
 
   const [questions, setQuestions] = useState({});
   useEffect(() => {
     requeteQuestions().then((resp) => {setQuestions(resp.data)});
-    
+
   }, []);
+
   function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -120,6 +131,9 @@ function Home() {
   }
 
   window.onload = () => {
+
+    requetemap().then((resp) => {setmap(resp.data)});
+    
     if(! getCookie("jeu")){
       setOpenD(true);
     }
@@ -138,6 +152,8 @@ function Home() {
   }
   
 
+
+  
   return(
   <Box id="fond">
   <Box position='relative'> 
@@ -184,7 +200,7 @@ function Home() {
     </div>
   </Card>
 
-  <MapComponent/>
+  <MapComponent el={map}/>
 
   <Dialog onClose={handleCloseD} open={openD} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
       <DialogTitle id="simple-dialog-title">

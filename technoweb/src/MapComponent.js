@@ -6,13 +6,28 @@ import "leaflet-routing-machine";
 import "leaflet-easybutton";
 import React, { useEffect, useState } from 'react';
 import Geolocation from 'react-native-geolocation-service';
-import cities from "./cities.json";
 import pieton from './images/map/pieton.png';
 import car from './images/map/car.png';
 import './home.css';
+import useGeolocation from "react-navigator-geolocation";
+var tabTest = [];
+const getMap = (data) => {
 
-const MapComponent = () => {
-  let interval = null;
+  try {
+    for (var i = 0; i < data.length; i++) {
+      tabTest.push(data[i]);
+    }
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+};
+
+
+const MapComponent = (r) => {
+  const [mapInfo, setmapInfo] = useState([]);
+
+
   function LocationMarker() {
     const [position, setPosition] = useState(null);
     var map = useMap();;
@@ -23,11 +38,12 @@ const MapComponent = () => {
         Geolocation.getCurrentPosition(
 
           (position) => {
-            interval = setInterval(() => {
+            const interval = setInterval(() => {
               //console.log(position);
               setPosition([position.coords.latitude, position.coords.longitude]);
               // map.flyTo([position.coords.latitude, position.coords.longitude]);
             }, 1000);
+            return () => clearInterval(interval);
           },
           (error) => {
             // See error code charts below.
@@ -38,7 +54,7 @@ const MapComponent = () => {
 
         );
       }
-      return () => clearInterval(interval);
+
     }, [map]);
 
     return position === null ? null : (
@@ -55,8 +71,6 @@ const MapComponent = () => {
 
   var myRouter = null;
   const optionsV2 = { profile: "mapbox/walking" };
-
-
 
 
   const createRoutineMachineLayer = (props) => {
@@ -77,7 +91,7 @@ const MapComponent = () => {
 
   const RoutingMachine = createControlComponent(createRoutineMachineLayer);
   const buttonEasyV = () => {
-    const buton = L.easyButton('<img src='+car+' style="width:100%" >', function (btn, map) {
+    const buton = L.easyButton('<img src=' + car + ' style="width:100%" >', function (btn, map) {
       myRouter.getRouter().options.profile = "mapbox/driving";
       myRouter.route();
     });
@@ -86,7 +100,7 @@ const MapComponent = () => {
 
   const EasyleafletVoiture = createControlComponent(buttonEasyV);
   const buttonEasyP = () => {
-    const buton = L.easyButton('<img src='+pieton+' style="width:100%" > ', function (btn, map) {
+    const buton = L.easyButton('<img src=' + pieton + ' style="width:100%" > ', function (btn, map) {
       myRouter.getRouter().options.profile = "mapbox/walking";
       myRouter.route();
     });
@@ -94,17 +108,29 @@ const MapComponent = () => {
   };
 
   const EasyleafletPieton = createControlComponent(buttonEasyP);
-  
-  const markerIcon = new L.Icon({
+
+  const markerIconMonument = new L.Icon({
     iconUrl: require('./images/map/markerMonument.png'),
     iconSize: [40, 40],
     iconAnchor: [17, 46],
-    popupAnchor: [0, -46], 
+    popupAnchor: [0, -46],
   });
-
+  const markerIconRestaurant = new L.Icon({
+    iconUrl: require('./images/map/markerRestaurant.png'),
+    iconSize: [40, 40],
+    iconAnchor: [17, 46],
+    popupAnchor: [0, -46],
+  });
+  const markerIconHotel = new L.Icon({
+    iconUrl: require('./images/map/markerHotel.png'),
+    iconSize: [40, 40],
+    iconAnchor: [17, 46],
+    popupAnchor: [0, -46],
+  });
+  getMap(r["el"]);
   return <div>
 
-    <MapContainer className= "mapcontainer" >
+    <MapContainer className="mapcontainer" >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -115,20 +141,55 @@ const MapComponent = () => {
       <RoutingMachine />
 
 
-      <LocationMarker />
-      {cities.map((city, idx) => (
-        <Marker
-          position={[city.lat, city.lng]}
-          key={idx}
-          icon={markerIcon}
-        >
-          <Popup>
-            <b>
-              {city.city}, {city.country}
-            </b>
-          </Popup>
-        </Marker>
-      ))}
+      {/* <LocationMarker />  */}
+      {tabTest.map((city, idx) => {
+        
+        if ((city.caracteristque) === 'Culturel') {
+          return (
+            <Marker
+            position={[city.lat, city.longu]}
+            key={idx}
+            icon={markerIconMonument}
+          >
+            <Popup>
+              <b>
+                {city.intitule}, {city.descriptionLieu}
+              </b>
+            </Popup>
+          </Marker>
+          );
+        } else if((city.caracteristque) === 'Restaurant') {
+          return (
+            <Marker
+            position={[city.lat, city.longu]}
+            key={idx}
+            icon={markerIconRestaurant}
+          >
+            <Popup>
+              <b>
+                {city.intitule}, {city.descriptionLieu}
+              </b>
+            </Popup>
+          </Marker>
+          );
+        }else{
+          return (
+            <Marker
+            position={[city.lat, city.longu]}
+            key={idx}
+            icon={markerIconHotel}
+            >
+            <Popup>
+              <b>
+                {city.intitule}, {city.descriptionLieu}
+              </b>
+            </Popup>
+          </Marker>
+          );
+        }
+
+      }
+    )}
     </MapContainer>
 
   </div>;
