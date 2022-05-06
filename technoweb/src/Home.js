@@ -43,6 +43,7 @@ const AppBar = styled(MuiAppBar, {
 
 var guide = 0;
 var piste = false;
+var questionsPossibles=new Array();
 
 const requeteQuestions = async () => {
   try {
@@ -56,6 +57,12 @@ const requeteQuestions = async () => {
   }
 }
 
+const CréeQuestPos = async (questions) =>{
+  for (let i=0;i<(Math.floor(questions.length/4));i++){
+    questionsPossibles.push(questions[i*4].idQuestionL);
+  } 
+}
+
 function Home() {
 
   const [question,setQuestion] = useState("Souhaitez vous faire le jeu de piste spécialement conçu pour vous ? ");
@@ -63,10 +70,14 @@ function Home() {
   const [reponses,setReponses] = useState({});
 
   const [questions, setQuestions] = useState({});
+
+  const [boolRep, setBoolRep] = useState({});
+
   useEffect(() => {
-    requeteQuestions().then((resp) => {setQuestions(resp.data)});
-    
+    requeteQuestions().then((resp) => {setQuestions(resp.data)});   
+    CréeQuestPos(questions);
   }, []);
+
   function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -104,13 +115,20 @@ function Home() {
     $('#event').remove();
   };
 
+  const TireQuests = () =>{
+    console.log("je tire une question");
+    var hasard=Math.floor(Math.random() * (Math.floor(questions.length/4))-1)*4;
+    setQuestion(questions[hasard].texteQuestionL);
+    setReponses({resp:[questions[hasard].idReponseL,questions[hasard+1].idReponseL,questions[hasard+2].idReponseL,questions[hasard+3].idReponseL],reponse:[questions[hasard].texteReponseL,questions[hasard+1].texteReponseL,questions[hasard+2].texteReponseL,questions[hasard+3].texteReponseL],ima:[questions[hasard].pathImgReponseL,questions[hasard+1].pathImgReponseL,questions[hasard+2].pathImgReponseL,questions[hasard+3].pathImgReponseL]});
+    console.log("ici");
+    console.log(questionsPossibles);
+    console.log(questions.length);
+  }
+
   const OuiJeu = () =>{
     handleCloseD();
     piste=true;
-    var hasard=Math.floor(Math.random() * (Math.floor(questions.length/4))-1)*4;
-    setQuestion(questions[hasard].texteQuestionL);
-    setReponses({resp:[questions[hasard].idRL,questions[hasard+1].idRL,questions[hasard+2].idRL,questions[hasard+3].idRL],reponse:[questions[hasard].texteReponseL,questions[hasard+1].texteReponseL,questions[hasard+2].texteReponseL,questions[hasard+3].texteReponseL],ima:[questions[hasard].pathImgReponseL,questions[hasard+1].pathImgReponseL,questions[hasard+2].pathImgReponseL,questions[hasard+3].pathImgReponseL]});
-    
+    TireQuests();
     document.cookie = "jeu=oui";
   }
 
@@ -134,7 +152,8 @@ function Home() {
         resultat=a.id;
       }
       console.log(resultat);
-      alert(resultat);
+      alert(questions[resultat-1].bonneRep===1);
+      TireQuests();
   }
   
 
