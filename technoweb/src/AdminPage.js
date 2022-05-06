@@ -193,11 +193,16 @@ export default function WebProject() {
   const [images, setAvatarImages] = useState([]);
   const [userLogin, setUserLogin] = useState({});
 
-
-
+  const afficherAdmin = (e) => {
+    //console.log(e.administrateur);
+    setUserLogin(e);
+    if(e.administrateur==0){
+      pasAdmin();
+    }
+  }
 
   useEffect(() => {
-    userLoginfunc(answer_array[1]).then((resp) => setUserLogin(resp.data[0]));
+    userLoginfunc(answer_array[1]).then((resp) => {afficherAdmin(resp.data[0])});
   }, []);
 
 
@@ -278,6 +283,8 @@ export default function WebProject() {
   const debut = (function () {
     inputCard(inputButtons[selectedi]);
     tableCard(tableButtons[selectedt]);
+    //console.log($("#Administrateur").id);
+
   })
 
   window.onbeforeunload = function () {
@@ -382,7 +389,6 @@ export default function WebProject() {
     }
   
     let utilisat = creatUser(params.id);
-    console.log("utilisateur = "+userLogin.nom);
     verifIP();
     verifUser(utilisat);
 
@@ -413,7 +419,6 @@ export default function WebProject() {
       $('#eventfiles').text(fileName);
       //console.log(fileName);
     });
-
 
 
   });
@@ -582,19 +587,19 @@ export default function WebProject() {
             <FormControl style={{ width: "98%" }}>
               <Grid container direction={"column"} spacing={2}>
                 <Grid item>
-                  <TextField id="userprenom" name="userprenom" label="Prénom" required autoComplete="Prénom" margin="normal" style={{ width: "98%" }} />
+                  <TextField id="prenomAdd" name="userprenom" label="Prénom" required autoComplete="Prénom" margin="normal" style={{ width: "98%" }} />
                 </Grid>
                 <Grid item>
-                  <TextField id="usernom" name="usernom" margin="normal" required style={{ width: "98%" }} label="Nom" autoComplete="Nom" />
+                  <TextField id="nomAdd" name="usernom" margin="normal" required style={{ width: "98%" }} label="Nom" autoComplete="Nom" />
                 </Grid>
                 <Grid item>
-                  <TextField id="pseudo" name="pseudo" margin="normal" required style={{ width: "98%" }} label="Identifiant" autoComplete="Identifiant" />
+                  <TextField id="pseudoAdd" name="pseudo" margin="normal" required style={{ width: "98%" }} label="Identifiant" autoComplete="Identifiant" />
                 </Grid>
                 <Grid item>
-                  <TextField id="password" name="password" margin="normal" required style={{ width: "98%" }} label="Mot de passe" type="password" autoComplete="Mot de passe" />
+                  <TextField id="passwordAdd" name="password" margin="normal" required style={{ width: "98%" }} label="Mot de passe" type="password" autoComplete="Mot de passe" />
                 </Grid>
                 <Grid item>
-                  <TextField select label="Choisissez le niveau de l'utilisateur" id="userlevel" style={{ width: "98%" }} required>
+                  <TextField select label="Choisissez le niveau de l'utilisateur" id="userlevelAdd" style={{ width: "98%" }} required>
                     <MenuItem value={"gerant"}>
                       Gérant
                     </MenuItem>
