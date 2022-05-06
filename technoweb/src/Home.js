@@ -188,14 +188,14 @@ function Home() {
 
   <Dialog onClose={handleCloseD} open={openD} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
       <DialogTitle id="simple-dialog-title">
-        <h2>Jeu de piste</h2>
+        Jeu de piste
       </DialogTitle>
       <Grid container direction={"column"} spacing={2}>
-        <Grid Item>
+        <Grid item>
           {question}
         </Grid>
-        <Grid Item>
-          <br />
+        <Grid item>
+          <div></div>
         </Grid>
         { piste ?
             <Grid item>
@@ -214,14 +214,14 @@ function Home() {
 
           :
           <Grid item>
-          <Box component="span" m={1} display="flex" justifyContent="space-between" alignItems="center">
-            <Button variant="contained" sx={{ height: 40 }} onClick={()=>NonJeu()} style={{backgroundColor:"#e63622"}}>
-              Pas interessé
-            </Button>
-            <Button variant="contained" sx={{ height: 40 }} onClick={()=>OuiJeu()}>
-              Oui, bien sûr
-            </Button>
-          </Box>
+            <Box component="span" m={1} display="flex" justifyContent="space-between" alignItems="center">
+              <Button variant="contained" sx={{ height: 40 }} onClick={()=>NonJeu()} style={{backgroundColor:"#e63622"}}>
+                Pas interessé
+              </Button>
+              <Button variant="contained" sx={{ height: 40 }} onClick={()=>OuiJeu()}>
+                Oui, bien sûr
+              </Button>
+            </Box>
           </Grid>
 
         }

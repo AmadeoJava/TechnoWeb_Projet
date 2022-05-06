@@ -6,6 +6,7 @@ import './questionrad.css';
 const axios = require('axios');
 
 function QuestionRad(rep) {  // On donne en paramètre la question, les réponses possibles et leurs images
+    console.log(rep.resp);
     const [images, setAnswerImages] = useState([]);
     const imageClick = (i) => {
         var ident = i.r;
@@ -29,23 +30,27 @@ function QuestionRad(rep) {  // On donne en paramètre la question, les réponse
         }
     }, []);
 
-    return <div>
-        <Card className='centerDiv'>
-            <h1>
-                {rep.que}
-            </h1>
-            <div className='image' style={{ display: "flex" }}>
-                {rep.resp.map((r, index) => (
-                    <div style={{ width: "100%" }} key={index}>
-                        <h3>{rep.reponse[index]}</h3>
-                        <img src={images} alt={r} id={r} className='unchek' onClick={() => imageClick({ r })} style={{ width: "100%", height: "100%" }}></img>
-                    </div>
-                ))}
-            </div>
+    return (
+        <div>
+            {rep.resp 
+            ?<Card className='centerDiv'>
+                <h1>
+                    {rep.que}
+                </h1>
+                <div className='image' style={{ display: "flex" }}>
+                    {rep.resp.map((r, index) => (
+                        <div style={{ width: "100%" }} key={index}>
+                            <h3>{rep.reponse[index]}</h3>
+                            <img src={images} alt={r} id={r} className='unchek' onClick={() => imageClick({ r })} style={{ width: "100%", height: "100%" }}></img>
+                        </div>
+                    ))}
+                </div>
 
-        </Card>
-    </div>
-        ;
-
+            </Card>
+            :<Card></Card>
+            }
+        </div>
+        
+    );
 }
 export default QuestionRad;
