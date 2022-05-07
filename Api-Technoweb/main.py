@@ -71,7 +71,7 @@ class listQuestionsReponses(Resource):
     def get(self):
         cursor = db.cursor()
         
-        sql ="SELECT QuestionL.idQuestionL,QuestionL.texteQuestionL,ReponseL.idReponseL,ReponseL.texteReponseL,ReponseL.pathImgReponseL,ReponseL.bonneRep  FROM QuestionL INNER JOIN Liaison_QuestionLReponseL ON QuestionL.idQuestionL=Liaison_QuestionLReponseL.idQL INNER JOIN ReponseL ON Liaison_QuestionLReponseL.idRL=ReponseL.idReponseL "
+        sql ="SELECT QuestionL.idQuestionL,QuestionL.texteQuestionL,ReponseL.idReponseL,ReponseL.texteReponseL,ReponseL.bonneRep  FROM QuestionL INNER JOIN Liaison_QuestionLReponseL ON QuestionL.idQuestionL=Liaison_QuestionLReponseL.idQL INNER JOIN ReponseL ON Liaison_QuestionLReponseL.idRL=ReponseL.idReponseL "
         cursor.execute(sql)
         results = cursor.fetchall()
         return results
@@ -111,17 +111,6 @@ class ProfileImg(Resource):
             imgAEnvoi=path+'/profile/notfound.png'
             return send_file(imgAEnvoi, mimetype='image/gif')
 
-class AnswerImg(Resource):
-    def get(self, pathImg):
-      
-        try:
-            imgAEnvoi = path+'/answer/'+pathImg
-            return send_file(imgAEnvoi, mimetype='image/gif')
-        except Exception:
-            imgAEnvoi=path+'/answer/notfound.png'
-            return send_file(imgAEnvoi, mimetype='image/gif')
-
-
 class MapInfo(Resource):
     def get(self):
       
@@ -142,7 +131,6 @@ api.add_resource(MapInfo, '/map')
 api.add_resource(userAdd, '/userAdd/<user_firstname>/<user_name>/<user_pseudo>/<user_path>/<user_admin>')
 api.add_resource(listQuestionsReponses, '/listQuestionsReponses')
 api.add_resource(ProfileImg, '/getImgProfile/<pathImg>')
-api.add_resource(AnswerImg, '/getImgAnswer/<pathImg>')
 if __name__ == '__main__':
     app.run(debug=True)
     

@@ -130,7 +130,7 @@ function Home() {
     console.log("je tire une question");
     var hasard=Math.floor(Math.random() * (Math.floor(questions.length/4))-1)*4;
     setQuestion(questions[hasard].texteQuestionL);
-    setReponses({resp:[questions[hasard].idReponseL,questions[hasard+1].idReponseL,questions[hasard+2].idReponseL,questions[hasard+3].idReponseL],reponse:[questions[hasard].texteReponseL,questions[hasard+1].texteReponseL,questions[hasard+2].texteReponseL,questions[hasard+3].texteReponseL],ima:[questions[hasard].pathImgReponseL,questions[hasard+1].pathImgReponseL,questions[hasard+2].pathImgReponseL,questions[hasard+3].pathImgReponseL]});
+    setReponses({resp:[questions[hasard].idReponseL,questions[hasard+1].idReponseL,questions[hasard+2].idReponseL,questions[hasard+3].idReponseL],reponse:[questions[hasard].texteReponseL,questions[hasard+1].texteReponseL,questions[hasard+2].texteReponseL,questions[hasard+3].texteReponseL]});
     console.log("ici");
     console.log(questionsPossibles);
     console.log(questions.length);
@@ -236,7 +236,7 @@ function Home() {
             <Grid item>
               <Grid container direction={"column"} spacing={2}>
                 <Grid item>
-                  <QuestionRad resp={reponses.resp} reponse={reponses.reponse} type="lieux" ima={reponses.ima}/>
+                  <QuestionRad resp={reponses.resp} reponse={reponses.reponse} type="lieux" />
                 </Grid>
                 <Grid item>
                 </Grid>
