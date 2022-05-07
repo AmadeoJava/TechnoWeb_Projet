@@ -9,7 +9,7 @@ export default function ChartGraphe(r) {
 
 
   const [userData] = useState({
-    labels: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+    labels: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
     datasets: [
       {
         label: 'This week',
@@ -24,8 +24,8 @@ export default function ChartGraphe(r) {
           pointBorderWidth: 1,
           pointRadius: [4, 4, 4, 4, 4,4, 4, 4, 4, 4,4, 4, 4],
           pointHoverRadius: [2, 2, 2, 2, 2,2, 2, 2, 2, 2,2, 2, 2],
-          pointBackgroundColor: ['#1F3BB3', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)'],
-          pointBorderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff',],
+          pointBackgroundColor: ['#1F3BB3', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3'],
+          pointBorderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff'],
           tension: 0.4,
        },
     ],
