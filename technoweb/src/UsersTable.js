@@ -188,8 +188,19 @@ export default function UsersTable() {
     setOpen(true);
   }
 
+  var changerUserPost = (u1,u2,u3) => {
+    try {
+      const result = axios.post(
+        `/changerUser/${u1}/${u2}/${u3}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const changeUser = () =>{
     console.log(prenom+" et "+nom+" et "+admini);
+    var ad=0;
     var chosesAChanger=false;
     if($("#userprenom").val()!=prenom && $("#userprenom").val()){
       prenom=$("#userprenom").val();
@@ -201,10 +212,14 @@ export default function UsersTable() {
     }
     if(checked!=admini){
       admini=checked;
+      if(admini){
+        ad=1;
+      }
       chosesAChanger=true;
     }
     handleClose();
     if (chosesAChanger){
+      changerUserPost(prenom, nom, ad);
       alert("Utilisateur modifié")
     }
     

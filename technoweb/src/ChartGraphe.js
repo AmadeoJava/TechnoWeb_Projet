@@ -10,7 +10,7 @@ export default function ChartGraphe() {
 
 
   const [userData] = useState({
-    labels: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+    labels: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
     datasets: [
       {
         label: 'Frequentation',
@@ -21,7 +21,7 @@ export default function ChartGraphe() {
               '#1F3BB3',
           ],
           borderWidth: 1.5,
-          fill: true, // 3: no fill
+          fill: true,
           pointBorderWidth: 1,
           pointRadius: [4, 4, 4, 4, 4,4, 4, 4, 4, 4,4, 4, 4],
           pointHoverRadius: [2, 2, 2, 2, 2,2, 2, 2, 2, 2,2, 2, 2],

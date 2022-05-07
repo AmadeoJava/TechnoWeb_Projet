@@ -78,15 +78,44 @@ class listQuestionsReponses(Resource):
         return results
 
 class userAdd(Resource):
-    def get(self):
+    def post(self, user_admin,user_name,user_firstname,user_pseudo,user_password):
         cursor = db.cursor()
-        sql = "INSERT INTO Utilisateur (prenom,nom,pseudo,pwd,administrateur) VALUES (%s, %s, %s, %s, %s, %s)"
-        data=('none.png', 'amadeo', 'soufflet', 'pentester', 'motDePasse', 1)
+        sql = "INSERT INTO Utilisateur (administrateur,nom,prenom,pseudo,pwd) VALUES (%s, %s, %s, %s, %s)"
+        data=(user_admin, user_name, user_firstname, user_pseudo, user_password)
         cursor.execute(sql, data)
+        db.commit()
         #results = cursor.fetchall()
         return True
 
+class placeAdd(Resource):
+    def post(self, place_lat,place_lon,place_nom,place_car,place_desc):
+        cursor = db.cursor()
+        sql = "INSERT INTO Lieu (lat, longu, intitule, caracteristque, descriptionLieu, pathImgLieu) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        data=(place_lat,place_lon,place_nom,place_car,place_desc, "cath.jpg")
+        cursor.execute(sql, data)
+        db.commit()
+        #results = cursor.fetchall()
+        return True
 
+class eventAdd(Resource):
+    def post(self, event_nom,event_debut,event_fin, event_desc, event_file):
+        cursor = db.cursor()
+        sql = "INSERT INTO Events (nomEvent, dateEventDeb, dateEventFin, actif, descEvent, pathImgEvent) VALUES (%s, %s, %s, %s, %s, %s)"
+        data=(event_nom,event_debut,event_fin, 1, event_desc, event_file)
+        cursor.execute(sql, data)
+        db.commit()
+        #results = cursor.fetchall()
+        return True
+
+class changerUser(Resource):
+    def post(self, user_prenom, user_nom, user_admin):
+        cursor = db.cursor()
+        sql = "UPDATE Users SET prenom="+user_prenom+", nom="+user_nom+", administrateur="+user_admin+") WHERE prenom="+user_prenom+" and nom="+user_nom
+        cursor.execute(sql)
+        db.commit()
+        #results = cursor.fetchall()
+        return True
+    
 class Graph(Resource):
     def get(self):
         cursor = db.cursor()
@@ -121,6 +150,7 @@ class MapInfo(Resource):
         results = cursor.fetchall()
 
         return results
+    
 
 
 
@@ -163,11 +193,17 @@ api.add_resource(event, '/event')
 api.add_resource(user, '/user/<user_name>')
 api.add_resource(Graph, '/graph')
 api.add_resource(MapInfo, '/map')
-api.add_resource(userAdd, '/userAdd/<user_firstname>/<user_name>/<user_pseudo>/<user_path>/<user_admin>')
 api.add_resource(listQuestionsReponses, '/listQuestionsReponses')
 api.add_resource(ProfileImg, '/getImgProfile/<pathImg>')
+<<<<<<< HEAD
 api.add_resource(addFrequentation, '/addFrequentation')
 
+=======
+api.add_resource(userAdd, '/userAdd/<user_admin>/<user_name>/<user_firstname>/<user_pseudo>/<user_password>')
+api.add_resource(placeAdd,'/placeAdd/<place_lat>/<place_lon>/<place_nom>/<place_car>/<place_desc>')
+api.add_resource(eventAdd,'/eventAdd/<event_nom>/<event_debut>/<event_fin>/<event_desc>/<event_file>');
+api.add_resource(changerUser,'/changerUser/<user_prenom>/<user_nom>/<user_admin>')
+>>>>>>> 2a7e4f272d6fc4d580c4bb0c356f8c91988cb5a4
 if __name__ == '__main__':
     app.run(debug=True)
     
