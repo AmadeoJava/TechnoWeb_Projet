@@ -84,15 +84,22 @@ const columnsUsers = [
 ];
 var indexKey=0;
 
+var ind = 0;
+var nom = "Soufflet";
+var prenom = "Amadéo";
+var pseudo = "Ace25";
+var admini=true;
 
 export default function UsersTable() {
 
-  var ind = 0;
-  var nom = "Soufflet";
-  var prenom = "Amadéo";
-  var pseudo = "Ace25";
+  const [checked, setChecked] = React.useState(true);
 
-  var admini = true;
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
+
+
+
   var timeou;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -171,12 +178,36 @@ export default function UsersTable() {
     pseudo = rowsUsers[ind].surname;
 
     if (rowsUsers[ind].administrateur === "Oui") {
-      admini = true;
+      setChecked(true);
+      admini=true;
     } else {
-      admini = false;
+      setChecked(false);
+      admini=false;
     }
     console.log(rowsUsers[ind].administrateur);
     setOpen(true);
+  }
+
+  const changeUser = () =>{
+    console.log(prenom+" et "+nom+" et "+admini);
+    var chosesAChanger=false;
+    if($("#userprenom").val()!=prenom && $("#userprenom").val()){
+      prenom=$("#userprenom").val();
+      chosesAChanger=true;
+    }
+    if($("#usernom").val()!=nom && $("#usernom").val()){
+      nom=$("#usernom").val();
+      chosesAChanger=true;
+    }
+    if(checked!=admini){
+      admini=checked;
+      chosesAChanger=true;
+    }
+    handleClose();
+    if (chosesAChanger){
+      alert("Utilisateur modifié")
+    }
+    
   }
 
   return (
@@ -259,18 +290,17 @@ export default function UsersTable() {
 
 
       <Dialog onClose={handleClose} open={openu} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
-        <DialogTitle id="simple-dialog-title"><h2>Modifier utilisateur</h2></DialogTitle>
+        <DialogTitle id="simple-dialog-title">
+          Modifier utilisateur
+        </DialogTitle>
         <Grid container direction={"column"} spacing={2}>
-          <Grid Item>
+          <Grid item>
             Prénom
           </Grid>
           <Grid item>
             <TextField id="userprenom" name="userprenom" label={prenom} required margin="normal" style={{ width: "90%" }} />
           </Grid>
-          <Grid Item>
-            <br />
-          </Grid>
-          <Grid Item>
+          <Grid item>
             Nom
           </Grid>
           <Grid item>
@@ -278,9 +308,7 @@ export default function UsersTable() {
           </Grid>
           <Grid item>
             Administrateur
-            {admini
-              ? <Switch id="switchUser" defaultChecked />
-              : <Switch id="switchUser" />}
+            <Switch id="switchUser" checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }}/>
           </Grid>
           <Grid item>
             <Grid container spacing={2} style={{ justifyContent: "center" }}>
@@ -290,7 +318,7 @@ export default function UsersTable() {
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="contained" onClick={() => handleClose()}>Valider</Button>
+                <Button variant="contained" onClick={() => changeUser()}>Valider</Button>
               </Grid>
             </Grid>
           </Grid>
@@ -300,7 +328,9 @@ export default function UsersTable() {
       </Dialog>
 
       <Dialog open={verif} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
-        <DialogTitle id="simple-dialog-title"><h2>Supprimer utilisateur</h2></DialogTitle>
+        <DialogTitle id="simple-dialog-title">
+          Supprimer utilisateur
+        </DialogTitle>
         <Grid container direction={"column"} spacing={2}>
           <Grid item>
             <Grid container spacing={2} style={{ justifyContent: "center" }}>
