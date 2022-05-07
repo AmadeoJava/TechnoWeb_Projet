@@ -106,6 +106,15 @@ class eventAdd(Resource):
         #results = cursor.fetchall()
         return True
 
+class changerUser(Resource):
+    def post(self, user_prenom, user_nom, user_admin):
+        cursor = db.cursor()
+        sql = "UPDATE Users SET prenom="+user_prenom+", nom="+user_nom+", administrateur="+user_admin+") WHERE prenom="+user_prenom+" and nom="+user_nom
+        cursor.execute(sql)
+        db.commit()
+        #results = cursor.fetchall()
+        return True
+    
 class Graph(Resource):
     def get(self):
         cursor = db.cursor()
@@ -154,6 +163,7 @@ api.add_resource(ProfileImg, '/getImgProfile/<pathImg>')
 api.add_resource(userAdd, '/userAdd/<user_admin>/<user_name>/<user_firstname>/<user_pseudo>/<user_password>')
 api.add_resource(placeAdd,'/placeAdd/<place_lat>/<place_lon>/<place_nom>/<place_car>/<place_desc>')
 api.add_resource(eventAdd,'/eventAdd/<event_nom>/<event_debut>/<event_fin>/<event_desc>/<event_file>');
+api.add_resource(changerUser,'/changerUser/<user_prenom>/<user_nom>/<user_admin>')
 if __name__ == '__main__':
     app.run(debug=True)
     
