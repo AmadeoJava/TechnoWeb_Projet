@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import $ from "jquery";
 import { styled, useTheme, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -26,7 +28,6 @@ import BorderAllIcon from '@mui/icons-material/BorderAll';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import Checkbox from '@mui/material/Checkbox';
 import ArticleIcon from '@mui/icons-material/Article';
-import $ from "jquery";
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
@@ -37,9 +38,7 @@ import EventTable from './EventsTable';
 import Documentation from './Documentation';
 import UserProfile from './UserProfile';
 import ChartGraphe from './ChartGraphe';
-import ReactDOM from 'react-dom';
 import './adminpage.css';
-import { Link, useNavigate } from "react-router-dom";
 
 const axios = require('axios');
 const drawerWidth = 240;
@@ -173,6 +172,9 @@ const userValid=false;
 var answer;
 var answer_array;
 
+var fileName;
+
+
 export default function WebProject() {
 
 
@@ -206,10 +208,90 @@ export default function WebProject() {
       console.log(err);
     }
   }
-  /*
 
-*/
+  const ajouterUser = () =>{
+    if($("#prenomAdd").val() && $("#nomAdd").val() && $("#pseudoAdd").val() && $("#passwordAdd").val()){
+      if($("#passwordAdd").val().length>=8){
+        var userAdd = [];
+        if($("#userlevelAdd").text()=="Gérant"){
+          userAdd.push(0);
+        }else{
+          userAdd.push(1);
+        }
+        userAdd.push(($("#nomAdd").val()));
+        userAdd.push(($("#prenomAdd").val()));
+        userAdd.push(($("#pseudoAdd").val()));
+        var pass = $("#passwordAdd").val();
+        sha512(pass).then(i=>{
+          userAdd.push(i);
+        })
+        console.log(userAdd);
+        fileName="";
+        $(".files").text="";
+        alert("Utilisateur ajouté");
+      }else{
+        alert("Le mot de passe est de taille inférieure à 8");
+      }
+    }else{
+      alert("Tous les champs n'ont pas été remplis")
+    }
+  }
 
+  const ajouterLieu = () => {
+    if($("#placenom").val() && $("#placelat").val() && $("#placelon").val() && $("#placedesc").val() && $('#placefiles').text() && $('#placefiles').text()==fileName){
+      var placeAdd=[];
+      placeAdd.push(parseInt($("#placelat").val()));
+      placeAdd.push(parseInt($("#placelon").val()));
+      placeAdd.push($("#placenom").val());
+      placeAdd.push($("#carcPlaceAdd").text());
+      placeAdd.push($("#placedesc").val());
+      placeAdd.push($("#placefiles").val());
+
+      console.log(placeAdd);
+
+      fileName="";
+      $(".files").text="";
+      alert("Lieu ajouté");
+    }else{
+      alert("Tous les champs ne sont pas remplis");
+    }
+
+  }
+
+
+  const ajouterEvent = () =>{
+    if($("#eventnom").val() && $("#eventdatedeb").val() && $("#eventdatefin").val() && $('#eventfiles').text() && $('#eventfiles').text()==fileName){
+      var eventAdd=[];
+      eventAdd.push($("#eventnom").val());
+      eventAdd.push($("#eventdatedeb").val());
+      eventAdd.push($("#eventdatefin").val());
+      eventAdd.push($("#eventfiles").val());
+
+      console.log(eventAdd);
+
+      fileName="";
+      $(".files").text="";
+      alert("Evenement ajouté")
+    }else{
+      alert("Tous les champs ne sont pas remplis");
+    }
+  }
+
+
+  const verifierFile = () => {
+    var f = fileName.split(".");
+    if(f.length!=2){
+      alert("Le fichier n'est pas conforme");
+      fileName ="";
+    }else{
+      if(f[1]=="png" || f[1]=="jpg"){
+        console.log("Fichier accepté");
+      }else{
+        alert("Le fichier n'est pas conforme");
+        fileName ="";
+      }
+    }
+  }
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -397,7 +479,7 @@ export default function WebProject() {
 
 
   answer = window.location.href;
-  console.log(answer);
+  //console.log(answer);
   answer_array = answer.split('=');
   debut();
 
@@ -428,21 +510,24 @@ export default function WebProject() {
 
     $('#placeupload').change(function (e) {
       var fs = e.target.files.length;  // filesize
-      var fileName = e.target.files[fs - 1].name;
+      fileName = e.target.files[fs - 1].name;
+      verifierFile();
       $('#placefiles').text(fileName);
       //console.log(fileName);
     });
 
     $('#userupload').change(function (e) {
       var fs = e.target.files.length;  // filesize
-      var fileName = e.target.files[fs - 1].name;
+      fileName = e.target.files[fs - 1].name;
+      verifierFile();
       $('#userfiles').text(fileName);
       //console.log(fileName);
     });
 
     $('#eventupload').change(function (e) {
       var fs = e.target.files.length;  // filesize
-      var fileName = e.target.files[fs - 1].name;
+      fileName = e.target.files[fs - 1].name;
+      verifierFile();
       $('#eventfiles').text(fileName);
       //console.log(fileName);
     });
@@ -606,7 +691,7 @@ export default function WebProject() {
               Lieux
             </Button>
             <Button onClick={event => inputCard("eventinputbutton")} id="eventinputbutton" style={{ width: "50%" }} sx={{ mt: 3, mb: 2 }}>
-              Evènements
+              évènements
             </Button>
           </nav>
 
@@ -626,7 +711,7 @@ export default function WebProject() {
                   <TextField id="passwordAdd" name="password" margin="normal" required style={{ width: "98%" }} label="Mot de passe" type="password" autoComplete="Mot de passe" />
                 </Grid>
                 <Grid item>
-                  <TextField select label="Choisissez le niveau de l'utilisateur" id="userlevelAdd" style={{ width: "98%" }} required>
+                  <TextField select label="Choisissez le niveau de l'utilisateur" id="userlevelAdd" style={{ width: "98%" }} required defaultValue="gerant">
                     <MenuItem value={"gerant"}>
                       Gérant
                     </MenuItem>
@@ -642,11 +727,11 @@ export default function WebProject() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <div id="userfiles">
+                  <div className="files" id="userfiles">
                   </div>
                 </Grid>
                 <Grid item>
-                  <Button type="submit" style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  <Button onClick={()=>ajouterUser()} style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
                     Ajouter
                   </Button>
                 </Grid>
@@ -667,15 +752,20 @@ export default function WebProject() {
                   <TextField id="placelon" name="placelon" margin="normal" required style={{ width: "98%" }} label="Longitude" autoComplete="Longitude" type="number" />
                 </Grid>
                 <Grid item>
-                  <TextareaAutosize minRows={3} placeholder="Description du lieu" style={{ width: "98%" }} />
+                  <TextareaAutosize id="placedesc" minRows={5} placeholder="Description du lieu" style={{ width: "98%" }}/>
                 </Grid>
                 <Grid item>
-                  <label htmlFor="c1">Culturel</label>
-                  <Checkbox id="c1" size="medium" />
-                  <label htmlFor="c2">Restaurant</label>
-                  <Checkbox id="c2" size="medium" />
-                  <label htmlFor="c3">Hotel</label>
-                  <Checkbox id="c3" size="medium" />
+                <TextField select label="Choisissez la caractéristique du lieu" id="carcPlaceAdd" style={{ width: "98%" }} required defaultValue="culturel">
+                    <MenuItem value={"culturel"}>
+                      Culturel
+                    </MenuItem>
+                    <MenuItem value={"restaurant"}>
+                      Restaurant
+                    </MenuItem>
+                    <MenuItem value={"hotel"}>
+                      Hotel
+                    </MenuItem>
+                </TextField>
                 </Grid>
                 <Grid item>
                   <Button id="buttonplace" variant="contained" component="label" style={{ width: "98%" }}>
@@ -684,11 +774,11 @@ export default function WebProject() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <div id="placefiles">
+                  <div className="files" id="placefiles">
                   </div>
                 </Grid>
                 <Grid item>
-                  <Button type="submit" style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  <Button onClick={()=>ajouterLieu} style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
                     Ajouter
                   </Button>
                 </Grid>
@@ -715,11 +805,11 @@ export default function WebProject() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <div id="eventfiles">
+                  <div className="files" id="eventfiles">
                   </div> 
                 </Grid>
                 <Grid item>
-                  <Button type="submit" style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  <Button onClick={()=>ajouterEvent()} style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
                     Ajouter
                   </Button>
                 </Grid>
@@ -791,7 +881,7 @@ export default function WebProject() {
         <h1 style={{ width: "100%", textAlign: "center" }}>Profil</h1>
 
         <Card>
-          <UserProfile el={["Prénom", "Nom", "Pseudo", "Admninistrateur", "Mot de passe"]}
+          <UserProfile el={["Prénom", "Nom", "Pseudo", "Admninistrateur", "Mot_de_passe"]}
             rep={[userLogin.nom, userLogin.prenom, userLogin.pseudo, String(userLogin.administrateur === 1), "********"]} />
         </Card>
       </Box>
