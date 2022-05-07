@@ -4,6 +4,7 @@ import pymysql
 import os
 from flask import send_file
 import werkzeug
+from datetime import date
 
 db = pymysql.connect(host='mysql-champo.alwaysdata.net',
                              user='champo',
@@ -121,6 +122,40 @@ class MapInfo(Resource):
 
         return results
 
+
+
+
+class addFrequentation(Resource):
+    def get(self):
+        cursor = db.cursor()
+        sqlNbVisite="SELECT dateFrequentation,nbVisites FROM Frequentation"
+        cursor.execute(sqlNbVisite)
+        results = cursor.fetchall()
+        return results
+        
+    def post(self):
+        
+        actuel=(date.today()).strftime("%Y-%m-%d")
+        cursor = db.cursor()
+        try:
+            sqlNbVisite="SELECT nbVisites FROM Frequentation WHERE dateFrequentation="+"'"+str(actuel)+"'"
+            cursor.execute(sqlNbVisite)
+            results = cursor.fetchall()
+            data=(int(results[0]["nbVisites"])+1)
+            sqlv2 = "DELETE FROM Frequentation WHERE dateFrequentation="+"'"+str(actuel)+"'"
+            cursor.execute(sqlv2)
+            db.commit()
+            sqlv3 = "INSERT INTO Frequentation (dateFrequentation,nbVisites) VALUES (%s, %s)"
+            datas=(actuel,data)
+            cursor.execute(sqlv3, datas)
+            db.commit()
+        except:
+            sqlv3 = "INSERT INTO Frequentation (dateFrequentation,nbVisites) VALUES (%s, %s)"
+            datas=(actuel,1)
+            cursor.execute(sqlv3, datas)
+            db.commit()
+        return actuel
+
 api.add_resource(LogIN, '/userLogin/<user_name>/<user_paswd>')
 api.add_resource(utilisateur, '/utilisateur')
 api.add_resource(lieu, '/lieux')
@@ -131,6 +166,8 @@ api.add_resource(MapInfo, '/map')
 api.add_resource(userAdd, '/userAdd/<user_firstname>/<user_name>/<user_pseudo>/<user_path>/<user_admin>')
 api.add_resource(listQuestionsReponses, '/listQuestionsReponses')
 api.add_resource(ProfileImg, '/getImgProfile/<pathImg>')
+api.add_resource(addFrequentation, '/addFrequentation')
+
 if __name__ == '__main__':
     app.run(debug=True)
     

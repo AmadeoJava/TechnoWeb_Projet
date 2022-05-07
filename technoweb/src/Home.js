@@ -15,7 +15,8 @@ import FooterComponent from "./FooterComponent";
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
-import QuestionRad from './QuestionRad'
+import QuestionRad from './QuestionRad';
+import { format } from "date-fns";
 const axios = require('axios');
 
 //import './index.css';
@@ -82,12 +83,11 @@ function Home() {
 
   const [questions, setQuestions] = useState({});
 
-  const [boolRep, setBoolRep] = useState({});
 
-  useEffect(() => {
-    requeteQuestions().then((resp) => {setQuestions(resp.data)});   
-    CréeQuestPos(questions);
-  }, []);
+  // useEffect(() => {
+  //   requeteQuestions().then((resp) => {setQuestions(resp.data)});   
+  //   CréeQuestPos(questions);
+  // }, []);
 
   function getCookie(cname) {
     let name = cname + "=";
@@ -150,8 +150,16 @@ function Home() {
 
   window.onload = () => {
 
-    requetemap().then((resp) => {setmap(resp.data)});
-    
+    //requetemap().then((resp) => {setmap(resp.data)});
+    var date = new Date();
+    var formattedDate = format(date, "yyyy-MM-dd");
+    try {
+      axios.post(
+        `/addFrequentation`
+      );
+    } catch (err) {
+      console.log(err);
+    }
     if(! getCookie("jeu")){
       setOpenD(true);
     }

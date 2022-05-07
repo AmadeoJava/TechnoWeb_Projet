@@ -1,10 +1,11 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 
 
-export default function ChartGraphe(r) {
+export default function ChartGraphe() {
   Chart.register()
+
 
 
 
@@ -12,7 +13,7 @@ export default function ChartGraphe(r) {
     labels: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
     datasets: [
       {
-        label: 'This week',
+        label: 'Frequentation',
           data: [50, 110, 60, 290, 200, 115, 130, 170, 90, 210, 240, 280, 350],
           
           backgroundColor: 'rgba(26, 115, 232, 0.18)',
@@ -24,8 +25,8 @@ export default function ChartGraphe(r) {
           pointBorderWidth: 1,
           pointRadius: [4, 4, 4, 4, 4,4, 4, 4, 4, 4,4, 4, 4],
           pointHoverRadius: [2, 2, 2, 2, 2,2, 2, 2, 2, 2,2, 2, 2],
-          pointBackgroundColor: ['#1F3BB3', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)'],
-          pointBorderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff',],
+          pointBackgroundColor: ['#1F3BB3', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3'],
+          pointBorderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff'],
           tension: 0.4,
        },
     ],
