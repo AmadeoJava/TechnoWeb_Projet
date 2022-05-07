@@ -33,20 +33,6 @@ const rowPlaces1 = [
   createDataPlaces(3, require('./images/places/mod.jpg'), 'Musée de la mode', '10', '12', "Culture Restaurant", "Musée avec des vêtements"),
 ];
 
-// try {
-//   const result = axios.get(
-//     `/lieux`
-//   );
-  
-//   result.then((resp) =>
-//     console.log(resp)
-    
-//   );
-
-// } catch (err) {
-//   console.log(err);
-// }
-
 const columnsPlaces = [
   { id: 'image' },
   { id: 'name' },
@@ -140,6 +126,25 @@ export default function PlacesTable() {
     setOpen(true);
   }
 
+  const changerLieu = () =>{
+    var chosesAModifier = false;
+    console.log($("#placenomA").val()+" et "+nom);
+    if($("#placenomA").val() && $("#placenomA").val()!=nom){
+      nom=$("#placenomA").val();
+      chosesAModifier=true;
+    }
+    if($("#placedescA").val() && $("#placedescA").val()!=nom){
+      nom=$("#placedescA").val();
+      chosesAModifier=true;
+    }
+    if(chosesAModifier){
+      alert("Lieu modifié");
+    }
+
+    handleClose();
+
+  }
+
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden', height: '100%' }}>
 
@@ -222,22 +227,19 @@ export default function PlacesTable() {
     />
 
     <Dialog onClose={handleClose} open={open} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
-      <DialogTitle id="simple-dialog-title"><h2>Modifier utilisateur</h2></DialogTitle>
+      <DialogTitle id="simple-dialog-title">Modifier lieu</DialogTitle>
       <Grid container direction={"column"} spacing={2}>
-        <Grid Item>
+        <Grid item>
           Nom
         </Grid>
         <Grid item>
-          <TextField id="placenom" name="placenom" label={nom} required margin="normal" style={{ width: "90%" }} />
+          <TextField id="placenomA" name="placenomA" label={nom} required margin="normal" style={{ width: "90%" }} />
         </Grid>
-        <Grid Item>
-          <br />
-        </Grid>
-        <Grid Item>
+        <Grid item>
           Description
         </Grid>
         <Grid item>
-          <TextField id="placedescription" name="placedescription" label={description} required margin="normal" style={{ width: "90%" }} />
+          <TextField id="placedescriptionA" name="placedescriptionA" label={description} required margin="normal" style={{ width: "90%" }} />
         </Grid>
         <Grid item>
           <Grid container spacing={2} style={{ justifyContent: "center" }}>
@@ -247,7 +249,7 @@ export default function PlacesTable() {
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" onClick={() => handleClose()}>Valider</Button>
+              <Button variant="contained" onClick={() => changerLieu()}>Valider</Button>
             </Grid>
           </Grid>
         </Grid>
@@ -257,7 +259,7 @@ export default function PlacesTable() {
     </Dialog>
 
     <Dialog open={verif} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
-      <DialogTitle id="simple-dialog-title"><h2>Supprimer lieu</h2></DialogTitle>
+      <DialogTitle id="simple-dialog-title">Supprimer lieu</DialogTitle>
       <Grid container direction={"column"} spacing={2}>
         <Grid item>
           <Grid container spacing={2} style={{ justifyContent: "center" }}>

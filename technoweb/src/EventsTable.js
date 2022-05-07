@@ -17,15 +17,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-function createDataEvents(identifiant, image, name, date, description) {
-    return { identifiant, image, name, date, description};
+function createDataEvents(identifiant, image, name, debut, fin, description) {
+    return { identifiant, image, name, debut, fin, description};
   }// add data
   var rowsEvents = [
-    createDataEvents(1,require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', "Grand carnaval"),
+    createDataEvents(1,require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', '28/04/2022', "Grand carnaval"),
   ];
 
   const rowsEvents1 = [
-    createDataEvents(1,require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', "Grand carnaval"),
+    createDataEvents(1,require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', '28/04/2022', "Grand carnaval"),
   ];
   
   // const axios = require('axios');
@@ -45,14 +45,16 @@ function createDataEvents(identifiant, image, name, date, description) {
   const columnEvents = [
     { id: 'image'},
     { id: 'name'},
-    { id: 'date'},
+    { id: 'debut'},
+    { id: "fin"},
     { id: 'description'},
     { id: 'identifiant'}
   ];
 
   var ind;
   var nom;
-  var date;
+  var debut;
+  var fin;
   var description;
   var index=0;
   export default function EventsTable() {
@@ -131,9 +133,34 @@ function createDataEvents(identifiant, image, name, date, description) {
       console.log(i);
       ind=i-1;
       nom = rowsEvents[ind].name;
-      date = rowsEvents[ind].date;
+      debut = rowsEvents[ind].debut;
+      fin = rowsEvents[ind].fin;
       description = rowsEvents[ind].description;
       setOpen(true);
+    }
+
+    const changerEvent = () => {
+      var trucsAChanger=false;
+      if($("#eventnomA").val() && $("#eventnomA").val()!=nom){
+        nom=$("#eventnomA").val();
+        trucsAChanger=true;
+      }
+      if($("#eventdebutA").val() && $("#eventdebutA").val()!=debut){
+        debut=$("#eventdebutA").val();
+        trucsAChanger=true;
+      }
+      if($("#eventfinA").val() && $("#eventfinA").val()!=fin){
+        fin=$("#eventfinA").val();
+        trucsAChanger=true;
+      }
+      if($("#eventdescriptionA").val() && $("#eventdescriptionA").val()!=description){
+        description=$("#eventdescriptionA").val();
+        trucsAChanger=true;
+      }
+      handleClose();
+      if(trucsAChanger){
+        alert("Evenement modifié");
+      }
     }
 
   return (
@@ -150,8 +177,9 @@ function createDataEvents(identifiant, image, name, date, description) {
       <Table stickyHeader aria-label="sticky table" id="usertable">
       <colgroup>
           <col style={{width:'15%'}}/>
-          <col style={{width:'15%'}}/>
-          <col style={{width:'15%'}}/>
+          <col style={{width:'10%'}}/>
+          <col style={{width:'10%'}}/>
+          <col style={{width:'10%'}}/>
           <col style={{width:'50%'}}/>
           <col style={{width:'5%'}}/>
         </colgroup>
@@ -159,7 +187,8 @@ function createDataEvents(identifiant, image, name, date, description) {
           <TableRow>
           <TableCell align="center" style={{fontWeight: "bold"}}>Image</TableCell>
             <TableCell align="center" style={{fontWeight: "bold"}}>Nom</TableCell>
-            <TableCell align="center" style={{fontWeight: "bold"}}>Date</TableCell>
+            <TableCell align="center" style={{fontWeight: "bold"}}>Début</TableCell>
+            <TableCell align="center" style={{fontWeight: "bold"}}>Fin</TableCell>
             <TableCell align="center" style={{fontWeight: "bold"}}>Description</TableCell>
             <TableCell align="center" style={{fontWeight: "bold"}}>Modifier</TableCell>
           </TableRow>
@@ -191,7 +220,7 @@ function createDataEvents(identifiant, image, name, date, description) {
                   }
                   })}
                   <TableCell align="center">
-                    <IconButton id={row[columnEvents[2].id]} onClick={event=>changer(row[columnEvents[4].id])}>
+                    <IconButton id={row[columnEvents[2].id]} onClick={event=>changer(row[columnEvents[5].id])}>
                       <EditIcon style={{color: '#1976d2'}}/>
                     </IconButton>
                   </TableCell>
@@ -212,28 +241,31 @@ function createDataEvents(identifiant, image, name, date, description) {
     />
 
 <Dialog onClose={handleClose} open={open} style={{textAlign: 'center', contentAlign: 'center'}} fullWidth maxwidth="sm">
-      <DialogTitle id="simple-dialog-title"><h2>Modifier utilisateur</h2></DialogTitle>
+      <DialogTitle id="simple-dialog-title">Modifier évènement</DialogTitle>
         <Grid container direction={"column"} spacing={2}>
-          <Grid Item>
+          <Grid item>
             Nom
           </Grid>
           <Grid item>
-              <TextField id="eventnom" name="eventnom" label={nom} required margin="normal" style={{width: "90%"}}/>
-          </Grid>
-          <Grid Item>
-            <br/>
-          </Grid>
-          <Grid Item>
-            Date
+              <TextField id="eventnomA" name="eventnom" label={nom} required margin="normal" style={{width: "90%"}}/>
           </Grid>
           <Grid item>
-            <TextField id="eventdate" type="date" name="eventdate" autoComplete={date} required margin="normal" style={{width: "90%"}}/>
+            Date de début
           </Grid>
-          <Grid Item>
+          <Grid item>
+            <TextField id="eventdebutA" type="date" name="eventdebut" autoComplete={debut} required margin="normal" style={{width: "90%"}}/>
+          </Grid>
+          <Grid item>
+            Date de fin
+          </Grid>
+          <Grid item>
+            <TextField id="eventfinA" type="date" name="eventfin" autoComplete={fin} required margin="normal" style={{width: "90%"}}/>
+          </Grid>
+          <Grid item>
             Description
           </Grid>
           <Grid item>
-            <TextField id="eventdescription" name="eventdescription" label={description} required margin="normal" style={{width: "90%"}}/>
+            <textarea id="eventdescriptionA" name="eventdescription" label={description} required margin="normal" style={{width: "90%"}}/>
           </Grid>
           <Grid item>
             <Grid container spacing={2} style={{  justifyContent:"center"}}>
@@ -243,7 +275,7 @@ function createDataEvents(identifiant, image, name, date, description) {
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="contained" onClick={()=>handleClose()}>Valider</Button>
+                <Button variant="contained" onClick={()=>changerEvent()}>Valider</Button>
               </Grid>
             </Grid>
           </Grid>
@@ -253,7 +285,7 @@ function createDataEvents(identifiant, image, name, date, description) {
     </Dialog>
 
     <Dialog open={verif} style={{textAlign: 'center', contentAlign: 'center'}} fullWidth maxwidth="sm">
-      <DialogTitle id="simple-dialog-title"><h2>Supprimer évènement</h2></DialogTitle>
+      <DialogTitle id="simple-dialog-title">Supprimer évènement</DialogTitle>
         <Grid container direction={"column"} spacing={2}>
           <Grid item>
             <Grid container spacing={2} style={{  justifyContent:"center"}}>
