@@ -9,6 +9,7 @@ import pieton from './images/map/pieton.png';
 import car from './images/map/car.png';
 import './home.css';
 import "https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js";
+import "https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js";
 var tabTest = [];
 const getMap = (data) => {
 
@@ -42,9 +43,10 @@ const MapComponent = (r) => {
 
   const createRoutineMachineLayer = (props) => {
     myRouter = L.Routing.control({
+      geocoder: L.Control.Geocoder.nominatim(),
       waypoints: [
         L.latLng(43.928470611572, 2.1426000595093),
-        L.latLng(43.94261, 2.14822),
+        L.latLng(43.9271, 	2.14785),
       ],
 
       router: L.Routing.mapbox(
@@ -96,7 +98,6 @@ const MapComponent = (r) => {
     popupAnchor: [0, -46],
   });
   getMap(r["el"]);
-  console.log("quest dans map");
   return <div>
 
     <MapContainer className="mapcontainer" >

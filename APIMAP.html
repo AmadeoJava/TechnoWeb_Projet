@@ -84,11 +84,6 @@
         const optionsV2 = { profile: "mapbox/walking" };
         var myRouter = L.Routing.control({
           geocoder: L.Control.Geocoder.nominatim(),
-          waypoints: [
-            L.latLng(43.928470611572, 2.1426000595093),
-            L.latLng(43.94261, 2.14822),
-          ],
-
           router: L.Routing.mapbox(
             "pk.eyJ1IjoiYXplYXpkcXp6c2ppaGdocXpqa2giLCJhIjoiY2wxNTQzcnpvMGdydTNvcXpreDBmbnZxNiJ9.hKjHX7H6ZbnO4Gt0gH_sAg",
             optionsV2
