@@ -21,6 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 function createDataPlaces(identifiant, image, name, latitude, longitude, caracteristiques, description) {
   return { identifiant, image, name, latitude, longitude, caracteristiques, description };
 }// add data
+/*
 var rowPlaces = [
   createDataPlaces(1, require('./images/places/cath.jpg'), 'Cathédrale', '8', '9', "Lieu", "Grande cathédrale"),
   createDataPlaces(2, require('./images/places/laut.jpg'), 'Musée Lautrec', '9', '9', "Culture", "Musée avec des tableaux"),
@@ -31,7 +32,10 @@ const rowPlaces1 = [
   createDataPlaces(1, require('./images/places/cath.jpg'), 'Cathédrale', '8', '9', "Lieu", "Grande cathédrale"),
   createDataPlaces(2, require('./images/places/laut.jpg'), 'Musée Lautrec', '9', '9', "Culture", "Musée avec des tableaux"),
   createDataPlaces(3, require('./images/places/mod.jpg'), 'Musée de la mode', '10', '12', "Culture Restaurant", "Musée avec des vêtements"),
-];
+];*/
+
+var rowPlaces=[];
+var rowPlaces1=[];
 
 const columnsPlaces = [
   { id: 'image' },
@@ -47,7 +51,31 @@ var ind = 0;
 var nom = "cat";
 var description = "rien";
 var indexkey=0;
-export default function PlacesTable() {
+
+var toutOkP=true;
+
+export default function PlacesTable(rep) {
+
+  //console.log(rep.d);
+
+  const ajouterToListeP = (e) => {
+    
+    //console.log(e.length);
+
+    for(let i=0; i<e.length; i++){
+      var el=e[i];
+      //console.log(el);
+
+      rowPlaces.push(createDataPlaces(el.idLieu,el.pathImgLieu,el.intitule,el.lat,el.longu,el.caracteristque,el.descriptionLieu));
+      rowPlaces1.push(createDataPlaces(el.idLieu,el.pathImgLieu,el.intitule,el.lat,el.longu,el.caracteristque,el.descriptionLieu));
+    }
+  }
+  if(toutOkP){
+    ajouterToListeP(rep.d);
+    toutOkP = false;
+  }
+
+
   var timeou;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -197,7 +225,7 @@ export default function PlacesTable() {
                     } else {
                       return (
                         <TableCell key={indexkey} align="center">
-                          <img src={value} style={{ width: '50%' }} alt="" />
+                          <img src={require("./images/places/cath.jpg")} style={{ width: '50%' }} alt="" />
                         </TableCell>
                         );
                     }

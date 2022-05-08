@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 const axios = require('axios');
 
-const requetEventsActifs = async () => {
+const requetEventsActifs =  () => {
     try {
         const result = axios.get(
             `/EvenementsActifs`

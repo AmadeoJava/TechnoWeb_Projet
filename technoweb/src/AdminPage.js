@@ -38,6 +38,7 @@ import EventTable from './EventsTable';
 import Documentation from './Documentation';
 import UserProfile from './UserProfile';
 import ChartGraphe from './ChartGraphe';
+import ReactDOM from 'react-dom';
 import './adminpage.css';
 
 const axios = require('axios');
@@ -173,7 +174,9 @@ var answer;
 var answer_array;
 
 var fileName;
+var fichier;
 
+var initialisation=true;
 
 export default function WebProject() {
 
@@ -208,6 +211,33 @@ export default function WebProject() {
       console.log(err);
     }
   }
+  /*
+  const uploadImage = (l) => {
+    console.log(fichier);
+    const data = new FormData();
+    const { files } = fichier;
+    var nomFichier = fileName;
+    data.append('file', fichier);
+    data.append('filename', nomFichier);
+    try {
+      const result = axios.post(
+        `/ImageUserAdd/${nomFichier}`,
+        data
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };*/
+
+  var posterUser = (l) => {
+    try {
+      const result = axios.post(
+        `/userAdd/${l[0]}/${l[1]}/${l[2]}/${l[3]}/${l[4]}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const ajouterUser = () =>{
     if($("#prenomAdd").val() && $("#nomAdd").val() && $("#pseudoAdd").val() && $("#passwordAdd").val()){
@@ -226,6 +256,7 @@ export default function WebProject() {
           userAdd.push(i);
         })
         console.log(userAdd);
+        posterUser(userAdd);
         fileName="";
         $(".files").text="";
         alert("Utilisateur ajouté");
@@ -237,18 +268,28 @@ export default function WebProject() {
     }
   }
 
+  var posterPlace = (l) => {
+    try {
+      const result = axios.post(
+        `/placeAdd/${l[0]}/${l[1]}/${l[2]}/${l[3]}/${l[4]}/${l[5]}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const ajouterLieu = () => {
     if($("#placenom").val() && $("#placelat").val() && $("#placelon").val() && $("#placedesc").val() && $('#placefiles').text() && $('#placefiles').text()==fileName){
       var placeAdd=[];
       placeAdd.push(parseInt($("#placelat").val()));
       placeAdd.push(parseInt($("#placelon").val()));
       placeAdd.push($("#placenom").val());
-      placeAdd.push($("#carcPlaceAdd").text());
+      placeAdd.push($("#placecar").text());
       placeAdd.push($("#placedesc").val());
       placeAdd.push($("#placefiles").val());
 
       console.log(placeAdd);
-
+      posterPlace(placeAdd);
       fileName="";
       $(".files").text="";
       alert("Lieu ajouté");
@@ -258,15 +299,25 @@ export default function WebProject() {
 
   }
 
+  var posterEvent = (l) => {
+    try {
+      const result = axios.post(
+        `/eventAdd/${l[0]}/${l[1]}/${l[2]}/${l[3]}/${l[4]}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const ajouterEvent = () =>{
-    if($("#eventnom").val() && $("#eventdatedeb").val() && $("#eventdatefin").val() && $('#eventfiles').text() && $('#eventfiles').text()==fileName){
+    if($("#eventnom").val() && $("#eventdatedeb").val() && $("#eventdatefin").val() && $("#eventdesc").val() && $('#eventfiles').text() && $('#eventfiles').text()==fileName){
       var eventAdd=[];
       eventAdd.push($("#eventnom").val());
       eventAdd.push($("#eventdatedeb").val());
       eventAdd.push($("#eventdatefin").val());
+      eventAdd.push($("#eventdesc").val())
       eventAdd.push($("#eventfiles").val());
-
+      posterEvent(eventAdd);
       console.log(eventAdd);
 
       fileName="";
@@ -286,11 +337,13 @@ export default function WebProject() {
     }else{
       if(f[1]=="png" || f[1]=="jpg"){
         console.log("Fichier accepté");
+        return true
       }else{
         alert("Le fichier n'est pas conforme");
         fileName ="";
       }
     }
+    return false;
   }
 
   const theme = useTheme();
@@ -477,6 +530,54 @@ export default function WebProject() {
     let v2 = verifUser(utilisat);
   }
 
+  const ajoutUserTable = (d) => {
+    //console.log(d);
+    const tableau = <UserTable d={d}/>;
+    ReactDOM.render(tableau, document.getElementById('usertable'));
+
+  }
+
+  const ajoutEventTable = (d) =>{
+    const tableau = <EventTable d={d}/>;
+    ReactDOM.render(tableau, document.getElementById('eventtable'));
+    if(userLogin==1){
+      try {
+        const result = axios.get(
+          `/utilisateur`
+        );
+       
+        result.then((resp) =>
+        ajoutUserTable(resp.data)
+        );
+     
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+  }
+
+  const ajoutPlaceTable = (d) => {
+    const tableau = <PlaceTable d={d}/>;
+    ReactDOM.render(tableau, document.getElementById('placetable'));
+    try {
+      const result = axios.get(
+        `/event`
+      );
+     
+      result.then((resp) =>
+      ajoutEventTable(resp.data)
+      );
+   
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+
+
+
 
   answer = window.location.href;
   //console.log(answer);
@@ -498,7 +599,6 @@ export default function WebProject() {
     } catch (err) {
       console.log(err);
     }
-  
 
 
     if (answer_array[1] === null) {
@@ -511,7 +611,11 @@ export default function WebProject() {
     $('#placeupload').change(function (e) {
       var fs = e.target.files.length;  // filesize
       fileName = e.target.files[fs - 1].name;
-      verifierFile();
+      var a = verifierFile();
+      if(a){
+        fichier=e.target.files[fs - 1];
+      }
+
       $('#placefiles').text(fileName);
       //console.log(fileName);
     });
@@ -519,24 +623,47 @@ export default function WebProject() {
     $('#userupload').change(function (e) {
       var fs = e.target.files.length;  // filesize
       fileName = e.target.files[fs - 1].name;
-      verifierFile();
+      var a = verifierFile();
       $('#userfiles').text(fileName);
-      //console.log(fileName);
+      if(a){
+        fichier=e.target.files[fs - 1];
+      }
     });
 
     $('#eventupload').change(function (e) {
       var fs = e.target.files.length;  // filesize
       fileName = e.target.files[fs - 1].name;
-      verifierFile();
+      var a = verifierFile();
+      if(a){
+        fichier=e.target.files[fs - 1];
+      }
       $('#eventfiles').text(fileName);
       //console.log(fileName);
     });
 
   });
 
+  const arnaque = () =>{
+    if(initialisation){
+      try {
+        const result = axios.get(
+          `/lieu`
+        );
+      
+        result.then((resp) =>
+        ajoutPlaceTable(resp.data)
+        );
+    
+      } catch (err) {
+        console.log(err);
+      }
+      initialisation=false;
+    }
+  }
+
   return (
 
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }} onClick={()=>arnaque()}>
       <CssBaseline />
       <AppBar position="fixed" open={open} style={{ backgroundColor: 'rgb(30, 82, 166)' }} >
         <Toolbar id="appBarre">
@@ -755,7 +882,7 @@ export default function WebProject() {
                   <TextareaAutosize id="placedesc" minRows={5} placeholder="Description du lieu" style={{ width: "98%" }}/>
                 </Grid>
                 <Grid item>
-                <TextField select label="Choisissez la caractéristique du lieu" id="carcPlaceAdd" style={{ width: "98%" }} required defaultValue="culturel">
+                <TextField select label="Choisissez la caractéristique du lieu" id="placecar" style={{ width: "98%" }} required defaultValue="culturel">
                     <MenuItem value={"culturel"}>
                       Culturel
                     </MenuItem>
@@ -778,7 +905,7 @@ export default function WebProject() {
                   </div>
                 </Grid>
                 <Grid item>
-                  <Button onClick={()=>ajouterLieu} style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  <Button onClick={()=>ajouterLieu()} style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
                     Ajouter
                   </Button>
                 </Grid>
@@ -797,6 +924,9 @@ export default function WebProject() {
                     <TextField id="eventdatedeb" label="Date de début" type="date" sx={{ width: "40%", left:"-5%" }} InputLabelProps={{shrink: true}}/>
                     <TextField id="eventdatefin" label="Date de fin" type="date" sx={{ width: "40%", left:"5%" }} InputLabelProps={{shrink: true}}/>
                   </div>
+                </Grid>
+                <Grid item>
+                  <TextareaAutosize id="eventdesc" minRows={5} placeholder="Description de l'évènement" style={{ width: "98%" }}/>
                 </Grid>
                 <Grid item>
                   <Button id="buttonevent" variant="contained" component="label" style={{ width: "98%" }}>
@@ -839,16 +969,14 @@ export default function WebProject() {
 
           <Box style={{ width: "100%", display: "flex", flexFlow: "row nowrap", justifyContent: "center", alignItems: "center" }}>
 
-            <Box id="usertable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }} className="adminLevel">
-                <UserTable />
+            <Box id="usertable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}  className="adminLevel">
+                
             </Box>
 
             <Box id="placetable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
-              <PlaceTable />
             </Box>
 
             <Box id="eventtable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
-              <EventTable />
             </Box>
 
           </Box>
