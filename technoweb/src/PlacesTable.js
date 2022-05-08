@@ -121,7 +121,7 @@ export default function PlacesTable(rep) {
       rowPlaces = ro;
     }
 
-    console.log(rowPlaces);
+    //console.log(rowPlaces);
 
     setPage(1);
     actualiser();
@@ -137,7 +137,7 @@ export default function PlacesTable(rep) {
 
   const verifclose = () => {
     setVerif(false);
-    console.log(verif);
+    //console.log(verif);
   }
 
 
@@ -153,7 +153,7 @@ export default function PlacesTable(rep) {
 
 
   const changer = (i) => {
-    console.log(i);
+    //console.log(i);
     ind = i - 1;
     nom = rowPlaces[ind].name;
     description = rowPlaces[ind].description;
@@ -162,7 +162,7 @@ export default function PlacesTable(rep) {
 
   const changerLieu = () =>{
     var chosesAModifier = false;
-    console.log($("#placenomA").val()+" et "+nom);
+    //console.log($("#placenomA").val()+" et "+nom);
     if($("#placenomA").val() && $("#placenomA").val()!=nom){
       nom=$("#placenomA").val();
       chosesAModifier=true;
@@ -231,7 +231,7 @@ export default function PlacesTable(rep) {
                     } else {
                       return (
                         <TableCell key={indexkey} align="center">
-                          <img src={"http://localhost:5000/getPlacesImg/"+row["pathImgLieu"]} style={{ width: '50%' }} alt="" />
+                          <img src={"http://localhost:5000/getPlacesImg/"+row["image"]} style={{ width: '50%' }} alt="" />
                         </TableCell>
                         );
                     }

@@ -76,7 +76,7 @@ export default function UsersTable(rep) {
 
   const ajouterToListeU = (e) => {
     
-    console.log(e.length);
+    //console.log(e.length);
 
     for(let i=0; i<e.length; i++){
       var el=e[i];
@@ -144,7 +144,7 @@ export default function UsersTable(rep) {
       rowsUsers = ro;
     }
 
-    console.log(rowsUsers);
+    //console.log(rowsUsers);
 
     setPage(1);
     actualiser();

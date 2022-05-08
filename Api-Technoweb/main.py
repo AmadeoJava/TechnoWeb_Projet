@@ -301,7 +301,7 @@ class ImageListApiLieu(Resource):
                             location="files")
         args = parse.parse_args()
         imgFile = args['file']
-        imgFile.save(os.path.join("images/lieu/" + img + pathext))
+        imgFile.save(os.path.join("images/places/" + img + pathext))
 
 class ImageListApiEvent(Resource):
 
@@ -313,21 +313,33 @@ class ImageListApiEvent(Resource):
                             location="files")
         args = parse.parse_args()
         imgFile = args['file']
-        imgFile.save(os.path.join("images/event/" + img + pathext))
+        imgFile.save(os.path.join("images/events/" + img+ pathext))
 
 class PlacesImg(Resource):
     def get(self, pathImg):
-        
-        imgAEnvoi = path + '/places/' + pathImg
-        return send_file(imgAEnvoi, mimetype='image/gif')
+        try:
+            imgAEnvoi = path + '/places/' + pathImg
+            return send_file(imgAEnvoi, mimetype='image/gif')
+        except Exception:
+            imgAEnvoi=path+'/places/notfound.png'
+            return send_file(imgAEnvoi, mimetype='image/gif')
+
 
 
 
 class EventImg(Resource):
+
     def get(self, pathImg):
 
-        imgAEnvoi = path + '/events/' + pathImg
-        return send_file(imgAEnvoi, mimetype='image/gif')
+        try:
+            imgAEnvoi = path + '/events/' + pathImg
+            return send_file(imgAEnvoi, mimetype='image/gif')
+        except Exception:
+            imgAEnvoi=path+'/events/notfound.png'
+            return send_file(imgAEnvoi, mimetype='image/gif')
+
+
+
 
 
 
@@ -349,8 +361,8 @@ api.add_resource(placeAdd,'/placeAdd/<place_lat>/<place_lon>/<place_nom>/<place_
 api.add_resource(eventAdd,'/eventAdd/<event_nom>/<event_debut>/<event_fin>/<event_desc>/<event_file>')
 api.add_resource(changerUser,'/changerUser/<user_prenom>/<user_nom>/<user_admin>')
 api.add_resource(ImageListApiProfile,'/ImageListApiProfile/<img>')
-api.add_resource(ImageListApiLieu,'/ImageListApiProfile/<img>/<pathext>')
-api.add_resource(ImageListApiEvent,'/ImageListApiProfile/<img>/<pathext>')
+api.add_resource(ImageListApiLieu,'/ImageListApiLieu/<img>/<pathext>')
+api.add_resource(ImageListApiEvent,'/ImageListApiEvent/<img>/<pathext>')
 if __name__ == '__main__':
     app.run(debug=True)
     

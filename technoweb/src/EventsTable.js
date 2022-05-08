@@ -53,6 +53,7 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
 
   export default function EventsTable(rep) {
     for(var i=0;i<rep["d"].length;i++){
+      //console.log(rep["d"][i].pathImgEvent);
       try {
         axios.get(`/getEventsImg/${rep["d"][i].pathImgEvent}`);
       } catch (err) {
@@ -118,7 +119,7 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
         rowsEvents=ro;
       }
 
-      console.log(rowsEvents);
+      //console.log(rowsEvents);
 
       setPage(1);
       actualiser();
@@ -134,7 +135,7 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
 
     const verifclose = () => {
       setVerif(false);
-      console.log(verif);
+      //console.log(verif);
     }
 
 
@@ -150,7 +151,7 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
  
 
     const changer = (i) => {
-      console.log(i);
+      //console.log(i);
       ind=i-1;
       nom = rowsEvents[ind].name;
       debut = rowsEvents[ind].debut;
@@ -231,7 +232,7 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
                     }else{
                       return (
                         <TableCell key={index} align="center">
-                          <img src={"http://localhost:5000/getEventsImg/"+row["pathImgEvent"]} style={{width: '50%'}} alt=""/>
+                          <img src={"http://localhost:5000/getEventsImg/"+row["image"]} style={{width: '50%'}} alt=""/>
                         </TableCell>
                       );
                     }
