@@ -191,23 +191,15 @@ class Graph(Resource):
 
 class ProfileImg(Resource):
     def get(self, pathImg):
-        db = pymysql.connect(host='mysql-champo.alwaysdata.net',
-                             user='champo',
-                             password='TechnoWeb4',
-                             database='champo_bdd_technoweb',
-                             cursorclass=pymysql.cursors.DictCursor)
         try:
             try:
                 imgAEnvoi = path + '/profile/' + pathImg +'.jpg'
-                db.close()
                 return send_file(imgAEnvoi, mimetype='image/gif')
             except:
                 imgAEnvoi = path + '/profile/' + pathImg +'.png'
-                db.close()
                 return send_file(imgAEnvoi, mimetype='image/gif')
         except Exception:
             imgAEnvoi=path+'/profile/notfound.png'
-            db.close()
             return send_file(imgAEnvoi, mimetype='image/gif')
 
 class MapInfo(Resource):

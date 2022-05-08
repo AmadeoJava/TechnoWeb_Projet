@@ -169,33 +169,32 @@ var tableForms = ["usertable", "placetable", "eventtable"];
 var inputButtons = ["userinputbutton", "placeinputbutton", "eventinputbutton"];
 var inputForms = ["userform", "placeform", "eventform"];
 
-const userValid=false;
+const userValid = false;
 var answer;
 var answer_array;
 
 var fileName;
 var fichier;
 
-var initialisation=true;
+var initialisation = true;
 
 export default function WebProject() {
 
 
   const sha512 = (str) => {
     return crypto.subtle.digest("SHA-512", new TextEncoder("utf-8").encode(str)).then(buf => {
-      return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
+      return Array.prototype.map.call(new Uint8Array(buf), x => (('00' + x.toString(16)).slice(-2))).join('');
     });
   }
 
 
   const navigate = useNavigate();
-  const [images, setAvatarImages] = useState([]);
   const [userLogin, setUserLogin] = useState({});
 
   const afficherAdmin = (e) => {
     //console.log(e.administrateur);
     setUserLogin(e);
-    if(e.administrateur==0){
+    if (e.administrateur == 0) {
       pasAdmin();
     }
   }
@@ -205,7 +204,7 @@ export default function WebProject() {
       const result = axios.get(
         `/user/${pseudo}`
       );
-  
+
       return result;
     } catch (err) {
       console.log(err);
@@ -239,31 +238,31 @@ export default function WebProject() {
     }
   }
 
-  const ajouterUser = () =>{
-    if($("#prenomAdd").val() && $("#nomAdd").val() && $("#pseudoAdd").val() && $("#passwordAdd").val()){
-      if($("#passwordAdd").val().length>=8){
+  const ajouterUser = () => {
+    if ($("#prenomAdd").val() && $("#nomAdd").val() && $("#pseudoAdd").val() && $("#passwordAdd").val()) {
+      if ($("#passwordAdd").val().length >= 8) {
         var userAdd = [];
-        if($("#userlevelAdd").text()=="Gérant"){
+        if ($("#userlevelAdd").text() == "Gérant") {
           userAdd.push(0);
-        }else{
+        } else {
           userAdd.push(1);
         }
         userAdd.push(($("#nomAdd").val()));
         userAdd.push(($("#prenomAdd").val()));
         userAdd.push(($("#pseudoAdd").val()));
         var pass = $("#passwordAdd").val();
-        sha512(pass).then(i=>{
+        sha512(pass).then(i => {
           userAdd.push(i);
         })
         console.log(userAdd);
         posterUser(userAdd);
-        fileName="";
-        $(".files").text="";
+        fileName = "";
+        $(".files").text = "";
         alert("Utilisateur ajouté");
-      }else{
+      } else {
         alert("Le mot de passe est de taille inférieure à 8");
       }
-    }else{
+    } else {
       alert("Tous les champs n'ont pas été remplis")
     }
   }
@@ -279,8 +278,8 @@ export default function WebProject() {
   }
 
   const ajouterLieu = () => {
-    if($("#placenom").val() && $("#placelat").val() && $("#placelon").val() && $("#placedesc").val() && $('#placefiles').text() && $('#placefiles').text()==fileName){
-      var placeAdd=[];
+    if ($("#placenom").val() && $("#placelat").val() && $("#placelon").val() && $("#placedesc").val() && $('#placefiles').text() && $('#placefiles').text() == fileName) {
+      var placeAdd = [];
       placeAdd.push(parseInt($("#placelat").val()));
       placeAdd.push(parseInt($("#placelon").val()));
       placeAdd.push($("#placenom").val());
@@ -290,10 +289,10 @@ export default function WebProject() {
 
       console.log(placeAdd);
       posterPlace(placeAdd);
-      fileName="";
-      $(".files").text="";
+      fileName = "";
+      $(".files").text = "";
       alert("Lieu ajouté");
-    }else{
+    } else {
       alert("Tous les champs ne sont pas remplis");
     }
 
@@ -309,9 +308,9 @@ export default function WebProject() {
     }
   }
 
-  const ajouterEvent = () =>{
-    if($("#eventnom").val() && $("#eventdatedeb").val() && $("#eventdatefin").val() && $("#eventdesc").val() && $('#eventfiles').text() && $('#eventfiles').text()==fileName){
-      var eventAdd=[];
+  const ajouterEvent = () => {
+    if ($("#eventnom").val() && $("#eventdatedeb").val() && $("#eventdatefin").val() && $("#eventdesc").val() && $('#eventfiles').text() && $('#eventfiles').text() == fileName) {
+      var eventAdd = [];
       eventAdd.push($("#eventnom").val());
       eventAdd.push($("#eventdatedeb").val());
       eventAdd.push($("#eventdatefin").val());
@@ -320,10 +319,10 @@ export default function WebProject() {
       posterEvent(eventAdd);
       console.log(eventAdd);
 
-      fileName="";
-      $(".files").text="";
+      fileName = "";
+      $(".files").text = "";
       alert("Evenement ajouté")
-    }else{
+    } else {
       alert("Tous les champs ne sont pas remplis");
     }
   }
@@ -331,16 +330,16 @@ export default function WebProject() {
 
   const verifierFile = () => {
     var f = fileName.split(".");
-    if(f.length!=2){
+    if (f.length != 2) {
       alert("Le fichier n'est pas conforme");
-      fileName ="";
-    }else{
-      if(f[1]=="png" || f[1]=="jpg"){
+      fileName = "";
+    } else {
+      if (f[1] == "png" || f[1] == "jpg") {
         console.log("Fichier accepté");
         return true
-      }else{
+      } else {
         alert("Le fichier n'est pas conforme");
-        fileName ="";
+        fileName = "";
       }
     }
     return false;
@@ -439,14 +438,14 @@ export default function WebProject() {
   }
 
   useEffect(() => {
-    userLoginfunc(answer_array[1]).then((resp) => {afficherAdmin(resp.data[0])});
+    userLoginfunc(answer_array[1]).then((resp) => { afficherAdmin(resp.data[0]) });
   }, []);
 
   function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
-    for(let i = 0; i <ca.length; i++) {
+    for (let i = 0; i < ca.length; i++) {
       let c = ca[i];
       while (c.charAt(0) === ' ') {
         c = c.substring(1);
@@ -460,41 +459,41 @@ export default function WebProject() {
 
   const delCookie = (cname) => {
     var d = new Date();
-    d.setTime(d.getTime() + (0*60*1000));
-    var expires = "expires="+d.toUTCString();  
+    d.setTime(d.getTime() + (0 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + '' + ";" + expires + ";path=/";
   }
 
-  const verifIP = (function() {
-    if(getCookie("Token")){
-      $.getJSON("https://api.ipify.org?format=json", function(data) {
-        sha512(data.ip).then(i=>{
-          if(i!==getCookie("Token")){
+  const verifIP = (function () {
+    if (getCookie("Token")) {
+      $.getJSON("https://api.ipify.org?format=json", function (data) {
+        sha512(data.ip).then(i => {
+          if (i !== getCookie("Token")) {
             delCookie("Token");
             console.log("Pas bon");
-            window.location.href="/";
+            window.location.href = "/";
           }
         })
       })
-    }else{
+    } else {
       console.log("Pas de cookie");
-      window.location.href="/";
+      window.location.href = "/";
     }
 
   })
 
-  const verifUser = (function(u){
-    if(getCookie("Token2")){
-        sha512(u).then(i=>{
-          if(i!==getCookie("Token2")){
-            delCookie("Token2");
-            console.log("Pas bon");
-            window.location.href="/";
-          }
-        })
-    }else{
+  const verifUser = (function (u) {
+    if (getCookie("Token2")) {
+      sha512(u).then(i => {
+        if (i !== getCookie("Token2")) {
+          delCookie("Token2");
+          console.log("Pas bon");
+          window.location.href = "/";
+        }
+      })
+    } else {
       console.log("Pas de cookie");
-      window.location.href="/";
+      window.location.href = "/";
     }
   })
 
@@ -502,19 +501,19 @@ export default function WebProject() {
     get: (searchParams, prop) => searchParams.get(prop),
   });
 
-  const creatUser = (u) =>{
-    var uti=u.charAt(0);
-    var le=u.length;
-    for(let i=1;i<le-1;i++){
-      uti+=(u.charAt((le-i)-1));
+  const creatUser = (u) => {
+    var uti = u.charAt(0);
+    var le = u.length;
+    for (let i = 1; i < le - 1; i++) {
+      uti += (u.charAt((le - i) - 1));
     }
-    uti+=u.charAt(le-1);
+    uti += u.charAt(le - 1);
     return uti;
   }
 
   // adminLevel = classe pour les éléments en + pour admin
 
-  const pasAdmin = () =>{
+  const pasAdmin = () => {
     tableButtons = ["placetablebutton", "eventtablebutton"];
     tableForms = ["placetable", "eventtable"];
     inputButtons = ["placeinputbutton", "eventinputbutton"];
@@ -524,7 +523,7 @@ export default function WebProject() {
 
   }
 
-  const verifierTout = () =>{
+  const verifierTout = () => {
     let utilisat = creatUser(params.id);
     let v1 = verifIP();
     let v2 = verifUser(utilisat);
@@ -532,41 +531,43 @@ export default function WebProject() {
 
   const ajoutUserTable = (d) => {
     //console.log(d);
-    const tableau = <UserTable d={d}/>;
+    const tableau = <UserTable d={d} />;
     ReactDOM.render(tableau, document.getElementById('usertable'));
 
   }
 
-  const ajoutEventTable = (d) =>{
-    const tableau = <EventTable d={d}/>;
+  const ajoutEventTable = (d) => {
+    const tableau = <EventTable d={d} />;
     ReactDOM.render(tableau, document.getElementById('eventtable'));
+    if (userLogin == 1) {
       try {
         const result = axios.get(
           `/utilisateur`
         );
-       
+
         result.then((resp) =>
-        ajoutUserTable(resp.data)
+          ajoutUserTable(resp.data)
         );
-     
+
       } catch (err) {
         console.log(err);
       }
+    }
 
   }
 
   const ajoutPlaceTable = (d) => {
-    const tableau = <PlaceTable d={d}/>;
+    const tableau = <PlaceTable d={d} />;
     ReactDOM.render(tableau, document.getElementById('placetable'));
     try {
       const result = axios.get(
         `/event`
       );
-     
+
       result.then((resp) =>
-      ajoutEventTable(resp.data)
+        ajoutEventTable(resp.data)
       );
-   
+
     } catch (err) {
       console.log(err);
     }
@@ -586,17 +587,7 @@ export default function WebProject() {
 
     verifierTout();
     debut();
-    
 
-    try {
-      axios.get(`/getImgProfile/${answer_array[1]}`);
-      const imagesv2 = [
-        `http://localhost:5000/getImgProfile/${answer_array[1]}`
-      ];
-      setAvatarImages(imagesv2);
-    } catch (err) {
-      console.log(err);
-    }
 
 
     if (answer_array[1] === null) {
@@ -610,8 +601,8 @@ export default function WebProject() {
       var fs = e.target.files.length;  // filesize
       fileName = e.target.files[fs - 1].name;
       var a = verifierFile();
-      if(a){
-        fichier=e.target.files[fs - 1];
+      if (a) {
+        fichier = e.target.files[fs - 1];
       }
 
       $('#placefiles').text(fileName);
@@ -623,8 +614,8 @@ export default function WebProject() {
       fileName = e.target.files[fs - 1].name;
       var a = verifierFile();
       $('#userfiles').text(fileName);
-      if(a){
-        fichier=e.target.files[fs - 1];
+      if (a) {
+        fichier = e.target.files[fs - 1];
       }
     });
 
@@ -632,8 +623,8 @@ export default function WebProject() {
       var fs = e.target.files.length;  // filesize
       fileName = e.target.files[fs - 1].name;
       var a = verifierFile();
-      if(a){
-        fichier=e.target.files[fs - 1];
+      if (a) {
+        fichier = e.target.files[fs - 1];
       }
       $('#eventfiles').text(fileName);
       //console.log(fileName);
@@ -641,27 +632,33 @@ export default function WebProject() {
 
   });
 
-  const arnaque = () =>{
-    if(initialisation){
+  const arnaque = () => {
+    if (initialisation) {
       try {
         const result = axios.get(
           `/lieu`
         );
-      
+
         result.then((resp) =>
-        ajoutPlaceTable(resp.data)
+          ajoutPlaceTable(resp.data)
         );
-    
+
       } catch (err) {
         console.log(err);
       }
-      initialisation=false;
+      initialisation = false;
     }
+  }
+
+  try {
+    axios.get(`/getImgProfile/${answer_array[1]}`);
+  } catch (err) {
+    console.log(err);
   }
 
   return (
 
-    <Box sx={{ display: 'flex' }} onClick={()=>arnaque()}>
+    <Box sx={{ display: 'flex' }} onClick={() => arnaque()}>
       <CssBaseline />
       <AppBar position="fixed" open={open} style={{ backgroundColor: 'rgb(30, 82, 166)' }} >
         <Toolbar id="appBarre">
@@ -683,52 +680,52 @@ export default function WebProject() {
           </Typography>
 
           <div style={{ position: 'fixed', right: 100 }}>
-      <img alt="imgAvatar" src={images} onClick={handleClick} className="clickable" style={{
-          display: 'block',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          width: '45px',
-          height: '45px',
-          borderRadius: 100
-        }}/>
-      <StyledMenu
-        id="demo-customized-menu"
-        MenuListProps={{
-          'aria-labelledby': 'demo-customized-button',
-        }}
-        anchorEl={anchorEl}
-        open={openit}
-        onClose={handleClose}
-      >
-      <img src={images}  alt="Profile"
-        style={{
-          display: 'block',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          width: '100px',
-          height: '100px',
-          borderRadius: 100
-        }}/>
-        <Typography paragraph style={{ textAlign: 'center' }}>
-          {userLogin.nom} {userLogin.prenom}
-        </Typography>
+            <img alt="imgAvatar" src={"http://localhost:5000/getImgProfile/" + answer_array[1]} onClick={handleClick} className="clickable" style={{
+              display: 'block',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              width: '45px',
+              height: '45px',
+              borderRadius: 100
+            }} />
+            <StyledMenu
+              id="demo-customized-menu"
+              MenuListProps={{
+                'aria-labelledby': 'demo-customized-button',
+              }}
+              anchorEl={anchorEl}
+              open={openit}
+              onClose={handleClose}
+            >
+              <img src={"http://localhost:5000/getImgProfile/" + answer_array[1]} alt="Profile"
+                style={{
+                  display: 'block',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  width: '100px',
+                  height: '100px',
+                  borderRadius: 100
+                }} />
+              <Typography paragraph style={{ textAlign: 'center' }}>
+                {userLogin.nom} {userLogin.prenom}
+              </Typography>
 
-        <Typography paragraph style={{ textAlign: 'center' }}>
-          {userLogin.pseudo}
-        </Typography>
-        <MenuItem onClick={(event) => { handleClose(); fermer("profile") }} disableRipple className="clickable">
-          <EditIcon style={{color:'#0e8cd4'}}/>
-          MyProfile
-        </MenuItem>
-        <MenuItem onClick={handleClose} disableRipple className="clickable">
-          <PowerSettingsNewIcon style={{color:'red'}}/>
+              <Typography paragraph style={{ textAlign: 'center' }}>
+                {userLogin.pseudo}
+              </Typography>
+              <MenuItem onClick={(event) => { handleClose(); fermer("profile") }} disableRipple className="clickable">
+                <EditIcon style={{ color: '#0e8cd4' }} />
+                MyProfile
+              </MenuItem>
+              <MenuItem onClick={handleClose} disableRipple className="clickable">
+                <PowerSettingsNewIcon style={{ color: 'red' }} />
 
-          <Link to="/">Sign Out</Link>
-        </MenuItem>
+                <Link to="/">Sign Out</Link>
+              </MenuItem>
 
-      </StyledMenu>
-    </div>
-          
+            </StyledMenu>
+          </div>
+
 
         </Toolbar>
       </AppBar>
@@ -804,7 +801,7 @@ export default function WebProject() {
 
 
       <Box component="main" id="editer" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
-      <DrawerHeader />
+        <DrawerHeader />
         <h1 style={{ width: "100%", textAlign: "center" }}>Ajouter des éléments</h1>
 
         <Card className='centerDiv'>
@@ -856,7 +853,7 @@ export default function WebProject() {
                   </div>
                 </Grid>
                 <Grid item>
-                  <Button onClick={()=>ajouterUser()} style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  <Button onClick={() => ajouterUser()} style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
                     Ajouter
                   </Button>
                 </Grid>
@@ -877,10 +874,10 @@ export default function WebProject() {
                   <TextField id="placelon" name="placelon" margin="normal" required style={{ width: "98%" }} label="Longitude" autoComplete="Longitude" type="number" />
                 </Grid>
                 <Grid item>
-                  <TextareaAutosize id="placedesc" minRows={5} placeholder="Description du lieu" style={{ width: "98%" }}/>
+                  <TextareaAutosize id="placedesc" minRows={5} placeholder="Description du lieu" style={{ width: "98%" }} />
                 </Grid>
                 <Grid item>
-                <TextField select label="Choisissez la caractéristique du lieu" id="placecar" style={{ width: "98%" }} required defaultValue="culturel">
+                  <TextField select label="Choisissez la caractéristique du lieu" id="placecar" style={{ width: "98%" }} required defaultValue="culturel">
                     <MenuItem value={"culturel"}>
                       Culturel
                     </MenuItem>
@@ -890,7 +887,7 @@ export default function WebProject() {
                     <MenuItem value={"hotel"}>
                       Hotel
                     </MenuItem>
-                </TextField>
+                  </TextField>
                 </Grid>
                 <Grid item>
                   <Button id="buttonplace" variant="contained" component="label" style={{ width: "98%" }}>
@@ -903,7 +900,7 @@ export default function WebProject() {
                   </div>
                 </Grid>
                 <Grid item>
-                  <Button onClick={()=>ajouterLieu()} style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  <Button onClick={() => ajouterLieu()} style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
                     Ajouter
                   </Button>
                 </Grid>
@@ -919,12 +916,12 @@ export default function WebProject() {
                 </Grid>
                 <Grid item>
                   <div>
-                    <TextField id="eventdatedeb" label="Date de début" type="date" sx={{ width: "40%", left:"-5%" }} InputLabelProps={{shrink: true}}/>
-                    <TextField id="eventdatefin" label="Date de fin" type="date" sx={{ width: "40%", left:"5%" }} InputLabelProps={{shrink: true}}/>
+                    <TextField id="eventdatedeb" label="Date de début" type="date" sx={{ width: "40%", left: "-5%" }} InputLabelProps={{ shrink: true }} />
+                    <TextField id="eventdatefin" label="Date de fin" type="date" sx={{ width: "40%", left: "5%" }} InputLabelProps={{ shrink: true }} />
                   </div>
                 </Grid>
                 <Grid item>
-                  <TextareaAutosize id="eventdesc" minRows={5} placeholder="Description de l'évènement" style={{ width: "98%" }}/>
+                  <TextareaAutosize id="eventdesc" minRows={5} placeholder="Description de l'évènement" style={{ width: "98%" }} />
                 </Grid>
                 <Grid item>
                   <Button id="buttonevent" variant="contained" component="label" style={{ width: "98%" }}>
@@ -934,10 +931,10 @@ export default function WebProject() {
                 </Grid>
                 <Grid item>
                   <div className="files" id="eventfiles">
-                  </div> 
+                  </div>
                 </Grid>
                 <Grid item>
-                  <Button onClick={()=>ajouterEvent()} style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  <Button onClick={() => ajouterEvent()} style={{ width: "98%" }} variant="contained" sx={{ mt: 3, mb: 2 }}>
                     Ajouter
                   </Button>
                 </Grid>
@@ -947,9 +944,9 @@ export default function WebProject() {
 
         </Card>
       </Box>
-      
+
       <Box component="main" id="table" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
-      <DrawerHeader />
+        <DrawerHeader />
         <h1 style={{ width: "100%", textAlign: "center" }}>Tables</h1>
 
         <Card className='centerDiv' style={{ height: "auto" }}>
@@ -967,8 +964,8 @@ export default function WebProject() {
 
           <Box style={{ width: "100%", display: "flex", flexFlow: "row nowrap", justifyContent: "center", alignItems: "center" }}>
 
-            <Box id="usertable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}  className="adminLevel">
-                
+            <Box id="usertable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }} className="adminLevel">
+
             </Box>
 
             <Box id="placetable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
@@ -983,11 +980,11 @@ export default function WebProject() {
         </Card>
       </Box>
 
-      <Box component="main" id="graphe" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none"}}>
+      <Box component="main" id="graphe" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
         <DrawerHeader />
         <h1 style={{ width: "100%", textAlign: "center" }}>Graphes</h1>
 
-        <Card className='centerDiv' style={{display: "block",marginLeft: "auto",marginRight: "auto"}} >
+        <Card className='centerDiv' style={{ display: "block", marginLeft: "auto", marginRight: "auto" }} >
           <ChartGraphe />
         </Card>
       </Box>
