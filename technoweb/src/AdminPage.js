@@ -177,7 +177,7 @@ var fileName;
 var fichier;
 
 var initialisation=true;
-var data = new FormData();
+var data;
 export default function WebProject() {
 
 
@@ -212,15 +212,36 @@ export default function WebProject() {
     }
   }
   const uploadImage = (e) => {
-    
+    data= new FormData();
     const { files } = e.target;
     data.append('file', files[0]);
-    console.log(files[0]);
+    //console.log(files[0]);
   };
-  const uploadAPIImage = (e) => {
+
+  const uploadAPIImageProfile = (e) => {
     try {
       const result = axios.post(
-        `/ImageListApi/${e}`,
+        `/ImageListApiProfile/${e}`,
+        data
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const uploadAPIImageLieu = (e) => {
+    try {
+      const result = axios.post(
+        `/ImageListApiLieu/${e.img}/${e.ext}`,
+        data
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const uploadAPIImageEvent= (e) => {
+    try {
+      const result = axios.post(
+        `/ImageListApiEvent/${e.img}/${e.ext}`,
         data
       );
     } catch (err) {
@@ -253,16 +274,17 @@ export default function WebProject() {
         sha512(pass).then(i=>{
           userAdd.push(i);
         })
-        console.log(userAdd);
+        //console.log(userAdd);
         posterUser(userAdd);
         fileName="";
         $(".files").text="";
-        console.log($("#pseudoAdd").val());
-        alert("Utilisateur ajouté");
-
+        //console.log($("#pseudoAdd").val());
         data.append('filename', $("#pseudoAdd").val());
 
-        uploadAPIImage($("#pseudoAdd").val());
+        uploadAPIImageProfile($("#pseudoAdd").val());
+        alert("Utilisateur ajouté");
+
+
       }else{
         alert("Le mot de passe est de taille inférieure à 8");
       }
@@ -291,11 +313,15 @@ export default function WebProject() {
       placeAdd.push($("#placedesc").val());
       placeAdd.push($("#placefiles").val());
 
-      console.log(placeAdd);
+      //console.log(placeAdd);
       posterPlace(placeAdd);
       fileName="";
       $(".files").text="";
+      data.append('filename', $("#placenom").val());
+      var f = ($("#placefiles").val()).split(".");
+      uploadAPIImageLieu({img:$("#placenom").val(), ext:f[1]});
       alert("Lieu ajouté");
+      
     }else{
       alert("Tous les champs ne sont pas remplis");
     }
@@ -321,10 +347,14 @@ export default function WebProject() {
       eventAdd.push($("#eventdesc").val())
       eventAdd.push($("#eventfiles").val());
       posterEvent(eventAdd);
-      console.log(eventAdd);
+      //console.log(eventAdd);
 
       fileName="";
       $(".files").text="";
+      data.append('filename', $("#eventnom").val());
+      var f = ($("#eventnom").val()).split(".");
+
+      uploadAPIImageEvent({img:$("#eventnom").val(), ext:f[1]});
       alert("Evenement ajouté")
     }else{
       alert("Tous les champs ne sont pas remplis");
@@ -339,7 +369,7 @@ export default function WebProject() {
       fileName ="";
     }else{
       if(f[1]=="png" || f[1]=="jpg"){
-        console.log("Fichier accepté");
+        //console.log("Fichier accepté");
         return true
       }else{
         alert("Le fichier n'est pas conforme");
@@ -474,13 +504,13 @@ export default function WebProject() {
         sha512(data.ip).then(i=>{
           if(i!==getCookie("Token")){
             delCookie("Token");
-            console.log("Pas bon");
+            //console.log("Pas bon");
             window.location.href="/";
           }
         })
       })
     }else{
-      console.log("Pas de cookie");
+      //console.log("Pas de cookie");
       window.location.href="/";
     }
 
@@ -491,12 +521,12 @@ export default function WebProject() {
         sha512(u).then(i=>{
           if(i!==getCookie("Token2")){
             delCookie("Token2");
-            console.log("Pas bon");
+            //console.log("Pas bon");
             window.location.href="/";
           }
         })
     }else{
-      console.log("Pas de cookie");
+      //console.log("Pas de cookie");
       window.location.href="/";
     }
   })
@@ -906,7 +936,16 @@ export default function WebProject() {
                 <Grid item>
                   <Button id="buttonplace" variant="contained" component="label" style={{ width: "98%" }}>
                     Upload File
-                    <input type="file" id="placeupload" hidden />
+                    <input
+                      id="placeupload"
+                      style={{ padding: 10 }}
+                      type="file"
+                      name="file"
+                      onChange={uploadImage}
+                      accept="image/*"
+                      hidden
+
+                    />
                   </Button>
                 </Grid>
                 <Grid item>
@@ -940,7 +979,15 @@ export default function WebProject() {
                 <Grid item>
                   <Button id="buttonevent" variant="contained" component="label" style={{ width: "98%" }}>
                     Upload File
-                    <input type="file" id="eventupload" hidden />
+                    <input
+                      id="eventupload"
+                      style={{ padding: 10 }}
+                      type="file"
+                      name="file"
+                      onChange={uploadImage}
+                      accept="image/*"
+                      hidden
+                    />
                   </Button>
                 </Grid>
                 <Grid item>

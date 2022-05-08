@@ -16,7 +16,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+const axios = require('axios');
 function createDataEvents(identifiant, image, name, debut, fin, description) {
     return { identifiant, image, name, debut, fin, description};
   }// add data
@@ -52,7 +52,13 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
   var toutOkE=true;
 
   export default function EventsTable(rep) {
-    
+    for(var i=0;i<rep["d"].length;i++){
+      try {
+        axios.get(`/getEventsImg/${rep["d"][i].pathImgEvent}`);
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
       //console.log(rep.d);
 
@@ -225,7 +231,7 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
                     }else{
                       return (
                         <TableCell key={index} align="center">
-                          <img src={require("./images/places/laut.jpg")} style={{width: '50%'}} alt=""/>
+                          <img src={"http://localhost:5000/getEventsImg/"+row["pathImgEvent"]} style={{width: '50%'}} alt=""/>
                         </TableCell>
                       );
                     }

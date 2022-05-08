@@ -276,9 +276,10 @@ class EvenementsActifs(Resource):
         print(results)
         db.close()
         return results
-class ImageListApi(Resource):
 
-    def post(self, client_nom):
+class ImageListApiProfile(Resource):
+
+    def post(self, img):
 
         print("le fichier n'existe pas je l'ajoute !")
         parse = reqparse.RequestParser()
@@ -287,7 +288,46 @@ class ImageListApi(Resource):
                             location="files")
         args = parse.parse_args()
         imgFile = args['file']
-        imgFile.save(os.path.join("images/profile/" + client_nom))
+        imgFile.save(os.path.join("images/profile/" + img))
+        
+class ImageListApiLieu(Resource):
+
+    def post(self, img, pathext):
+
+        print("le fichier n'existe pas je l'ajoute !")
+        parse = reqparse.RequestParser()
+        parse.add_argument('file',
+                            type=werkzeug.datastructures.FileStorage,
+                            location="files")
+        args = parse.parse_args()
+        imgFile = args['file']
+        imgFile.save(os.path.join("images/lieu/" + img + pathext))
+
+class ImageListApiEvent(Resource):
+
+    def post(self, img, pathext):
+        print("le fichier n'existe pas je l'ajoute !")
+        parse = reqparse.RequestParser()
+        parse.add_argument('file',
+                            type=werkzeug.datastructures.FileStorage,
+                            location="files")
+        args = parse.parse_args()
+        imgFile = args['file']
+        imgFile.save(os.path.join("images/event/" + img + pathext))
+
+class PlacesImg(Resource):
+    def get(self, pathImg):
+        
+        imgAEnvoi = path + '/places/' + pathImg
+        return send_file(imgAEnvoi, mimetype='image/gif')
+
+
+
+class EventImg(Resource):
+    def get(self, pathImg):
+
+        imgAEnvoi = path + '/events/' + pathImg
+        return send_file(imgAEnvoi, mimetype='image/gif')
 
 
 
@@ -300,13 +340,17 @@ api.add_resource(Graph, '/graph')
 api.add_resource(MapInfo, '/map')
 api.add_resource(listQuestionsReponses, '/listQuestionsReponses')
 api.add_resource(ProfileImg, '/getImgProfile/<pathImg>')
+api.add_resource(PlacesImg, '/getPlacesImg/<pathImg>')
+api.add_resource(EventImg, '/getEventsImg/<pathImg>')
 api.add_resource(EvenementsActifs, '/EvenementsActifs')
 api.add_resource(addFrequentation, '/addFrequentation')
 api.add_resource(userAdd, '/userAdd/<user_admin>/<user_name>/<user_firstname>/<user_pseudo>/<user_password>')
 api.add_resource(placeAdd,'/placeAdd/<place_lat>/<place_lon>/<place_nom>/<place_car>/<place_desc>')
 api.add_resource(eventAdd,'/eventAdd/<event_nom>/<event_debut>/<event_fin>/<event_desc>/<event_file>')
 api.add_resource(changerUser,'/changerUser/<user_prenom>/<user_nom>/<user_admin>')
-api.add_resource(ImageListApi,'/ImageListApi/<client_nom>')
+api.add_resource(ImageListApiProfile,'/ImageListApiProfile/<img>')
+api.add_resource(ImageListApiLieu,'/ImageListApiProfile/<img>/<pathext>')
+api.add_resource(ImageListApiEvent,'/ImageListApiProfile/<img>/<pathext>')
 if __name__ == '__main__':
     app.run(debug=True)
     

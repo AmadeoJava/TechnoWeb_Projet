@@ -16,7 +16,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+const axios = require('axios');
 
 function createDataPlaces(identifiant, image, name, latitude, longitude, caracteristiques, description) {
   return { identifiant, image, name, latitude, longitude, caracteristiques, description };
@@ -55,7 +55,13 @@ var indexkey=0;
 var toutOkP=true;
 
 export default function PlacesTable(rep) {
-
+  for(var i=0;i<rep["d"].length;i++){
+    try {
+      axios.get(`/getPlacesImg/${rep["d"][i].pathImgLieu}`);
+    } catch (err) {
+      console.log(err);
+    }
+  }
   //console.log(rep.d);
 
   const ajouterToListeP = (e) => {
@@ -225,7 +231,7 @@ export default function PlacesTable(rep) {
                     } else {
                       return (
                         <TableCell key={indexkey} align="center">
-                          <img src={require("./images/places/cath.jpg")} style={{ width: '50%' }} alt="" />
+                          <img src={"http://localhost:5000/getPlacesImg/"+row["pathImgLieu"]} style={{ width: '50%' }} alt="" />
                         </TableCell>
                         );
                     }

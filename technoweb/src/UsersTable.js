@@ -66,7 +66,13 @@ var admini=true;
 var toutOkU=true;
 
 export default function UsersTable(rep) {
-
+  for(var i=0;i<rep["d"].length;i++){
+    try {
+      axios.get(`/getImgProfile/${rep["d"][i].pseudo}`);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const ajouterToListeU = (e) => {
     
@@ -261,7 +267,7 @@ export default function UsersTable(rep) {
               {indexKey=indexKey+1;}
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={indexKey} >
-                  <TableCell>Image de {row["surname"]}</TableCell>
+                  <TableCell><img alt="imgProfile" src={"http://localhost:5000/getImgProfile/"+row["surname"]}/></TableCell>
                   {columnsUsers.map((column) => {
                     const value = row[column.id];
                     indexKey=indexKey+1;
