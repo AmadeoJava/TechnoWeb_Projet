@@ -540,7 +540,6 @@ export default function WebProject() {
   const ajoutEventTable = (d) =>{
     const tableau = <EventTable d={d}/>;
     ReactDOM.render(tableau, document.getElementById('eventtable'));
-    if(userLogin==1){
       try {
         const result = axios.get(
           `/utilisateur`
@@ -553,7 +552,6 @@ export default function WebProject() {
       } catch (err) {
         console.log(err);
       }
-    }
 
   }
 
