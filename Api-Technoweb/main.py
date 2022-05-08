@@ -192,12 +192,8 @@ class Graph(Resource):
 class ProfileImg(Resource):
     def get(self, pathImg):
         try:
-            try:
-                imgAEnvoi = path + '/profile/' + pathImg +'.jpg'
-                return send_file(imgAEnvoi, mimetype='image/gif')
-            except:
-                imgAEnvoi = path + '/profile/' + pathImg +'.png'
-                return send_file(imgAEnvoi, mimetype='image/gif')
+            imgAEnvoi = path + '/profile/' + pathImg
+            return send_file(imgAEnvoi, mimetype='image/gif')
         except Exception:
             imgAEnvoi=path+'/profile/notfound.png'
             return send_file(imgAEnvoi, mimetype='image/gif')
@@ -280,6 +276,19 @@ class EvenementsActifs(Resource):
         print(results)
         db.close()
         return results
+class ImageListApi(Resource):
+
+    def post(self, client_nom):
+
+        print("le fichier n'existe pas je l'ajoute !")
+        parse = reqparse.RequestParser()
+        parse.add_argument('file',
+                            type=werkzeug.datastructures.FileStorage,
+                            location="files")
+        args = parse.parse_args()
+        imgFile = args['file']
+        imgFile.save(os.path.join("images/profile/" + client_nom))
+
 
 
 api.add_resource(LogIN, '/userLogin/<user_name>/<user_paswd>')
@@ -295,8 +304,9 @@ api.add_resource(EvenementsActifs, '/EvenementsActifs')
 api.add_resource(addFrequentation, '/addFrequentation')
 api.add_resource(userAdd, '/userAdd/<user_admin>/<user_name>/<user_firstname>/<user_pseudo>/<user_password>')
 api.add_resource(placeAdd,'/placeAdd/<place_lat>/<place_lon>/<place_nom>/<place_car>/<place_desc>')
-api.add_resource(eventAdd,'/eventAdd/<event_nom>/<event_debut>/<event_fin>/<event_desc>/<event_file>');
+api.add_resource(eventAdd,'/eventAdd/<event_nom>/<event_debut>/<event_fin>/<event_desc>/<event_file>')
 api.add_resource(changerUser,'/changerUser/<user_prenom>/<user_nom>/<user_admin>')
+api.add_resource(ImageListApi,'/ImageListApi/<client_nom>')
 if __name__ == '__main__':
     app.run(debug=True)
     

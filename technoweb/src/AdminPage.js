@@ -176,8 +176,8 @@ var answer_array;
 var fileName;
 var fichier;
 
-var initialisation = true;
-
+var initialisation=true;
+var data = new FormData();
 export default function WebProject() {
 
 
@@ -210,24 +210,22 @@ export default function WebProject() {
       console.log(err);
     }
   }
-  /*
-  const uploadImage = (l) => {
-    console.log(fichier);
-    const data = new FormData();
-    const { files } = fichier;
-    var nomFichier = fileName;
-    data.append('file', fichier);
-    data.append('filename', nomFichier);
+  const uploadImage = (e) => {
+    
+    const { files } = e.target;
+    data.append('file', files[0]);
+    console.log(files[0]);
+  };
+  const uploadAPIImage = (e) => {
     try {
       const result = axios.post(
-        `/ImageUserAdd/${nomFichier}`,
+        `/ImageListApi/${e}`,
         data
       );
     } catch (err) {
       console.log(err);
     }
-  };*/
-
+  };
   var posterUser = (l) => {
     try {
       const result = axios.post(
@@ -256,10 +254,15 @@ export default function WebProject() {
         })
         console.log(userAdd);
         posterUser(userAdd);
-        fileName = "";
-        $(".files").text = "";
+        fileName="";
+        $(".files").text="";
+        console.log($("#pseudoAdd").val());
         alert("Utilisateur ajouté");
-      } else {
+
+        data.append('filename', $("#pseudoAdd").val());
+
+        uploadAPIImage($("#pseudoAdd").val());
+      }else{
         alert("Le mot de passe est de taille inférieure à 8");
       }
     } else {
@@ -845,7 +848,15 @@ export default function WebProject() {
                 <Grid item>
                   <Button id="buttonuser" variant="contained" component="label" style={{ width: "98%" }}>
                     Upload File
-                    <input type="file" id="userupload" hidden />
+                    <input
+                      id="userupload"
+                      style={{ padding: 10 }}
+                      type="file"
+                      name="file"
+                      onChange={uploadImage}
+                      accept="image/*"
+                      hidden
+                    />
                   </Button>
                 </Grid>
                 <Grid item>
