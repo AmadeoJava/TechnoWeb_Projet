@@ -17,6 +17,7 @@ function QuestionRad(rep) {  // On donne en paramètre la question, les réponse
     }
 
     return (
+        
         <div>
             {rep.resp 
             ?<Card className='centerDiv'>
@@ -26,8 +27,8 @@ function QuestionRad(rep) {  // On donne en paramètre la question, les réponse
                 <div className='image' style={{ display: "flex" }}>
                     {rep.resp.map((r, index) => (
                         <div style={{ width: "100%" }} key={index}>
-                            <h3>{rep.reponse[index]}</h3>
-                            <img src={require('./images/buzz.png')} alt={r} id={r} className='unchek' onClick={() => imageClick({ r })} style={{ width: "100%", height: "100%" }}></img>
+                            <h3 style={{height:"100px"}}>{rep.reponse[index]}</h3>
+                            <img src={require('./images/buzz.png')} alt={r} id={r} className='unchek' onClick={() => imageClick({ r })} style={{ width: "90px", height: "90px"}}></img>
                         </div>
                     ))}
                 </div>

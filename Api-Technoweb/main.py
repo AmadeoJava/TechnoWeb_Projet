@@ -121,6 +121,22 @@ class MapInfo(Resource):
 
         return results
 
+class EvenementsActifs(Resource):
+    def get(self):
+        cursor = db.cursor()
+        
+        sql ="SELECT idEvent,dateEventDeb,dateEventFin,nomEvent,descEvent FROM Events WHERE actif=1 "
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        
+        for i in range(0,len(results)):
+            results[i]["dateEventDeb"]=str(results[i]["dateEventDeb"])
+            results[i]["dateEventFin"]=str(results[i]["dateEventFin"])
+            
+        print(results)
+        return results
+
+
 api.add_resource(LogIN, '/userLogin/<user_name>/<user_paswd>')
 api.add_resource(utilisateur, '/utilisateur')
 api.add_resource(lieu, '/lieux')
@@ -131,6 +147,7 @@ api.add_resource(MapInfo, '/map')
 api.add_resource(userAdd, '/userAdd/<user_firstname>/<user_name>/<user_pseudo>/<user_path>/<user_admin>')
 api.add_resource(listQuestionsReponses, '/listQuestionsReponses')
 api.add_resource(ProfileImg, '/getImgProfile/<pathImg>')
+api.add_resource(EvenementsActifs, '/EvenementsActifs')
 if __name__ == '__main__':
     app.run(debug=True)
     

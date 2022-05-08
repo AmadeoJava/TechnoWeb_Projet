@@ -4,9 +4,7 @@ import Box from '@mui/material/Box';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
-import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import './home.css';
 import $ from "jquery";
 import MapComponent from "./MapComponent";
@@ -16,11 +14,11 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
 import QuestionRad from './QuestionRad'
+import EventComponent from './EventComponent';
 const axios = require('axios');
 
 //import './index.css';
 const drawerWidth = 240;
-
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -79,15 +77,13 @@ function Home() {
 
   const [reponses,setReponses] = useState({});
   const [map,setmap] = useState({});
-
   const [questions, setQuestions] = useState({});
 
-  const [boolRep, setBoolRep] = useState({});
-
+/*
   useEffect(() => {
     requeteQuestions().then((resp) => {setQuestions(resp.data)});   
-    CréeQuestPos(questions);
-  }, []);
+    //CréeQuestPos(questions);
+  }, []);*/
 
   function getCookie(cname) {
     let name = cname + "=";
@@ -122,9 +118,7 @@ function Home() {
     setOpenD(true);
   };
 
-  const fonction = () =>{
-    $('#event').remove();
-  };
+
 
   const TireQuests = () =>{
     console.log("je tire une question");
@@ -151,27 +145,25 @@ function Home() {
   window.onload = () => {
 
     requetemap().then((resp) => {setmap(resp.data)});
-    
     if(! getCookie("jeu")){
       setOpenD(true);
     }
   }
 
   const test = () =>{
-      handleCloseD();
-      var resultat;
       var t = $(".chek");
-      console.log(t);
-      for(var a of t){
-        resultat=a.id;
+      if (t.length===1){
+        handleCloseD();
+        var resultat;
+        for(var a of t){
+          resultat=a.id;
+        }
+        alert(questions[resultat-1].bonneRep===1);
+        TireQuests();
       }
-      console.log(resultat);
-      alert(questions[resultat-1].bonneRep===1);
-      TireQuests();
+      
   }
   
-
-
   
   return(
   <Box id="fond">
@@ -208,16 +200,7 @@ function Home() {
   </AppBar>
 
   </Box>
-  <Card sx={{ display: 'flex', width:'100%' }} id="event" style={{backgroundColor:"rgb(30, 82, 166)"}}>
-    <div style={{width:"100%"}}>
-        <div style={{width:"92%", display:"inline-block", textAlign:"center"}}>
-          <h1 style={{color:"#fff"}}>Evénement</h1>
-        </div>
-        <div style={{width:"8%", display:"inline-block", cursor:"pointer"}}>
-          <HighlightOffIcon onClick={fonction}  style={{color:"#fff"}}/>
-        </div>
-    </div>
-  </Card>
+  <EventComponent/>
 
   <MapComponent el={map}/>
 
@@ -236,7 +219,7 @@ function Home() {
             <Grid item>
               <Grid container direction={"column"} spacing={2}>
                 <Grid item>
-                  <QuestionRad resp={reponses.resp} reponse={reponses.reponse} type="lieux" />
+                  <QuestionRad resp={reponses.resp} reponse={reponses.reponse} />
                 </Grid>
                 <Grid item>
                 </Grid>
