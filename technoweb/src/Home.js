@@ -21,7 +21,6 @@ import ReactDOM from 'react-dom';
 const axios = require('axios');
 
 
-//import './index.css';
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -60,12 +59,6 @@ const requeteQuestions = () => {
 }
 
 
-const CréeQuestPos = (questions) => {
-  for (let i = 0; i < (Math.floor(questions.length / 4)); i++) {
-    questionsPossibles.push(questions[i * 4].idQuestionL);
-  }
-}
-
 function Home() {
 
   const [question, setQuestion] = useState("Souhaitez vous faire le jeu de piste spécialement conçu pour vous ? ");
@@ -74,7 +67,7 @@ function Home() {
   const [questions, setQuestions] = useState({});
 
   const mapComposant = (d) => {
-    const tableau = <MapComponent el={d} />;
+    const tableau = <MapComponent el={d}/>;
     ReactDOM.render(tableau, document.getElementById('placePourMap'));
 
   }
@@ -92,7 +85,6 @@ function Home() {
       console.log(err);
     }
     requeteQuestions().then((resp) => { setQuestions(resp.data) });
-    CréeQuestPos(questions);
   }, []);
 
   function getCookie(cname) {
@@ -132,12 +124,11 @@ function Home() {
 
   const TireQuests = () => {
     console.log("je tire une question");
-    var hasard = Math.floor(Math.random() * (Math.floor(questions.length / 4)) - 1) * 4;
+    var hasard = Math.floor(Math.random() * (Math.floor((questions.length )/ 4)) ) * 4;
+    console.log(hasard);
     setQuestion(questions[hasard].texteQuestionL);
     setReponses({ resp: [questions[hasard].idReponseL, questions[hasard + 1].idReponseL, questions[hasard + 2].idReponseL, questions[hasard + 3].idReponseL], reponse: [questions[hasard].texteReponseL, questions[hasard + 1].texteReponseL, questions[hasard + 2].texteReponseL, questions[hasard + 3].texteReponseL] });
-    console.log("ici");
-    console.log(questionsPossibles);
-    console.log(questions.length);
+    console.log(question);
   }
 
   const OuiJeu = () => {
@@ -204,7 +195,7 @@ function Home() {
                 </Link>
                 <div className="lienAccueil">
                   <Button onClick={() => { delCookie("jeu"); handleOpenD() }}>
-                    Jeu de piste
+                    Questions Culture
                   </Button>
                 </div>
                 <Link to="/login" className="lienAccueil">

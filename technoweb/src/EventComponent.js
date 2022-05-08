@@ -33,7 +33,7 @@ const getMap = (data) => {
 
 export default function EventComponent() {
     useEffect(() => {
-        requetEventsActifs().then((results) => { console.log(results.data); getMap(results.data); });
+        requetEventsActifs().then((results) => { getMap(results.data); });
     }, []);
 
     return (<>

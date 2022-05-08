@@ -30,7 +30,6 @@ const MapComponent = (r) => {
     if (afficherounon){
 
       L.control.locate().addTo(map);
-      console.log("slt");
       afficherounon=false;
     }
 
@@ -97,7 +96,7 @@ const MapComponent = (r) => {
     popupAnchor: [0, -46],
   });
   getMap(r["el"]);
-  
+  console.log("quest dans map");
   return <div>
 
     <MapContainer className="mapcontainer" >
