@@ -20,28 +20,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 function createDataEvents(identifiant, image, name, debut, fin, description) {
     return { identifiant, image, name, debut, fin, description};
   }// add data
+  /*
   var rowsEvents = [
     createDataEvents(1,require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', '28/04/2022', "Grand carnaval"),
   ];
 
   const rowsEvents1 = [
     createDataEvents(1,require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', '28/04/2022', "Grand carnaval"),
-  ];
-  
-  // const axios = require('axios');
-  // try {
-  //   const result = axios.get(
-  //     `/event`
-  //   );
-    
-  //   result.then((resp) =>
-  //     console.log(resp)
-      
-  //   );
+  ];*/
 
-  // } catch (err) {
-  //   console.log(err);
-  // }
+  var rowsEvents =[];
+  var rowsEvents1 =[];
+
+ 
   const columnEvents = [
     { id: 'image'},
     { id: 'name'},
@@ -57,8 +48,31 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
   var fin;
   var description;
   var index=0;
-  export default function EventsTable() {
+
+  var toutOkE=true;
+
+  export default function EventsTable(rep) {
     
+
+      //console.log(rep.d);
+
+  const ajouterToListeE = (e) => {
+    
+    //console.log(e.length);
+
+    for(let i=0; i<e.length; i++){
+      var el=e[i];
+      //console.log(el);
+
+      rowsEvents.push(createDataEvents(el.idEvent,el.pathImgEvent,el.nomEvent,el.dateEventDeb,el.dateEventFin,el.descEvent));
+      rowsEvents1.push(createDataEvents(el.idEvent,el.pathImgEvent,el.nomEvent,el.dateEventDeb,el.dateEventFin,el.descEvent));
+    }
+  }
+  if(toutOkE){
+    ajouterToListeE(rep.d);
+    toutOkE = false;
+  }
+
     var timeou;
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -211,7 +225,7 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
                     }else{
                       return (
                         <TableCell key={index} align="center">
-                          <img src={value} style={{width: '50%'}} alt=""/>
+                          <img src={require("./images/places/laut.jpg")} style={{width: '50%'}} alt=""/>
                         </TableCell>
                       );
                     }

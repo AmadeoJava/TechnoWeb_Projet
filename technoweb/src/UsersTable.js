@@ -19,63 +19,36 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 const axios = require('axios');
 
-function createDataUsers(identifiant, image, firstname, name, surname, administrateur) {
-  return { identifiant, image, firstname, name, surname, administrateur };
+function createDataUsers(identifiant, firstname, name, surname, administrateur) {
+  return { identifiant, firstname, name, surname, administrateur };
 }// add data
 
 
-
+/*
 var rowsUsers = [
-  createDataUsers(1, require('./images/faces/face8.jpg'), 'Sherlock', 'Holmes', 'Détective', "Oui"),
-  createDataUsers(2, require('./images/faces/face8.jpg'), 'Shinishi', 'Kudo', 'Lycéen', "Non"),
-  createDataUsers(3, require('./images/faces/face8.jpg'), 'Jules', 'Maigret', 'Commisaire', "Non"),
-  createDataUsers(4, require('./images/faces/face8.jpg'), 'David', 'Panzoli', 'Dieu ?', "Oui"),
-  createDataUsers(5, require('./images/faces/face8.jpg'), 'Naruto', 'Uzumaki', 'Hokage', "Non"),
-  createDataUsers(6, require('./images/faces/face8.jpg'), 'Monkey', 'Luffy', 'Pirate', "Non"),
-  createDataUsers(7, require('./images/faces/face8.jpg'), 'Natsu', 'Dragnir', 'Salamander', "Non"),
-  createDataUsers(8, require('./images/faces/face8.jpg'), 'Arnaud', 'Cros', 'Ark Tryharder', "Oui"),
-  createDataUsers(9, require('./images/faces/face8.jpg'), 'Antonin', 'Pidet', 'Fourmi', "Oui"),
-  createDataUsers(10, require('./images/faces/face8.jpg'), 'Amadéo', 'Soufflet', 'Pentester', "Oui"),
-  createDataUsers(11, require('./images/faces/face8.jpg'), 'François', 'Pouit', 'PuitPuit', "Non"),
-  createDataUsers(12, require('./images/faces/face8.jpg'), 'Nicolas', 'Garric', 'Bricoleur', "Non"),
-  createDataUsers(13, require('./images/faces/face8.jpg'), 'Laura', 'Brillon', 'Matheuse', "Non"),
-  createDataUsers(14, require('./images/faces/face8.jpg'), 'Thierry', 'Montaut', 'Relou', "Non"),
-
+  createDataUsers(1, 'Sherlock', 'Holmes', 'Détective', "Oui"),
+  createDataUsers(2, 'Shinishi', 'Kudo', 'Lycéen', "Non"),
+  createDataUsers(3, 'Jules', 'Maigret', 'Commisaire', "Non"),
+  createDataUsers(4, 'David', 'Panzoli', 'Dieu ?', "Oui"),
+  createDataUsers(5, 'Naruto', 'Uzumaki', 'Hokage', "Non"),
+  createDataUsers(6, 'Monkey', 'Luffy', 'Pirate', "Non")
 ];
 
 const rowsUsers1 = [
-  createDataUsers(1, require('./images/faces/face8.jpg'), 'Sherlock', 'Holmes', 'Détective', "Oui"),
-  createDataUsers(2, require('./images/faces/face8.jpg'), 'Shinishi', 'Kudo', 'Lycéen', "Non"),
-  createDataUsers(3, require('./images/faces/face8.jpg'), 'Jules', 'Maigret', 'Commisaire', "Non"),
-  createDataUsers(4, require('./images/faces/face8.jpg'), 'David', 'Panzoli', 'Dieu ?', "Oui"),
-  createDataUsers(5, require('./images/faces/face8.jpg'), 'Naruto', 'Uzumaki', 'Hokage', "Non"),
-  createDataUsers(6, require('./images/faces/face8.jpg'), 'Monkey', 'Luffy', 'Pirate', "Non"),
-  createDataUsers(7, require('./images/faces/face8.jpg'), 'Natsu', 'Dragnir', 'Salamander', "Non"),
-  createDataUsers(8, require('./images/faces/face8.jpg'), 'Arnaud', 'Cros', 'Ark Tryharder', "Oui"),
-  createDataUsers(9, require('./images/faces/face8.jpg'), 'Antonin', 'Pidet', 'Fourmi', "Oui"),
-  createDataUsers(10, require('./images/faces/face8.jpg'), 'Amadéo', 'Soufflet', 'Pentester', "Oui"),
-  createDataUsers(11, require('./images/faces/face8.jpg'), 'François', 'Pouit', 'PuitPuit', "Non"),
-  createDataUsers(12, require('./images/faces/face8.jpg'), 'Nicolas', 'Garric', 'Bricoleur', "Non"),
-  createDataUsers(13, require('./images/faces/face8.jpg'), 'Laura', 'Brillon', 'Matheuse', "Non"),
-  createDataUsers(14, require('./images/faces/face8.jpg'), 'Thierry', 'Montaut', 'Relou', "Non"),
-
+  createDataUsers(1, 'Sherlock', 'Holmes', 'Détective', "Oui"),
+  createDataUsers(2, 'Shinishi', 'Kudo', 'Lycéen', "Non"),
+  createDataUsers(3, 'Jules', 'Maigret', 'Commisaire', "Non"),
+  createDataUsers(4, 'David', 'Panzoli', 'Dieu ?', "Oui"),
+  createDataUsers(5, 'Naruto', 'Uzumaki', 'Hokage', "Non"),
+  createDataUsers(6, 'Monkey', 'Luffy', 'Pirate', "Non")
 ];
+*/
 
-// try {
-//   const result = axios.get(
-//     `/utilisateur`
-//   );
-  
-//   result.then((resp) =>
-//     console.log(resp)
-    
-//   );
+var rowsUsers = [];
+var rowsUsers1 = [];
 
-// } catch (err) {
-//   console.log(err);
-// }
+
 const columnsUsers = [
-  { id: 'image' },
   { id: 'firstname' },
   { id: 'name' },
   { id: 'surname' },
@@ -90,7 +63,33 @@ var prenom = "Amadéo";
 var pseudo = "Ace25";
 var admini=true;
 
-export default function UsersTable() {
+var toutOkU=true;
+
+export default function UsersTable(rep) {
+
+
+  const ajouterToListeU = (e) => {
+    
+    console.log(e.length);
+
+    for(let i=0; i<e.length; i++){
+      var el=e[i];
+      console.log(el);
+      var ad;
+      if(el.administrateur==1){
+        ad="Oui";
+      }else{
+        ad="Non";
+      }
+      rowsUsers.push(createDataUsers(i,el.prenom, el.nom, el.pseudo, ad ));
+      rowsUsers1.push(createDataUsers(i,el.prenom, el.nom, el.pseudo, ad ));
+
+    }
+  }
+  if(toutOkU){
+    ajouterToListeU(rep.d);
+    toutOkU = false;
+  }
 
   const [checked, setChecked] = React.useState(true);
 
@@ -172,7 +171,7 @@ export default function UsersTable() {
 
   const changer = (i) => {
     console.log(i);
-    ind = i - 1;
+    ind = i;
     nom = rowsUsers[ind].name;
     prenom = rowsUsers[ind].firstname;
     pseudo = rowsUsers[ind].surname;
@@ -224,6 +223,7 @@ export default function UsersTable() {
     }
     
   }
+  
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden', height: '100%' }}>
@@ -261,6 +261,7 @@ export default function UsersTable() {
               {indexKey=indexKey+1;}
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={indexKey} >
+                  <TableCell>Image de {row["surname"]}</TableCell>
                   {columnsUsers.map((column) => {
                     const value = row[column.id];
                     indexKey=indexKey+1;
@@ -282,7 +283,7 @@ export default function UsersTable() {
 
                   })}
                   <TableCell align="center">
-                    <IconButton id={row[columnsUsers[2].id]} onClick={() => changer(row[columnsUsers[5].id])}>
+                    <IconButton id={row[columnsUsers[2].id]} onClick={() => changer(row[columnsUsers[4].id])}>
                       <EditIcon style={{ color: '#1976d2' }} />
                     </IconButton>
                   </TableCell>

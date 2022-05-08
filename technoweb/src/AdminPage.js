@@ -38,6 +38,7 @@ import EventTable from './EventsTable';
 import Documentation from './Documentation';
 import UserProfile from './UserProfile';
 import ChartGraphe from './ChartGraphe';
+import ReactDOM from 'react-dom';
 import './adminpage.css';
 
 const axios = require('axios');
@@ -175,6 +176,9 @@ var answer_array;
 var fileName;
 var fichier;
 
+var tableUser;
+
+var initialisation=true;
 
 export default function WebProject() {
 
@@ -528,6 +532,49 @@ export default function WebProject() {
     let v2 = verifUser(utilisat);
   }
 
+  const ajoutEventTable = (d) =>{
+    const tableau = <EventTable d={d}/>;
+    ReactDOM.render(tableau, document.getElementById('eventtable'));
+  }
+
+  const ajoutPlaceTable = (d) => {
+    //console.log(d);
+    const tableau = <PlaceTable d={d}/>;
+    ReactDOM.render(tableau, document.getElementById('placetable'));
+    try {
+      const result = axios.get(
+        `/event`
+      );
+     
+      result.then((resp) =>
+      ajoutEventTable(resp.data)
+      );
+   
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const ajoutUserTable = (d) => {
+    //console.log(d);
+    const tableau = <UserTable d={d}/>;
+    ReactDOM.render(tableau, document.getElementById('usertable'));
+    try {
+      const result = axios.get(
+        `/lieu`
+      );
+     
+      result.then((resp) =>
+        ajoutPlaceTable(resp.data)
+      );
+   
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+
 
   answer = window.location.href;
   //console.log(answer);
@@ -549,7 +596,6 @@ export default function WebProject() {
     } catch (err) {
       console.log(err);
     }
-  
 
 
     if (answer_array[1] === null) {
@@ -594,9 +640,27 @@ export default function WebProject() {
 
   });
 
+  const arnaque = () =>{
+    if(initialisation){
+      try {
+        const result = axios.get(
+          `/utilisateur`
+        );
+      
+        result.then((resp) =>
+          ajoutUserTable(resp.data)
+        );
+    
+      } catch (err) {
+        console.log(err);
+      }
+      initialisation=false;
+    }
+  }
+
   return (
 
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }} onClick={()=>arnaque()}>
       <CssBaseline />
       <AppBar position="fixed" open={open} style={{ backgroundColor: 'rgb(30, 82, 166)' }} >
         <Toolbar id="appBarre">
@@ -903,15 +967,13 @@ export default function WebProject() {
           <Box style={{ width: "100%", display: "flex", flexFlow: "row nowrap", justifyContent: "center", alignItems: "center" }}>
 
             <Box id="usertable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }} className="adminLevel">
-                <UserTable />
+                
             </Box>
 
             <Box id="placetable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
-              <PlaceTable />
             </Box>
 
             <Box id="eventtable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}>
-              <EventTable />
             </Box>
 
           </Box>
