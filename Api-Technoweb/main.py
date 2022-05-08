@@ -36,7 +36,7 @@ class LogIN(Resource):
 class utilisateur(Resource):
     def get(self):
         cursor = db.cursor()
-        sql = "SELECT idUtilisateur,pathImgUtilisateur,prenom,nom,pseudo,administrateur FROM Utilisateur"
+        sql = "SELECT administrateur,nom,prenom,pseudo FROM Utilisateur"
         cursor.execute(sql)  
         results = cursor.fetchall()
 
@@ -45,9 +45,10 @@ class utilisateur(Resource):
 class lieu(Resource):
     def get(self):
         cursor = db.cursor()
-        sql = "SELECT idLieu,pathImgLieu,lat,longi,caracteristque,descriptionLieu FROM Lieu"
-        cursor.execute(sql)
+        sql = "SELECT * FROM Lieu"
+        cursor.execute(sql)  
         results = cursor.fetchall()
+
         return results
 
 class event(Resource):
@@ -153,8 +154,6 @@ class MapInfo(Resource):
     
 
 
-
-
 class addFrequentation(Resource):
     def get(self):
         cursor = db.cursor()
@@ -188,22 +187,18 @@ class addFrequentation(Resource):
 
 api.add_resource(LogIN, '/userLogin/<user_name>/<user_paswd>')
 api.add_resource(utilisateur, '/utilisateur')
-api.add_resource(lieu, '/lieux')
+api.add_resource(lieu, '/lieu')
 api.add_resource(event, '/event')
 api.add_resource(user, '/user/<user_name>')
 api.add_resource(Graph, '/graph')
 api.add_resource(MapInfo, '/map')
 api.add_resource(listQuestionsReponses, '/listQuestionsReponses')
 api.add_resource(ProfileImg, '/getImgProfile/<pathImg>')
-<<<<<<< HEAD
 api.add_resource(addFrequentation, '/addFrequentation')
-
-=======
 api.add_resource(userAdd, '/userAdd/<user_admin>/<user_name>/<user_firstname>/<user_pseudo>/<user_password>')
 api.add_resource(placeAdd,'/placeAdd/<place_lat>/<place_lon>/<place_nom>/<place_car>/<place_desc>')
 api.add_resource(eventAdd,'/eventAdd/<event_nom>/<event_debut>/<event_fin>/<event_desc>/<event_file>');
 api.add_resource(changerUser,'/changerUser/<user_prenom>/<user_nom>/<user_admin>')
->>>>>>> 2a7e4f272d6fc4d580c4bb0c356f8c91988cb5a4
 if __name__ == '__main__':
     app.run(debug=True)
     
