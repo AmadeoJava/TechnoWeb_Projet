@@ -176,8 +176,6 @@ var answer_array;
 var fileName;
 var fichier;
 
-var tableUser;
-
 var initialisation=true;
 
 export default function WebProject() {
@@ -532,13 +530,34 @@ export default function WebProject() {
     let v2 = verifUser(utilisat);
   }
 
+  const ajoutUserTable = (d) => {
+    //console.log(d);
+    const tableau = <UserTable d={d}/>;
+    ReactDOM.render(tableau, document.getElementById('usertable'));
+
+  }
+
   const ajoutEventTable = (d) =>{
     const tableau = <EventTable d={d}/>;
     ReactDOM.render(tableau, document.getElementById('eventtable'));
+    if(userLogin==1){
+      try {
+        const result = axios.get(
+          `/utilisateur`
+        );
+       
+        result.then((resp) =>
+        ajoutUserTable(resp.data)
+        );
+     
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
   }
 
   const ajoutPlaceTable = (d) => {
-    //console.log(d);
     const tableau = <PlaceTable d={d}/>;
     ReactDOM.render(tableau, document.getElementById('placetable'));
     try {
@@ -555,23 +574,7 @@ export default function WebProject() {
     }
   }
 
-  const ajoutUserTable = (d) => {
-    //console.log(d);
-    const tableau = <UserTable d={d}/>;
-    ReactDOM.render(tableau, document.getElementById('usertable'));
-    try {
-      const result = axios.get(
-        `/lieu`
-      );
-     
-      result.then((resp) =>
-        ajoutPlaceTable(resp.data)
-      );
-   
-    } catch (err) {
-      console.log(err);
-    }
-  }
+
 
 
 
@@ -644,11 +647,11 @@ export default function WebProject() {
     if(initialisation){
       try {
         const result = axios.get(
-          `/utilisateur`
+          `/lieu`
         );
       
         result.then((resp) =>
-          ajoutUserTable(resp.data)
+        ajoutPlaceTable(resp.data)
         );
     
       } catch (err) {
@@ -966,7 +969,7 @@ export default function WebProject() {
 
           <Box style={{ width: "100%", display: "flex", flexFlow: "row nowrap", justifyContent: "center", alignItems: "center" }}>
 
-            <Box id="usertable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }} className="adminLevel">
+            <Box id="usertable" noValidate sx={{ mt: 1 }} style={{ width: "98%" }}  className="adminLevel">
                 
             </Box>
 
