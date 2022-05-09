@@ -16,10 +16,9 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
-const axios = require('axios');
 
-function createDataPlaces(identifiant, image, name, latitude, longitude, caracteristiques, description) {
-  return { identifiant, image, name, latitude, longitude, caracteristiques, description };
+function createDataPlaces( image, name, latitude, longitude, caracteristiques, description) {
+  return { image, name, latitude, longitude, caracteristiques, description };
 }// add data
 /*
 var rowPlaces = [
@@ -43,8 +42,7 @@ const columnsPlaces = [
   { id: 'latitude' },
   { id: 'longitude' },
   { id: 'caracteristiques' },
-  { id: 'description' },
-  { id: 'identifiant' }
+  { id: 'description' }
 ];
 
 var ind = 0;
@@ -72,8 +70,8 @@ export default function PlacesTable(rep) {
       var el=e[i];
       //console.log(el);
 
-      rowPlaces.push(createDataPlaces(el.idLieu,el.pathImgLieu,el.intitule,el.lat,el.longu,el.caracteristque,el.descriptionLieu));
-      rowPlaces1.push(createDataPlaces(el.idLieu,el.pathImgLieu,el.intitule,el.lat,el.longu,el.caracteristque,el.descriptionLieu));
+      rowPlaces.push(createDataPlaces(el.pathImgLieu,el.intitule,el.lat,el.longu,el.caracteristque,el.descriptionLieu));
+      rowPlaces1.push(createDataPlaces(el.pathImgLieu,el.intitule,el.lat,el.longu,el.caracteristque,el.descriptionLieu));
     }
   }
   if(toutOkP){
@@ -163,11 +161,11 @@ export default function PlacesTable(rep) {
   const changerLieu = () =>{
     var chosesAModifier = false;
     //console.log($("#placenomA").val()+" et "+nom);
-    if($("#placenomA").val() && $("#placenomA").val()!=nom){
+    if($("#placenomA").val() && $("#placenomA").val()!==nom){
       nom=$("#placenomA").val();
       chosesAModifier=true;
     }
-    if($("#placedescA").val() && $("#placedescA").val()!=nom){
+    if($("#placedescA").val() && $("#placedescA").val()!==nom){
       nom=$("#placedescA").val();
       chosesAModifier=true;
     }
@@ -214,14 +212,14 @@ export default function PlacesTable(rep) {
         </TableHead>
         <TableBody id="userrows">
           {rowPlaces.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-            { indexkey=indexkey+=1;}
+            indexkey=indexkey+=1;
             return (
               <TableRow hover role="checkbox" tabIndex={-1} key={indexkey}>
 
                 {columnsPlaces.map((column) => {
                   const value = row[column.id];
                   indexkey=indexkey+=1;
-                  if((column.id) !== 'identifiant'){
+    
                       if ((column.id) !== 'image' ) {
                       return (
                         <TableCell key={indexkey} align="center">
@@ -235,9 +233,7 @@ export default function PlacesTable(rep) {
                         </TableCell>
                         );
                     }
-                  }else{
-                    
-                  }
+                  
                 })}
                 <TableCell align="center">
                   <IconButton id={row[columnsPlaces[2].id]} onClick={() => changer(row[columnsPlaces[6].id])}>

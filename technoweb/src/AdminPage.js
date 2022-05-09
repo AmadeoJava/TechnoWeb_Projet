@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import $ from "jquery";
 import { styled, useTheme, alpha } from '@mui/material/styles';
@@ -26,7 +26,6 @@ import Card from '@mui/material/Card';
 import CreateIcon from '@mui/icons-material/Create';
 import BorderAllIcon from '@mui/icons-material/BorderAll';
 import BarChartIcon from '@mui/icons-material/BarChart';
-import Checkbox from '@mui/material/Checkbox';
 import ArticleIcon from '@mui/icons-material/Article';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
@@ -179,11 +178,11 @@ var tableForms = ["usertable", "placetable", "eventtable"];
 var inputButtons = ["userinputbutton", "placeinputbutton", "eventinputbutton"];
 var inputForms = ["userform", "placeform", "eventform"];
 
-const userValid = false;
 var answer;
 var answer_array;
 
 var fileName;
+
 var fichier;
 
 var initialisation=true;
@@ -199,7 +198,7 @@ export default function WebProject() {
       var ve = true;
       for (let i=0; i<a.length; i++){
         var d = a[i];
-        if(d.dateFrequentation==g){
+        if(d.dateFrequentation===g){
           tout.push(d.nbVisites);
           ve=false;
         }
@@ -208,43 +207,43 @@ export default function WebProject() {
         tout.push(0);
       }
     }
-    console.log(tout);
+    //console.log(tout);
   }
   
   const semaine = (l,lm,f,fm) =>{
     var semain=[];
     jour=f.getDay();
-    console.log(l.getDay());
+    //console.log(l.getDay());
     for (let i=1;i<8;i++){
       semN.push(week[(jour+i)%7]);
     }
-    console.log(semN);
-    if (f.getMonth()==l.getMonth()){
+    //console.log(semN);
+    if (f.getMonth()===l.getMonth()){
       //console.log("ok")
       for(let i=f.getDate()+1; i<l.getDate()+2;i++){
-        var m=l.getMonth()+1;
-        var j=i;
-        if(m<10){
-          m="0"+m;
+        var mt=l.getMonth()+1;
+        var jo=i;
+        if(mt<10){
+          mt="0"+mt;
         }
-        if(j<10){
-          j="0"+j;
+        if(jo<10){
+          jo="0"+jo;
         }
-        var dat = l.getFullYear()+"-"+m+"-"+j;
-        semain.push(dat);
+        var datess = l.getFullYear()+"-"+mt+"-"+jo;
+        semain.push(datess);
       }
     }else{
       for(let i=f.getDate()+1; i<33;i++){
-        var m=l.getMonth()+1;
-        var j=i;
-        if(m<10){
-          m="0"+m;
+        var mo=l.getMonth()+1;
+        var ju=i;
+        if(mo<10){
+          mo="0"+mo;
         }
-        if(j<10){
-          j="0"+j;
+        if(ju<10){
+          ju="0"+ju;
         }
-        var dat = l.getFullYear()+"-"+m+"-"+j;
-        semain.push(dat);
+        var dates = l.getFullYear()+"-"+mo+"-"+ju;
+        semain.push(dates);
       }
       for(let i=1; i<l.getDate()+2;i++){
         var m=l.getMonth()+1;
@@ -277,8 +276,8 @@ export default function WebProject() {
   
   if(toutOkG) {
   
-    var curr = new Date;
-    console.log(curr);
+    var curr = new Date();
+    //console.log(curr);
     var first = curr.getDate() - curr.getDay();
     var last = first - 6;
   
@@ -290,7 +289,7 @@ export default function WebProject() {
   
     sem = semaine(firstday,fd,lastday,ld);
   
-    console.log(sem);
+    //console.log(sem);
   
     toutOkG=false;
   }
@@ -311,7 +310,7 @@ export default function WebProject() {
   const afficherAdmin = (e) => {
     //console.log(e.administrateur);
     setUserLogin(e);
-    if (e.administrateur == 0) {
+    if (e.administrateur === 0) {
       pasAdmin();
     }
   }
@@ -336,7 +335,7 @@ export default function WebProject() {
 
   const uploadAPIImageProfile = (e) => {
     try {
-      const result = axios.post(
+      axios.post(
         `/ImageListApiProfile/${e}`,
         data
       );
@@ -346,7 +345,7 @@ export default function WebProject() {
   };
   const uploadAPIImageLieu = (e) => {
     try {
-      const result = axios.post(
+      axios.post(
         `/ImageListApiLieu/${e.img}/${e.ext}`,
         data
       );
@@ -356,7 +355,7 @@ export default function WebProject() {
   };
   const uploadAPIImageEvent= (e) => {
     try {
-      const result = axios.post(
+      axios.post(
         `/ImageListApiEvent/${e.img}/${e.ext}`,
         data
       );
@@ -366,7 +365,7 @@ export default function WebProject() {
   };
   var posterUser = (l) => {
     try {
-      const result = axios.post(
+      axios.post(
         `/userAdd/${l[0]}/${l[1]}/${l[2]}/${l[3]}/${l[4]}`
       );
     } catch (err) {
@@ -378,7 +377,7 @@ export default function WebProject() {
     if ($("#prenomAdd").val() && $("#nomAdd").val() && $("#pseudoAdd").val() && $("#passwordAdd").val()) {
       if ($("#passwordAdd").val().length >= 8) {
         var userAdd = [];
-        if ($("#userlevelAdd").text() == "Gérant") {
+        if ($("#userlevelAdd").text() === "Gérant") {
           userAdd.push(0);
         } else {
           userAdd.push(1);
@@ -411,7 +410,7 @@ export default function WebProject() {
 
   var posterPlace = (l) => {
     try {
-      const result = axios.post(
+      axios.post(
         `/placeAdd/${l[0]}/${l[1]}/${l[2]}/${l[3]}/${l[4]}/${l[5]}`
       );
     } catch (err) {
@@ -420,7 +419,7 @@ export default function WebProject() {
   }
 
   const ajouterLieu = () => {
-    if ($("#placenom").val() && $("#placelat").val() && $("#placelon").val() && $("#placedesc").val() && $('#placefiles').text() && $('#placefiles').text() == fileName) {
+    if ($("#placenom").val() && $("#placelat").val() && $("#placelon").val() && $("#placedesc").val() && $('#placefiles').text() && $('#placefiles').text() === fileName) {
       var placeAdd = [];
       placeAdd.push(parseInt($("#placelat").val()));
       placeAdd.push(parseInt($("#placelon").val()));
@@ -447,7 +446,7 @@ export default function WebProject() {
 
   var posterEvent = (l) => {
     try {
-      const result = axios.post(
+      axios.post(
         `/eventAdd/${l[0]}/${l[1]}/${l[2]}/${l[3]}/${l[4]}`
       );
     } catch (err) {
@@ -456,7 +455,7 @@ export default function WebProject() {
   }
 
   const ajouterEvent = () => {
-    if ($("#eventnom").val() && $("#eventdatedeb").val() && $("#eventdatefin").val() && $("#eventdesc").val() && $('#eventfiles').text() && $('#eventfiles').text() == fileName) {
+    if ($("#eventnom").val() && $("#eventdatedeb").val() && $("#eventdatefin").val() && $("#eventdesc").val() && $('#eventfiles').text() && $('#eventfiles').text() === fileName) {
       var eventAdd = [];
       eventAdd.push($("#eventnom").val());
       eventAdd.push($("#eventdatedeb").val());
@@ -465,7 +464,7 @@ export default function WebProject() {
       var f = (fileName).split(".");
       eventAdd.push($("#eventnom").val()+"."+f[1]);
       posterEvent(eventAdd);
-      console.log(eventAdd);
+      //console.log(eventAdd);
 
       fileName="";
       $(".files").text="";
@@ -482,11 +481,11 @@ export default function WebProject() {
 
   const verifierFile = () => {
     var f = fileName.split(".");
-    if (f.length != 2) {
+    if (f.length !== 2) {
       alert("Le fichier n'est pas conforme");
       fileName ="";
     }else{
-      if(f[1]=="png" || f[1]=="jpg"){
+      if(f[1]==="png" || f[1]==="jpg"){
         //console.log("Fichier accepté");
         return true
       } else {
@@ -498,7 +497,7 @@ export default function WebProject() {
   }
 
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen]=useState(false);
   const listeBox = ["principal", "editer", "table", "graphe", "doc", "profile"];
 
   const handleDrawerOpen = () => {
@@ -508,7 +507,7 @@ export default function WebProject() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] =useState(null);
   const openit = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -588,10 +587,12 @@ export default function WebProject() {
     verifUser(utilisat);
 
   }
+  answer = window.location.href;
+  //console.log(answer);
+  answer_array = answer.split('=');
 
-  useEffect(() => {
-    userLoginfunc(answer_array[1]).then((resp) => { afficherAdmin(resp.data[0]) });
-  }, []);
+   
+
 
   function getCookie(cname) {
     let name = cname + "=";
@@ -613,7 +614,7 @@ export default function WebProject() {
     var d = new Date();
     d.setTime(d.getTime() + (0 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + '' + ";" + expires + ";path=/";
+    document.cookie = cname + "=;" + expires + ";path=/";
   }
 
   const verifIP = (function () {
@@ -676,9 +677,7 @@ export default function WebProject() {
   }
 
   const verifierTout = () => {
-    let utilisat = creatUser(params.id);
-    let v1 = verifIP();
-    let v2 = verifUser(utilisat);
+    creatUser(params.id);
   }
 
   const CreerGraphe = (a) => {
@@ -746,16 +745,14 @@ export default function WebProject() {
 
 
 
-  answer = window.location.href;
-  //console.log(answer);
-  answer_array = answer.split('=');
+
   debut();
 
   window.onload = (function (event) {
 
     verifierTout();
     debut();
-
+    userLoginfunc(answer_array[1]).then((resp) => {afficherAdmin(resp.data[0])});
 
 
     if (answer_array[1] === null) {
@@ -775,6 +772,7 @@ export default function WebProject() {
 
       $('#placefiles').text(fileName);
       //console.log(fileName);
+      return fichier;
     });
 
     $('#userupload').change(function (e) {
@@ -785,6 +783,7 @@ export default function WebProject() {
       if (a) {
         fichier = e.target.files[fs - 1];
       }
+      return fichier;
     });
 
     $('#eventupload').change(function (e) {
@@ -796,6 +795,7 @@ export default function WebProject() {
       }
       $('#eventfiles').text(fileName);
       //console.log(fileName);
+      return fichier;
     });
 
   });
@@ -1185,10 +1185,14 @@ export default function WebProject() {
         <DrawerHeader />
         <h1 style={{ width: "100%", textAlign: "center" }}>Documentation</h1>
 
-
         <Documentation que="Quels sont les différents niveaux d'utilisateurs ?" rep={["Administrateur : Droit de modifier Les lieux, évènements et utilisateurs", "Basique : Droit de modifier Les lieux et évènements"]} />
 
-        <Documentation que="Quelles sont les différentes pages ?" rep={["Principale : Accueil", "Stylo : Permet d'ajouter des éléments", "Table : Permet de voir les différents éléments et de les modifier", "Graphes : Permet d'avoir des statistiques sur le site", "Documentation : Permet de trouver les réponses à des questions"]} />
+        <Documentation que="Quelles sont les différentes pages ?" rep={["Principale : Accueil", "Stylo : Permet d'ajouter des éléments", "Table : Permet de voir les différents éléments et de les modifier", "Graphes : Permet d'avoir des statistiques sur le site", "Documentation : Permet de trouver les réponses à des questions", "Profil : Permet de voir ses informations et de modifier son mot de passe"]} />
+     
+        <Documentation que="Comment revenir à l'accueil ?" rep={["De la page Administrateur : Cliquer sur Dashboard en haut à gauche", "Du site : Cliquer sur l'image de l'avatar puis sur Sign Out"]} />
+
+        <Documentation que="Qui sont les créateurs de ce magnifique site ?" rep={["3 étudiants de L3 Informatique à l'Institut National Universitaire Jean-François Champollion : Arnaud, Antonin et Amadéo"]} />
+
       </Box>
 
       <Box component="main" id="profile" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>

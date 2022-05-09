@@ -58,12 +58,14 @@
 
 
 .mapcontainer{
-    margin:auto;
-    width: 90%;
+    width: 100%;
     height: 920px;
 }
 
 @media screen and (max-width: 800px) {
+    .mapcontainer{
+        height: 520px;
+    }
     #barreTop{
         height: 100%;
     }

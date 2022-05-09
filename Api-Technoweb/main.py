@@ -31,7 +31,7 @@ class LogIN(Resource):
         for i in range(0,len(results)):
             if (results[i]["pseudo"]==user_name and results[i]["pwd"]==user_paswd):
                 Login=True
-        print(Login)
+        #print(Login)
         db.close()
         return Login
 
@@ -85,7 +85,7 @@ class user(Resource):
                              password='TechnoWeb4',
                              database='champo_bdd_technoweb',
                              cursorclass=pymysql.cursors.DictCursor)
-        print(user_name)
+        #print(user_name)
         cursor = db.cursor()
         
         sql ="SELECT prenom,nom,pseudo,administrateur FROM Utilisateur WHERE pseudo="+"'"+str(user_name)+"'"
@@ -183,7 +183,7 @@ class Graph(Resource):
         sql ="SELECT * FROM Frequentation"
         cursor.execute(sql)
         results = cursor.fetchall()
-        print(results[0]["dateFrequentation"])
+        #print(results[0]["dateFrequentation"])
         for i in range(0,len(results)):
             results[i]["dateFrequentation"]=str(results[0]["dateFrequentation"])
         db.close()
@@ -273,7 +273,6 @@ class EvenementsActifs(Resource):
             results[i]["dateEventDeb"]=str(results[i]["dateEventDeb"])
             results[i]["dateEventFin"]=str(results[i]["dateEventFin"])
             
-        print(results)
         db.close()
         return results
 
@@ -281,7 +280,6 @@ class ImageListApiProfile(Resource):
 
     def post(self, img):
 
-        print("le fichier n'existe pas je l'ajoute !")
         parse = reqparse.RequestParser()
         parse.add_argument('file',
                             type=werkzeug.datastructures.FileStorage,
@@ -294,7 +292,6 @@ class ImageListApiLieu(Resource):
 
     def post(self, img, pathext):
 
-        print("le fichier n'existe pas je l'ajoute !")
         parse = reqparse.RequestParser()
         parse.add_argument('file',
                             type=werkzeug.datastructures.FileStorage,
@@ -306,7 +303,6 @@ class ImageListApiLieu(Resource):
 class ImageListApiEvent(Resource):
 
     def post(self, img, pathext):
-        print("le fichier n'existe pas je l'ajoute !")
         parse = reqparse.RequestParser()
         parse.add_argument('file',
                             type=werkzeug.datastructures.FileStorage,

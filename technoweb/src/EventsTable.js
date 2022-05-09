@@ -16,9 +16,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
-const axios = require('axios');
-function createDataEvents(identifiant, image, name, debut, fin, description) {
-    return { identifiant, image, name, debut, fin, description};
+function createDataEvents(image, name, debut, fin, description) {
+    return {image, name, debut, fin, description};
   }// add data
   /*
   var rowsEvents = [
@@ -38,8 +37,7 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
     { id: 'name'},
     { id: 'debut'},
     { id: "fin"},
-    { id: 'description'},
-    { id: 'identifiant'}
+    { id: 'description'}
   ];
 
   var ind;
@@ -71,8 +69,8 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
       var el=e[i];
       //console.log(el);
 
-      rowsEvents.push(createDataEvents(el.idEvent,el.pathImgEvent,el.nomEvent,el.dateEventDeb,el.dateEventFin,el.descEvent));
-      rowsEvents1.push(createDataEvents(el.idEvent,el.pathImgEvent,el.nomEvent,el.dateEventDeb,el.dateEventFin,el.descEvent));
+      rowsEvents.push(createDataEvents(el.pathImgEvent,el.nomEvent,el.dateEventDeb,el.dateEventFin,el.descEvent));
+      rowsEvents1.push(createDataEvents(el.pathImgEvent,el.nomEvent,el.dateEventDeb,el.dateEventFin,el.descEvent));
     }
   }
   if(toutOkE){
@@ -162,19 +160,19 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
 
     const changerEvent = () => {
       var trucsAChanger=false;
-      if($("#eventnomA").val() && $("#eventnomA").val()!=nom){
+      if($("#eventnomA").val() && $("#eventnomA").val()!==nom){
         nom=$("#eventnomA").val();
         trucsAChanger=true;
       }
-      if($("#eventdebutA").val() && $("#eventdebutA").val()!=debut){
+      if($("#eventdebutA").val() && $("#eventdebutA").val()!==debut){
         debut=$("#eventdebutA").val();
         trucsAChanger=true;
       }
-      if($("#eventfinA").val() && $("#eventfinA").val()!=fin){
+      if($("#eventfinA").val() && $("#eventfinA").val()!==fin){
         fin=$("#eventfinA").val();
         trucsAChanger=true;
       }
-      if($("#eventdescriptionA").val() && $("#eventdescriptionA").val()!=description){
+      if($("#eventdescriptionA").val() && $("#eventdescriptionA").val()!==description){
         description=$("#eventdescriptionA").val();
         trucsAChanger=true;
       }
@@ -216,14 +214,14 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
         </TableHead>
         <TableBody id="userrows">
           {rowsEvents.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-            {index=index+1;}
+            index=index+1;
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                   {columnEvents.map((column) => {
-                    {index=index+1;}
+                    index=index+1;
                     const value = row[column.id];
-                    if((column.id) !== 'identifiant'){
-                      if ((column.id) !== 'image' ) {
+
+                    if ((column.id) !== 'image' ) {
                       return (
                         <TableCell   key={index} align="center">
                           {value}
@@ -235,10 +233,8 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
                           <img src={"http://localhost:5000/getEventsImg/"+row["image"]} style={{width: '50%'}} alt=""/>
                         </TableCell>
                       );
-                    }
-                  }else{
-
                   }
+
                   })}
                   <TableCell align="center">
                     <IconButton id={row[columnEvents[2].id]} onClick={event=>changer(row[columnEvents[5].id])}>
