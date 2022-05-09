@@ -15,7 +15,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
 import QuestionRad from './QuestionRad'
 import EventComponent from './EventComponent';
-import { format } from "date-fns";
 import ReactDOM from 'react-dom';
 
 const axios = require('axios');
@@ -42,9 +41,8 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 
-var guide = 0;
+
 var piste = false;
-var questionsPossibles = new Array();
 
 const requeteQuestions = () => {
   try {
@@ -93,10 +91,10 @@ function Home() {
     let ca = decodedCookie.split(';');
     for (let i = 0; i < ca.length; i++) {
       let c = ca[i];
-      while (c.charAt(0) == ' ') {
+      while (c.charAt(0) === ' ') {
         c = c.substring(1);
       }
-      if (c.indexOf(name) == 0) {
+      if (c.indexOf(name) === 0) {
         return c.substring(name.length, c.length);
       }
     }
@@ -107,7 +105,7 @@ function Home() {
     var d = new Date();
     d.setTime(d.getTime() + (0 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + '' + ";" + expires + ";path=/";
+    document.cookie = cname + "=;" + expires + ";path=/";
   }
 
   const [openD, setOpenD] = useState(false);
@@ -123,12 +121,12 @@ function Home() {
 
 
   const TireQuests = () => {
-    console.log("je tire une question");
+    //console.log("je tire une question");
     var hasard = Math.floor(Math.random() * (Math.floor((questions.length )/ 4)) ) * 4;
-    console.log(hasard);
+    //console.log(hasard);
     setQuestion(questions[hasard].texteQuestionL);
     setReponses({ resp: [questions[hasard].idReponseL, questions[hasard + 1].idReponseL, questions[hasard + 2].idReponseL, questions[hasard + 3].idReponseL], reponse: [questions[hasard].texteReponseL, questions[hasard + 1].texteReponseL, questions[hasard + 2].texteReponseL, questions[hasard + 3].texteReponseL] });
-    console.log(question);
+    //console.log(question);
   }
 
   const OuiJeu = () => {
@@ -145,8 +143,7 @@ function Home() {
 
   window.onload = () => {
 
-    var date = new Date();
-    var formattedDate = format(date, "yyyy-MM-dd");
+
     try {
       axios.post(
         `/addFrequentation`

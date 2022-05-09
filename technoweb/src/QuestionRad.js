@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import $ from "jquery"
 import './questionrad.css';
 
 
 function QuestionRad(rep) {  // On donne en paramètre la question, les réponses possibles et leurs images
-    console.log(rep.resp);
+    //console.log(rep.resp);
     const imageClick = (i) => {
         var ident = i.r;
         for (let i = 0; i < rep.resp.length; i++) {

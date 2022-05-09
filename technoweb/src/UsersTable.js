@@ -19,8 +19,8 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 const axios = require('axios');
 
-function createDataUsers(identifiant, firstname, name, surname, administrateur) {
-  return { identifiant, firstname, name, surname, administrateur };
+function createDataUsers(firstname, name, surname, administrateur) {
+  return {firstname, name, surname, administrateur };
 }// add data
 
 
@@ -60,7 +60,7 @@ var indexKey=0;
 var ind = 0;
 var nom = "Soufflet";
 var prenom = "Amadéo";
-var pseudo = "Ace25";
+
 var admini=true;
 
 var toutOkU=true;
@@ -73,15 +73,15 @@ export default function UsersTable(rep) {
 
     for(let i=0; i<e.length; i++){
       var el=e[i];
-      console.log(el);
+      //console.log(el);
       var ad;
-      if(el.administrateur==1){
+      if(el.administrateur===1){
         ad="Oui";
       }else{
         ad="Non";
       }
-      rowsUsers.push(createDataUsers(i,el.prenom, el.nom, el.pseudo, ad ));
-      rowsUsers1.push(createDataUsers(i,el.prenom, el.nom, el.pseudo, ad ));
+      rowsUsers.push(createDataUsers(el.prenom, el.nom, el.pseudo, ad ));
+      rowsUsers1.push(createDataUsers(el.prenom, el.nom, el.pseudo, ad ));
 
     }
   }
@@ -153,7 +153,7 @@ export default function UsersTable(rep) {
 
   const verifclose = () => {
     setVerif(false);
-    console.log(verif);
+    //console.log(verif);
   }
 
 
@@ -169,11 +169,8 @@ export default function UsersTable(rep) {
 
 
   const changer = (i) => {
-    console.log(i);
+    //console.log(i);
     ind = i;
-    nom = rowsUsers[ind].name;
-    prenom = rowsUsers[ind].firstname;
-    pseudo = rowsUsers[ind].surname;
 
     if (rowsUsers[ind].administrateur === "Oui") {
       setChecked(true);
@@ -182,13 +179,13 @@ export default function UsersTable(rep) {
       setChecked(false);
       admini=false;
     }
-    console.log(rowsUsers[ind].administrateur);
+    //console.log(rowsUsers[ind].administrateur);
     setOpen(true);
   }
 
   var changerUserPost = (u1,u2,u3) => {
     try {
-      const result = axios.post(
+      axios.post(
         `/changerUser/${u1}/${u2}/${u3}`
       );
     } catch (err) {
@@ -197,18 +194,18 @@ export default function UsersTable(rep) {
   }
 
   const changeUser = () =>{
-    console.log(prenom+" et "+nom+" et "+admini);
+    //console.log(prenom+" et "+nom+" et "+admini);
     var ad=0;
     var chosesAChanger=false;
-    if($("#userprenom").val()!=prenom && $("#userprenom").val()){
+    if($("#userprenom").val()!==prenom && $("#userprenom").val()){
       prenom=$("#userprenom").val();
       chosesAChanger=true;
     }
-    if($("#usernom").val()!=nom && $("#usernom").val()){
+    if($("#usernom").val()!==nom && $("#usernom").val()){
       nom=$("#usernom").val();
       chosesAChanger=true;
     }
-    if(checked!=admini){
+    if(checked!==admini){
       admini=checked;
       if(admini){
         ad=1;
@@ -257,14 +254,14 @@ export default function UsersTable(rep) {
           </TableHead>
           <TableBody id="userrows">
             {rowsUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-              {indexKey=indexKey+1;}
+              indexKey=indexKey+1;
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={indexKey} >
                   <TableCell><img alt="imgProfile" src={"http://localhost:5000/getImgProfile/"+row["surname"]}/></TableCell>
                   {columnsUsers.map((column) => {
                     const value = row[column.id];
                     indexKey=indexKey+1;
-                    if ((column.id) !== 'identifiant'){
+
                       if ((column.id) !== 'image') {
                         return (
                           <TableCell key={indexKey} align="center">
@@ -278,7 +275,7 @@ export default function UsersTable(rep) {
                           </TableCell>
                         );
                       }
-                    }
+ 
 
                   })}
                   <TableCell align="center">
