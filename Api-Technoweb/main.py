@@ -32,7 +32,7 @@ class LogIN(Resource):
             if (results[i]["pseudo"]==user_name and results[i]["pwd"]==user_paswd):
                 Login=True
         print(Login)
-        
+        db.close()
         return Login
 
 class utilisateur(Resource):
@@ -46,7 +46,7 @@ class utilisateur(Resource):
         sql = "SELECT administrateur,nom,prenom,pseudo FROM Utilisateur"
         cursor.execute(sql)  
         results = cursor.fetchall()
-        
+        db.close()
         return results
 
 class lieu(Resource):
@@ -60,7 +60,7 @@ class lieu(Resource):
         sql = "SELECT * FROM Lieu"
         cursor.execute(sql)  
         results = cursor.fetchall()
-        
+        db.close()
         return results
 
 class event(Resource):
@@ -74,7 +74,7 @@ class event(Resource):
         sql = "SELECT idEvent,pathImgEvent,nomEvent,dateEventDeb,dateEventFin,descEvent,actif FROM Events"
         cursor.execute(sql)
         results = cursor.fetchall()
-        
+        db.close()
         return results   
 
 class user(Resource):
@@ -91,7 +91,7 @@ class user(Resource):
         sql ="SELECT prenom,nom,pseudo,administrateur FROM Utilisateur WHERE pseudo="+"'"+str(user_name)+"'"
         cursor.execute(sql)
         results = cursor.fetchall()
-        
+        db.close()
         return results
 
 class listQuestionsReponses(Resource):
@@ -106,7 +106,7 @@ class listQuestionsReponses(Resource):
         sql ="SELECT QuestionL.idQuestionL,QuestionL.texteQuestionL,ReponseL.idReponseL,ReponseL.texteReponseL,ReponseL.bonneRep  FROM QuestionL INNER JOIN Liaison_QuestionLReponseL ON QuestionL.idQuestionL=Liaison_QuestionLReponseL.idQL INNER JOIN ReponseL ON Liaison_QuestionLReponseL.idRL=ReponseL.idReponseL "
         cursor.execute(sql)
         results = cursor.fetchall()
-        
+        db.close()
         return results
 
 class userAdd(Resource):
@@ -122,7 +122,7 @@ class userAdd(Resource):
         cursor.execute(sql, data)
         db.commit()
         #results = cursor.fetchall()
-        
+        db.close()
         return True
 
 class placeAdd(Resource):
@@ -138,7 +138,7 @@ class placeAdd(Resource):
         cursor.execute(sql, data)
         db.commit()
         #results = cursor.fetchall()
-        
+        db.close()
         return True
 
 class eventAdd(Resource):
@@ -154,7 +154,7 @@ class eventAdd(Resource):
         cursor.execute(sql, data)
         db.commit()
         #results = cursor.fetchall()
-        
+        db.close()
         return True
 
 class changerUser(Resource):
@@ -169,7 +169,7 @@ class changerUser(Resource):
         cursor.execute(sql)
         db.commit()
         #results = cursor.fetchall()
-        
+        db.close()
         return True
     
 class Graph(Resource):
@@ -186,28 +186,16 @@ class Graph(Resource):
         print(results[0]["dateFrequentation"])
         for i in range(0,len(results)):
             results[i]["dateFrequentation"]=str(results[0]["dateFrequentation"])
-        
+        db.close()
         return results
 
 class ProfileImg(Resource):
     def get(self, pathImg):
-        db = pymysql.connect(host='mysql-champo.alwaysdata.net',
-                             user='champo',
-                             password='TechnoWeb4',
-                             database='champo_bdd_technoweb',
-                             cursorclass=pymysql.cursors.DictCursor)
         try:
-            try:
-                imgAEnvoi = path + '/profile/' + pathImg +'.jpg'
-                
-                return send_file(imgAEnvoi, mimetype='image/gif')
-            except:
-                imgAEnvoi = path + '/profile/' + pathImg +'.png'
-                
-                return send_file(imgAEnvoi, mimetype='image/gif')
+            imgAEnvoi = path + '/profile/' + pathImg
+            return send_file(imgAEnvoi, mimetype='image/gif')
         except Exception:
             imgAEnvoi=path+'/profile/notfound.png'
-            
             return send_file(imgAEnvoi, mimetype='image/gif')
 
 class MapInfo(Resource):
@@ -221,7 +209,7 @@ class MapInfo(Resource):
         sql ="SELECT * FROM Lieu"
         cursor.execute(sql)
         results = cursor.fetchall()
-        
+        db.close()
         return results
     
 
@@ -237,7 +225,7 @@ class addFrequentation(Resource):
         sqlNbVisite="SELECT dateFrequentation,nbVisites FROM Frequentation"
         cursor.execute(sqlNbVisite)
         results = cursor.fetchall()
-        
+        db.close()
         return results
         
     def post(self):
@@ -265,7 +253,7 @@ class addFrequentation(Resource):
             datas=(actuel,1)
             cursor.execute(sqlv3, datas)
             db.commit()
-        
+        db.close()
         return actuel
 
 class EvenementsActifs(Resource):
@@ -286,9 +274,71 @@ class EvenementsActifs(Resource):
             results[i]["dateEventFin"]=str(results[i]["dateEventFin"])
             
         print(results)
-        
+        db.close()
         return results
-    
+
+class ImageListApiProfile(Resource):
+
+    def post(self, img):
+
+        print("le fichier n'existe pas je l'ajoute !")
+        parse = reqparse.RequestParser()
+        parse.add_argument('file',
+                            type=werkzeug.datastructures.FileStorage,
+                            location="files")
+        args = parse.parse_args()
+        imgFile = args['file']
+        imgFile.save(os.path.join("images/profile/" + img))
+        
+class ImageListApiLieu(Resource):
+
+    def post(self, img, pathext):
+
+        print("le fichier n'existe pas je l'ajoute !")
+        parse = reqparse.RequestParser()
+        parse.add_argument('file',
+                            type=werkzeug.datastructures.FileStorage,
+                            location="files")
+        args = parse.parse_args()
+        imgFile = args['file']
+        imgFile.save(os.path.join("images/places/" + img + pathext))
+
+class ImageListApiEvent(Resource):
+
+    def post(self, img, pathext):
+        print("le fichier n'existe pas je l'ajoute !")
+        parse = reqparse.RequestParser()
+        parse.add_argument('file',
+                            type=werkzeug.datastructures.FileStorage,
+                            location="files")
+        args = parse.parse_args()
+        imgFile = args['file']
+        imgFile.save(os.path.join("images/events/" + img+ pathext))
+
+class PlacesImg(Resource):
+    def get(self, pathImg):
+        try:
+            imgAEnvoi = path + '/places/' + pathImg
+            return send_file(imgAEnvoi, mimetype='image/gif')
+        except Exception:
+            imgAEnvoi=path+'/places/notfound.png'
+            return send_file(imgAEnvoi, mimetype='image/gif')
+
+
+
+
+class EventImg(Resource):
+
+    def get(self, pathImg):
+
+        try:
+            imgAEnvoi = path + '/events/' + pathImg
+            return send_file(imgAEnvoi, mimetype='image/gif')
+        except Exception:
+            imgAEnvoi=path+'/events/notfound.png'
+            return send_file(imgAEnvoi, mimetype='image/gif')
+
+
 class Frequentation(Resource):
     def get(self):
         db = pymysql.connect(host='mysql-champo.alwaysdata.net',
@@ -305,6 +355,7 @@ class Frequentation(Resource):
         return results
 
 
+
 api.add_resource(LogIN, '/userLogin/<user_name>/<user_paswd>')
 api.add_resource(utilisateur, '/utilisateur')
 api.add_resource(lieu, '/lieu')
@@ -315,12 +366,17 @@ api.add_resource(MapInfo, '/map')
 api.add_resource(Frequentation, '/frequentation')
 api.add_resource(listQuestionsReponses, '/listQuestionsReponses')
 api.add_resource(ProfileImg, '/getImgProfile/<pathImg>')
+api.add_resource(PlacesImg, '/getPlacesImg/<pathImg>')
+api.add_resource(EventImg, '/getEventsImg/<pathImg>')
 api.add_resource(EvenementsActifs, '/EvenementsActifs')
 api.add_resource(addFrequentation, '/addFrequentation')
 api.add_resource(userAdd, '/userAdd/<user_admin>/<user_name>/<user_firstname>/<user_pseudo>/<user_password>')
 api.add_resource(placeAdd,'/placeAdd/<place_lat>/<place_lon>/<place_nom>/<place_car>/<place_desc>')
-api.add_resource(eventAdd,'/eventAdd/<event_nom>/<event_debut>/<event_fin>/<event_desc>/<event_file>');
+api.add_resource(eventAdd,'/eventAdd/<event_nom>/<event_debut>/<event_fin>/<event_desc>/<event_file>')
 api.add_resource(changerUser,'/changerUser/<user_prenom>/<user_nom>/<user_admin>')
+api.add_resource(ImageListApiProfile,'/ImageListApiProfile/<img>')
+api.add_resource(ImageListApiLieu,'/ImageListApiLieu/<img>/<pathext>')
+api.add_resource(ImageListApiEvent,'/ImageListApiEvent/<img>/<pathext>')
 if __name__ == '__main__':
     app.run(debug=True)
     
