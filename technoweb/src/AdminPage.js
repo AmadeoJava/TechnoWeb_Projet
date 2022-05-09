@@ -158,7 +158,17 @@ const StyledMenu = styled((props) => (
 }));
 
 
+// Variables Graphes
 
+var toutOkG=true;
+var week=["SUN","MON","TUE","WED","THU","FRI","SAT"];
+var jour=0;
+var tout=[];
+var semN=[];
+var sem;
+
+
+///////////////////////////////////
 
 const icones = [<CreateIcon />, <BorderAllIcon />, <BarChartIcon />];
 
@@ -179,6 +189,113 @@ var fichier;
 var initialisation=true;
 var data;
 export default function WebProject() {
+
+
+  // Fonctions Graphes
+
+  const remplirGraphe = (a,sem) =>{
+    for(let j=0; j<sem.length;j++){
+      var g=sem[j];
+      var ve = true;
+      for (let i=0; i<a.length; i++){
+        var d = a[i];
+        if(d.dateFrequentation==g){
+          tout.push(d.nbVisites);
+          ve=false;
+        }
+      }
+      if(ve){
+        tout.push(0);
+      }
+    }
+    console.log(tout);
+  }
+  
+  const semaine = (l,lm,f,fm) =>{
+    var semain=[];
+    jour=f.getDay();
+    console.log(l.getDay());
+    for (let i=1;i<8;i++){
+      semN.push(week[(jour+i)%7]);
+    }
+    console.log(semN);
+    if (f.getMonth()==l.getMonth()){
+      //console.log("ok")
+      for(let i=f.getDate()+1; i<l.getDate()+2;i++){
+        var m=l.getMonth()+1;
+        var j=i;
+        if(m<10){
+          m="0"+m;
+        }
+        if(j<10){
+          j="0"+j;
+        }
+        var dat = l.getFullYear()+"-"+m+"-"+j;
+        semain.push(dat);
+      }
+    }else{
+      for(let i=f.getDate()+1; i<33;i++){
+        var m=l.getMonth()+1;
+        var j=i;
+        if(m<10){
+          m="0"+m;
+        }
+        if(j<10){
+          j="0"+j;
+        }
+        var dat = l.getFullYear()+"-"+m+"-"+j;
+        semain.push(dat);
+      }
+      for(let i=1; i<l.getDate()+2;i++){
+        var m=l.getMonth()+1;
+        var j=i;
+        if(m<10){
+          m="0"+m;
+        }
+        if(j<10){
+          j="0"+j;
+        }
+        var dat = l.getFullYear()+"-"+m+"-"+j;
+        semain.push(dat);
+      }
+    }
+    return semain;
+  }
+  
+  const dateFormat = (d) =>{
+    var y = d.getFullYear();
+    var m = d.getMonth()+1;
+    if (parseInt(m)<10){
+      m="0"+m;
+    }
+    var j = d.getDate();
+    if (parseInt(j)<10){
+      j="0"+j;
+    }
+    return(y+"-"+m+"-"+j);
+  }
+  
+  if(toutOkG) {
+  
+    var curr = new Date;
+    console.log(curr);
+    var first = curr.getDate() - curr.getDay();
+    var last = first - 6;
+  
+    var firstday = new Date(curr.setDate(first));
+    var lastday = new Date(curr.setDate(last));
+  
+    var fd = dateFormat(firstday);
+    var ld = dateFormat(lastday);
+  
+    sem = semaine(firstday,fd,lastday,ld);
+  
+    console.log(sem);
+  
+    toutOkG=false;
+  }
+
+  /////////////////////////////////
 
 
   const sha512 = (str) => {
@@ -564,10 +681,27 @@ export default function WebProject() {
     let v2 = verifUser(utilisat);
   }
 
+  const CreerGraphe = (a) => {
+    remplirGraphe(a,sem);
+    const grap = <ChartGraphe da={tout} j={semN} />;
+    ReactDOM.render(grap, document.getElementById('placeGraphe'));
+  }
+
   const ajoutUserTable = (d) => {
     const tableau = <UserTable d={d} />;
     ReactDOM.render(tableau, document.getElementById('usertable'));
-
+    try {
+      const result = axios.get(
+        `/frequentation`
+      );
+    
+      result.then((resp) =>
+        CreerGraphe(resp.data)
+      );
+  
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   const ajoutEventTable = (d) => {
@@ -1043,8 +1177,7 @@ export default function WebProject() {
         <DrawerHeader />
         <h1 style={{ width: "100%", textAlign: "center" }}>Graphes</h1>
 
-        <Card className='centerDiv' style={{ display: "block", marginLeft: "auto", marginRight: "auto" }} >
-          <ChartGraphe />
+        <Card className='centerDiv' style={{ display: "block", marginLeft: "auto", marginRight: "auto" }} id="placeGraphe">
         </Card>
       </Box>
 
