@@ -1185,10 +1185,14 @@ export default function WebProject() {
         <DrawerHeader />
         <h1 style={{ width: "100%", textAlign: "center" }}>Documentation</h1>
 
-
         <Documentation que="Quels sont les différents niveaux d'utilisateurs ?" rep={["Administrateur : Droit de modifier Les lieux, évènements et utilisateurs", "Basique : Droit de modifier Les lieux et évènements"]} />
 
-        <Documentation que="Quelles sont les différentes pages ?" rep={["Principale : Accueil", "Stylo : Permet d'ajouter des éléments", "Table : Permet de voir les différents éléments et de les modifier", "Graphes : Permet d'avoir des statistiques sur le site", "Documentation : Permet de trouver les réponses à des questions"]} />
+        <Documentation que="Quelles sont les différentes pages ?" rep={["Principale : Accueil", "Stylo : Permet d'ajouter des éléments", "Table : Permet de voir les différents éléments et de les modifier", "Graphes : Permet d'avoir des statistiques sur le site", "Documentation : Permet de trouver les réponses à des questions", "Profil : Permet de voir ses informations et de modifier son mot de passe"]} />
+     
+        <Documentation que="Comment revenir à l'accueil ?" rep={["De la page Administrateur : Cliquer sur Dashboard en haut à gauche", "Du site : Cliquer sur l'image de l'avatar puis sur Sign Out"]} />
+
+        <Documentation que="Qui sont les créateurs de ce magnifique site ?" rep={["3 étudiants de L3 Informatique à l'Institut National Universitaire Jean-François Champollion : Arnaud, Antonin et Amadéo"]} />
+
       </Box>
 
       <Box component="main" id="profile" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
