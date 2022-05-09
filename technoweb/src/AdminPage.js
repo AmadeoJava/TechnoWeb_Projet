@@ -818,11 +818,11 @@ export default function WebProject() {
     }
   }
 
-  try {
-    axios.get(`/getImgProfile/${answer_array[1]}`);
-  } catch (err) {
-    console.log(err);
-  }
+  // try {
+  //   axios.get(`/getImgProfile/${answer_array[1]}`);
+  // } catch (err) {
+  //   console.log(err);
+  // }
 
   return (
 

@@ -17,22 +17,24 @@ const requetEventsActifs =  () => {
 const fonction = (e) => {
     e.currentTarget.parentNode.parentNode.parentNode.remove();
 };
-
+var firstreload=true;
 var tabTest = [];
 const getMap = (data) => {
-
-    try {
-        for (var i = 0; i < data.length; i++) {
-            tabTest.push(data[i]);
+    if (firstreload){
+        try {
+            for (var i = 0; i < data.length; i++) {
+                tabTest.push(data[i]);
+            }
+        } catch (err) {
+            console.log(err);
+            return [];
         }
-    } catch (err) {
-        console.log(err);
-        return [];
     }
 };
 
 export default function EventComponent() {
     useEffect(() => {
+   
         requetEventsActifs().then((results) => { getMap(results.data); });
     }, []);
 

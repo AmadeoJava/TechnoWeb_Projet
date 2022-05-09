@@ -52,14 +52,14 @@ function createDataEvents(identifiant, image, name, debut, fin, description) {
   var toutOkE=true;
 
   export default function EventsTable(rep) {
-    for(var i=0;i<rep["d"].length;i++){
-      //console.log(rep["d"][i].pathImgEvent);
-      try {
-        axios.get(`/getEventsImg/${rep["d"][i].pathImgEvent}`);
-      } catch (err) {
-        console.log(err);
-      }
-    }
+    // for(var i=0;i<rep["d"].length;i++){
+    //   //console.log(rep["d"][i].pathImgEvent);
+    //   try {
+    //     axios.get(`/getEventsImg/${rep["d"][i].pathImgEvent}`);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }
 
       //console.log(rep.d);
 

@@ -58,7 +58,8 @@
 
 
 .mapcontainer{
-    width: 100%;
+    margin:auto;
+    width: 90%;
     height: 920px;
 }
 

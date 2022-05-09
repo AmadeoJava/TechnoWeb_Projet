@@ -66,13 +66,6 @@ var admini=true;
 var toutOkU=true;
 
 export default function UsersTable(rep) {
-  for(var i=0;i<rep["d"].length;i++){
-    try {
-      axios.get(`/getImgProfile/${rep["d"][i].pseudo}`);
-    } catch (err) {
-      console.log(err);
-    }
-  }
 
   const ajouterToListeU = (e) => {
     

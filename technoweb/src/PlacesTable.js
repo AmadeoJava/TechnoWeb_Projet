@@ -55,13 +55,13 @@ var indexkey=0;
 var toutOkP=true;
 
 export default function PlacesTable(rep) {
-  for(var i=0;i<rep["d"].length;i++){
-    try {
-      axios.get(`/getPlacesImg/${rep["d"][i].pathImgLieu}`);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // for(var i=0;i<rep["d"].length;i++){
+  //   try {
+  //     axios.get(`/getPlacesImg/${rep["d"][i].pathImgLieu}`);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
   //console.log(rep.d);
 
   const ajouterToListeP = (e) => {
