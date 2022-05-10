@@ -142,7 +142,7 @@ class placeAdd(Resource):
         return True
 
 class eventAdd(Resource):
-    def post(self, event_nom,event_debut,event_fin, event_desc, event_file):
+    def post(self, event_nom,event_debut,event_fin, event_actif, event_desc, event_file):
         db = pymysql.connect(host='mysql-champo.alwaysdata.net',
                              user='champo',
                              password='TechnoWeb4',
@@ -150,7 +150,7 @@ class eventAdd(Resource):
                              cursorclass=pymysql.cursors.DictCursor)
         cursor = db.cursor()
         sql = "INSERT INTO Events (nomEvent, dateEventDeb, dateEventFin, actif, descEvent, pathImgEvent) VALUES (%s, %s, %s, %s, %s, %s)"
-        data=(event_nom,event_debut,event_fin, 1, event_desc, event_file)
+        data=(event_nom,event_debut,event_fin, event_actif, event_desc, event_file)
         cursor.execute(sql, data)
         db.commit()
         #results = cursor.fetchall()
@@ -166,6 +166,36 @@ class changerUser(Resource):
                              cursorclass=pymysql.cursors.DictCursor)
         cursor = db.cursor()
         sql = "UPDATE Users SET prenom="+user_prenom+", nom="+user_nom+", administrateur="+user_admin+") WHERE prenom="+user_prenom+" and nom="+user_nom
+        cursor.execute(sql)
+        db.commit()
+        #results = cursor.fetchall()
+        db.close()
+        return True
+    
+class changerEvent(Resource):
+    def post(self, event_nom, event_debut,event_fin,event_actif,event_desc):
+        db = pymysql.connect(host='mysql-champo.alwaysdata.net',
+                             user='champo',
+                             password='TechnoWeb4',
+                             database='champo_bdd_technoweb',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = db.cursor()
+        sql = "UPDATE Events SET dateEventDeb="+event_debut+", dateEventFin="+event_fin+", actif="+event_actif+", descEvent="+event_desc+",) WHERE and nomEvent="+event_nom
+        cursor.execute(sql)
+        db.commit()
+        #results = cursor.fetchall()
+        db.close()
+        return True
+    
+class changerPlace(Resource):
+    def post(self, place_nom, place_desc):
+        db = pymysql.connect(host='mysql-champo.alwaysdata.net',
+                             user='champo',
+                             password='TechnoWeb4',
+                             database='champo_bdd_technoweb',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = db.cursor()
+        sql = "UPDATE Lieu SET descriptionLieu="+place_desc+",) WHERE and intitule="+place_nom
         cursor.execute(sql)
         db.commit()
         #results = cursor.fetchall()
@@ -368,8 +398,10 @@ api.add_resource(EvenementsActifs, '/EvenementsActifs')
 api.add_resource(addFrequentation, '/addFrequentation')
 api.add_resource(userAdd, '/userAdd/<user_admin>/<user_name>/<user_firstname>/<user_pseudo>/<user_password>')
 api.add_resource(placeAdd,'/placeAdd/<place_lat>/<place_lon>/<place_nom>/<place_car>/<place_desc>')
-api.add_resource(eventAdd,'/eventAdd/<event_nom>/<event_debut>/<event_fin>/<event_desc>/<event_file>')
+api.add_resource(eventAdd,'/eventAdd/<event_nom>/<event_debut>/<event_fin>/<event_actif>/<event_desc>/<event_file>')
 api.add_resource(changerUser,'/changerUser/<user_prenom>/<user_nom>/<user_admin>')
+api.add_resource(changerEvent,'/changerEvent/<event_nom>/<event_deb>/<event_fin>/<event_actif>/<event_desc>')
+api.add_resource(changerPlace,'/changerPlace/<place_nom>/<place_desc>')
 api.add_resource(ImageListApiProfile,'/ImageListApiProfile/<img>')
 api.add_resource(ImageListApiLieu,'/ImageListApiLieu/<img>/<pathext>')
 api.add_resource(ImageListApiEvent,'/ImageListApiEvent/<img>/<pathext>')
