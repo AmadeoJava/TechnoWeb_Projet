@@ -15,18 +15,13 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
+import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
-function createDataEvents(image, name, debut, fin, description) {
-    return {image, name, debut, fin, description};
-  }// add data
-  /*
-  var rowsEvents = [
-    createDataEvents(1,require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', '28/04/2022', "Grand carnaval"),
-  ];
+const axios = require('axios');
 
-  const rowsEvents1 = [
-    createDataEvents(1,require('./images/places/cath.jpg'), 'Carnaval', '24/04/2022', '28/04/2022', "Grand carnaval"),
-  ];*/
+function createDataEvents(image, name, debut, fin, actif, description, identifiant) {
+    return {image, name, debut, fin, actif, description, identifiant};
+  }// add data
 
   var rowsEvents =[];
   var rowsEvents1 =[];
@@ -37,7 +32,9 @@ function createDataEvents(image, name, debut, fin, description) {
     { id: 'name'},
     { id: 'debut'},
     { id: "fin"},
-    { id: 'description'}
+    { id: 'actif'},
+    { id: 'description'},
+    { id: 'identifiant' }
   ];
 
   var ind;
@@ -46,37 +43,40 @@ function createDataEvents(image, name, debut, fin, description) {
   var fin;
   var description;
   var index=0;
+  var act = false;
 
   var toutOkE=true;
 
   export default function EventsTable(rep) {
-    // for(var i=0;i<rep["d"].length;i++){
-    //   //console.log(rep["d"][i].pathImgEvent);
-    //   try {
-    //     axios.get(`/getEventsImg/${rep["d"][i].pathImgEvent}`);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // }
-
-      //console.log(rep.d);
 
   const ajouterToListeE = (e) => {
     
-    //console.log(e.length);
 
     for(let i=0; i<e.length; i++){
       var el=e[i];
-      //console.log(el);
-
-      rowsEvents.push(createDataEvents(el.pathImgEvent,el.nomEvent,el.dateEventDeb,el.dateEventFin,el.descEvent));
-      rowsEvents1.push(createDataEvents(el.pathImgEvent,el.nomEvent,el.dateEventDeb,el.dateEventFin,el.descEvent));
+      var a="Non";
+      if(el.actif){
+        a="Oui";
+      }
+      rowsEvents.push(createDataEvents(el.pathImgEvent,el.nomEvent,el.dateEventDeb,el.dateEventFin,a,el.descEvent,i));
+      rowsEvents1.push(createDataEvents(el.pathImgEvent,el.nomEvent,el.dateEventDeb,el.dateEventFin,a,el.descEvent,i));
     }
   }
   if(toutOkE){
     ajouterToListeE(rep.d);
     toutOkE = false;
   }
+
+
+  const [checkedE, setcheckedE] = React.useState(true);
+
+  const handleChangeE = (event) => {
+    if(checkedE){
+      setcheckedE(false);
+    }else{
+      setcheckedE(true);
+    }
+  };
 
     var timeou;
     const [page, setPage] = React.useState(0);
@@ -150,16 +150,34 @@ function createDataEvents(image, name, debut, fin, description) {
 
     const changer = (i) => {
       //console.log(i);
-      ind=i-1;
+      ind=i;
       nom = rowsEvents[ind].name;
       debut = rowsEvents[ind].debut;
       fin = rowsEvents[ind].fin;
       description = rowsEvents[ind].description;
+      if (rowsEvents[ind].actif === "Oui") {
+        setcheckedE(true);
+        act=true;
+      } else {
+        setcheckedE(false);
+        act=false;
+      }
       setOpen(true);
+    }
+
+    var changerEventPost = (u1,u2,u3,u4,u5) => {
+      try {
+        axios.post(
+          `/changerEvent/${u1}/${u2}/${u3}/${u4}/${u5}`
+        );
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     const changerEvent = () => {
       var trucsAChanger=false;
+      var adE=0;
       if($("#eventnomA").val() && $("#eventnomA").val()!==nom){
         nom=$("#eventnomA").val();
         trucsAChanger=true;
@@ -172,13 +190,22 @@ function createDataEvents(image, name, debut, fin, description) {
         fin=$("#eventfinA").val();
         trucsAChanger=true;
       }
+      
       if($("#eventdescriptionA").val() && $("#eventdescriptionA").val()!==description){
         description=$("#eventdescriptionA").val();
+        trucsAChanger=true;
+      }
+      if(checkedE!==act){
+        act=checkedE;
+        if(act){
+          adE=1;
+        }
         trucsAChanger=true;
       }
       handleClose();
       if(trucsAChanger){
         alert("Evenement modifié");
+        changerEventPost(nom,debut,fin,adE,description);
       }
     }
 
@@ -199,7 +226,8 @@ function createDataEvents(image, name, debut, fin, description) {
           <col style={{width:'10%'}}/>
           <col style={{width:'10%'}}/>
           <col style={{width:'10%'}}/>
-          <col style={{width:'50%'}}/>
+          <col style={{width:'5%'}}/>
+          <col style={{width:'45%'}}/>
           <col style={{width:'5%'}}/>
         </colgroup>
         <TableHead>
@@ -208,6 +236,7 @@ function createDataEvents(image, name, debut, fin, description) {
             <TableCell align="center" style={{fontWeight: "bold"}}>Nom</TableCell>
             <TableCell align="center" style={{fontWeight: "bold"}}>Début</TableCell>
             <TableCell align="center" style={{fontWeight: "bold"}}>Fin</TableCell>
+            <TableCell align="center" style={{fontWeight: "bold"}}>Actif</TableCell>
             <TableCell align="center" style={{fontWeight: "bold"}}>Description</TableCell>
             <TableCell align="center" style={{fontWeight: "bold"}}>Modifier</TableCell>
           </TableRow>
@@ -220,6 +249,7 @@ function createDataEvents(image, name, debut, fin, description) {
                   {columnEvents.map((column) => {
                     index=index+1;
                     const value = row[column.id];
+                    if ((column.id) !== 'identifiant') {
 
                     if ((column.id) !== 'image' ) {
                       return (
@@ -234,10 +264,12 @@ function createDataEvents(image, name, debut, fin, description) {
                         </TableCell>
                       );
                   }
-
+                }else{
+                  return true;
+                }
                   })}
                   <TableCell align="center">
-                    <IconButton id={row[columnEvents[2].id]} onClick={event=>changer(row[columnEvents[5].id])}>
+                    <IconButton id={row[columnEvents[2].id]} onClick={event=>changer(row[columnEvents[6].id])}>
                       <EditIcon style={{color: '#1976d2'}}/>
                     </IconButton>
                   </TableCell>
@@ -261,10 +293,7 @@ function createDataEvents(image, name, debut, fin, description) {
       <DialogTitle id="simple-dialog-title">Modifier évènement</DialogTitle>
         <Grid container direction={"column"} spacing={2}>
           <Grid item>
-            Nom
-          </Grid>
-          <Grid item>
-              <TextField id="eventnomA" name="eventnom" label={nom} required margin="normal" style={{width: "90%"}}/>
+            <h2>{nom}</h2>
           </Grid>
           <Grid item>
             Date de début
@@ -277,6 +306,10 @@ function createDataEvents(image, name, debut, fin, description) {
           </Grid>
           <Grid item>
             <TextField id="eventfinA" type="date" name="eventfin" autoComplete={fin} required margin="normal" style={{width: "90%"}}/>
+          </Grid>
+          <Grid item>
+            Actif
+            <Switch id="switchEvent" checked={checkedE} onChange={handleChangeE} inputProps={{ 'aria-label': 'controlled' }}/>
           </Grid>
           <Grid item>
             Description

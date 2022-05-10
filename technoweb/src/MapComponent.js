@@ -1,10 +1,9 @@
-import { MapContainer, TileLayer, useMap, Marker, Popup, Circle } from 'react-leaflet';
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
 import "leaflet-routing-machine";
 import L from "leaflet";
 import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
 import "leaflet-easybutton";
-import React, { useEffect, useState } from 'react';
 import pieton from './images/map/pieton.png';
 import car from './images/map/car.png';
 import './home.css';

@@ -187,6 +187,10 @@ var fichier;
 
 var initialisation=true;
 var data;
+
+var starter = true;
+var timeoutID;
+
 export default function WebProject() {
 
 
@@ -315,13 +319,21 @@ export default function WebProject() {
     }
   }
 
+  const gererUser = (e) => {
+    setUserLogin(e);
+    afficherAdmin(e);
+  }
+
   const userLoginfunc = (pseudo) => {
     try {
       const result = axios.get(
         `/user/${pseudo}`
       );
 
-      return result;
+      result.then((resp) =>
+      gererUser(resp.data[0])
+    );
+      //return result;
     } catch (err) {
       console.log(err);
     }
@@ -460,6 +472,7 @@ export default function WebProject() {
       eventAdd.push($("#eventnom").val());
       eventAdd.push($("#eventdatedeb").val());
       eventAdd.push($("#eventdatefin").val());
+      eventAdd.push($("#eventactifAdd").val())
       eventAdd.push($("#eventdesc").val())
       var f = (fileName).split(".");
       eventAdd.push($("#eventnom").val()+"."+f[1]);
@@ -591,6 +604,15 @@ export default function WebProject() {
   //console.log(answer);
   answer_array = answer.split('=');
 
+  function stopperRefresh() {
+    window.clearTimeout(timeoutID);
+    starter=false;
+  }
+
+  if(starter){
+    userLoginfunc(answer_array[1]);
+  }
+  timeoutID = window.setTimeout(stopperRefresh, 400);
    
 
 
@@ -752,8 +774,6 @@ export default function WebProject() {
 
     verifierTout();
     debut();
-    userLoginfunc(answer_array[1]).then((resp) => {afficherAdmin(resp.data[0])});
-
 
     if (answer_array[1] === null) {
       //console.log("je suis ici");
@@ -800,7 +820,7 @@ export default function WebProject() {
 
   });
 
-  const arnaque = () => {
+  const AuclicDebut = () => {
     if (initialisation) {
       try {
         const result = axios.get(
@@ -818,15 +838,9 @@ export default function WebProject() {
     }
   }
 
-  // try {
-  //   axios.get(`/getImgProfile/${answer_array[1]}`);
-  // } catch (err) {
-  //   console.log(err);
-  // }
-
   return (
 
-    <Box sx={{ display: 'flex' }} onClick={() => arnaque()}>
+    <Box sx={{ display: 'flex' }} onClick={() => AuclicDebut()}>
       <CssBaseline />
       <AppBar position="fixed" open={open} style={{ backgroundColor: 'rgb(30, 82, 166)' }} >
         <Toolbar id="appBarre">
@@ -874,13 +888,14 @@ export default function WebProject() {
                   height: '100px',
                   borderRadius: 100
                 }} />
-              <Typography paragraph style={{ textAlign: 'center' }}>
-                {userLogin.nom} {userLogin.prenom}
+                <Typography paragraph style={{ textAlign: 'center' }}>
+                  {userLogin.nom} {userLogin.prenom}
               </Typography>
 
-              <Typography paragraph style={{ textAlign: 'center' }}>
-                {userLogin.pseudo}
-              </Typography>
+
+                <Typography paragraph style={{ textAlign: 'center' }}>
+                  {userLogin.pseudo}
+                </Typography>
               <MenuItem onClick={(event) => { handleClose(); fermer("profile") }} disableRipple className="clickable">
                 <EditIcon style={{ color: '#0e8cd4' }} />
                 MyProfile
@@ -961,10 +976,10 @@ export default function WebProject() {
 
       <Box component="main" id="principal" sx={{ flexGrow: 1, p: 3 }} style={{ display: "initial" }}>
         <DrawerHeader />
-        <Card className='centerDiv'>
-          <h2>Endroit le plus visité</h2>
+        <Box className='centerDiv'>
+          <h2>Accueil</h2>
           <img src={require('./logo.png')} alt="logo" />
-        </Card>
+        </Box>
       </Box>
 
 
@@ -1104,6 +1119,16 @@ export default function WebProject() {
                     <TextField id="eventdatedeb" label="Date de début" type="date" sx={{ width: "40%", left: "-5%" }} InputLabelProps={{ shrink: true }} />
                     <TextField id="eventdatefin" label="Date de fin" type="date" sx={{ width: "40%", left: "5%" }} InputLabelProps={{ shrink: true }} />
                   </div>
+                </Grid>
+                <Grid item>
+                  <TextField select label="Choisissez si l'évènement est actif ou non" id="eventactifAdd" style={{ width: "98%" }} required defaultValue="Non">
+                    <MenuItem value={"Non"}>
+                    Non
+                    </MenuItem>
+                    <MenuItem value={"Oui"}>
+                    Oui
+                    </MenuItem>
+                  </TextField>
                 </Grid>
                 <Grid item>
                   <TextareaAutosize id="eventdesc" minRows={5} placeholder="Description de l'évènement" style={{ width: "98%" }} />

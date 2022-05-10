@@ -7,10 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import './home.css';
-import $ from "jquery";
-import MapComponent from "./MapComponent";
 import { Link } from "react-router-dom";
 import FooterComponent from "./FooterComponent";
 
@@ -45,65 +42,67 @@ const AppBar = styled(MuiAppBar, {
 function MentionsLegales() {
 
 
-  const fonction = () =>{
-    $('#event').remove();
-  };
 
-  return(<Box id="fond">
-  <Box position='relative'> 
-    <CssBaseline />
-    <AppBar id="barreTop" position='relative'>
-    <Toolbar>
-      <div id='presentation'>
-      <img alt='logo' id='logotout' src={require('./images/logo/logo_tout.png')}/>
-      <img alt='logo' id='logo' src={require('./images/logo/logo.png')}/>
-      
-      </div>
-      <div id="beaucoup">
-        <img alt='logo' id='logotexte' src={require('./images/logo/logo_texte.png')}/>
-        <div id='boutons'>
-        <Link to="/" className="lienAccueil">
-          <Button >
-          Accueil
-          </Button>
-        </Link>
-        <Link to="/" className="lienAccueil">
-          <Button >
-          Jeu de piste
-          </Button>
-        </Link>
-        <Link to="/login" className="lienAccueil">
-          <Button id="lastButton" >
-          Connexion
-          </Button>
-        </Link>  
-        </div>
-      </div>
-    </Toolbar>
-  </AppBar>
+  return (<Box id="fond">
+    <Box position='relative'>
+      <CssBaseline />
+      <AppBar id="barreTop" position='relative'>
+        <Toolbar>
+          <div id='presentation'>
+            <img alt='logo' id='logotout' src={require('./images/logo/logo_tout.png')} />
+            <img alt='logo' id='logo' src={require('./images/logo/logo.png')} />
+
+          </div>
+          <div id="beaucoup">
+            <img alt='logo' id='logotexte' src={require('./images/logo/logo_texte.png')} />
+            <div id='boutons'>
+              <Link to="/" className="lienAccueil">
+                <Button >
+                  Accueil
+                </Button>
+              </Link>
+              <Link to="/" className="lienAccueil">
+                <Button >
+                  Jeu de piste
+                </Button>
+              </Link>
+              <Link to="/login" className="lienAccueil">
+                <Button id="lastButton" >
+                  Connexion
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </Toolbar>
+      </AppBar>
 
     </Box>
     <Box >
-        <h1>L'équipe:</h1>
-        <h2>Développeurs</h2>
-        <Typography>CROS Arnaud</Typography>
-        <Typography>SOUFFLET Amadéo</Typography>
-        <Typography>PIDET Antonin</Typography>
-        <h1>Contact:</h1>
-        <h2>Mail</h2>
-        <Typography>service-client@champo.cf</Typography>
-        <h1>Autres:</h1>
-        <h2>Hebergeur</h2>
-        <a href="https://www.alwaysdata.com/">alwaysdata</a>
+      <Card variant='outlined' style={{ backgroundColor: '#ffffff',paddingBottom:'2%',textAlign:'center' }}>
+          <h1 style={{borderBottom:'solid 3px #dddddd',width:'30%', marginLeft:'auto',marginRight:'auto'}}>L'équipe</h1>
+          <Typography style={{fontSize:'150%'}}>CROS Arnaud</Typography>
+          <Typography style={{fontSize:'150%'}}>SOUFFLET Amadéo</Typography>
+          <Typography style={{fontSize:'150%'}}>PIDET Antonin</Typography>
+      </Card>
+      <Card variant='outlined' style={{ backgroundColor: '#fdfdfd',paddingBottom:'2%',textAlign:'center'  }}>
+          <h1 style={{borderBottom:'solid 3px #dddddd',width:'30%', marginLeft:'auto',marginRight:'auto'}}>Contact</h1>
+          <Typography style={{fontSize:'150%'}}>service-client@champo.cf</Typography>
+      </Card>
+      <Card variant='outlined' style={{ backgroundColor: '#ffffff',paddingBottom:'2%',textAlign:'center'  }}>
+          <h1 style={{borderBottom:'solid 3px #dddddd',width:'30%', marginLeft:'auto',marginRight:'auto'}}>Hebergeur</h1>
+          <a style={{fontSize:'150%'}} href="https://www.alwaysdata.com/">alwaysdata</a>
+          <br></br>
+      </Card>
+      <Card variant='outlined' style={{ backgroundColor: '#fdfdfd',paddingBottom:'2%'  }}>
+        <h1 style={{paddingLeft:'1%'}}>Politique de confidentialité:</h1>
+        <Typography style={{paddingLeft:'1%',fontSize:'150%'}}>Les cookies que nous utilisons ne sont pas récoltés, mais seulement utilisés afin de rendre le site plus agréable.</Typography>
         <br></br>
-        <h1>Politique de confidentialité:</h1>
-        <Typography>Vos données sont utilisées pour vous espionner, trouver votre adresse et venir vous faire un bisou sur le front</Typography>
-        <br></br>
+      </Card>
     </Box>
-    <FooterComponent/>
-    </Box>
-    );
-  
+    <FooterComponent />
+  </Box>
+  );
+
 }
 
 export default MentionsLegales;

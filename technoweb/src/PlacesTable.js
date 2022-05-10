@@ -16,22 +16,12 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
+const axios = require('axios');
 
-function createDataPlaces( image, name, latitude, longitude, caracteristiques, description) {
-  return { image, name, latitude, longitude, caracteristiques, description };
+function createDataPlaces( image, name, latitude, longitude, caracteristiques, description, identifiant) {
+  return { image, name, latitude, longitude, caracteristiques, description, identifiant };
 }// add data
-/*
-var rowPlaces = [
-  createDataPlaces(1, require('./images/places/cath.jpg'), 'Cathédrale', '8', '9', "Lieu", "Grande cathédrale"),
-  createDataPlaces(2, require('./images/places/laut.jpg'), 'Musée Lautrec', '9', '9', "Culture", "Musée avec des tableaux"),
-  createDataPlaces(3, require('./images/places/mod.jpg'), 'Musée de la mode', '10', '12', "Culture Restaurant", "Musée avec des vêtements"),
-];
 
-const rowPlaces1 = [
-  createDataPlaces(1, require('./images/places/cath.jpg'), 'Cathédrale', '8', '9', "Lieu", "Grande cathédrale"),
-  createDataPlaces(2, require('./images/places/laut.jpg'), 'Musée Lautrec', '9', '9', "Culture", "Musée avec des tableaux"),
-  createDataPlaces(3, require('./images/places/mod.jpg'), 'Musée de la mode', '10', '12', "Culture Restaurant", "Musée avec des vêtements"),
-];*/
 
 var rowPlaces=[];
 var rowPlaces1=[];
@@ -42,7 +32,9 @@ const columnsPlaces = [
   { id: 'latitude' },
   { id: 'longitude' },
   { id: 'caracteristiques' },
-  { id: 'description' }
+  { id: 'description' },
+  { id: 'identifiant' }
+
 ];
 
 var ind = 0;
@@ -53,14 +45,6 @@ var indexkey=0;
 var toutOkP=true;
 
 export default function PlacesTable(rep) {
-  // for(var i=0;i<rep["d"].length;i++){
-  //   try {
-  //     axios.get(`/getPlacesImg/${rep["d"][i].pathImgLieu}`);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-  //console.log(rep.d);
 
   const ajouterToListeP = (e) => {
     
@@ -70,8 +54,8 @@ export default function PlacesTable(rep) {
       var el=e[i];
       //console.log(el);
 
-      rowPlaces.push(createDataPlaces(el.pathImgLieu,el.intitule,el.lat,el.longu,el.caracteristque,el.descriptionLieu));
-      rowPlaces1.push(createDataPlaces(el.pathImgLieu,el.intitule,el.lat,el.longu,el.caracteristque,el.descriptionLieu));
+      rowPlaces.push(createDataPlaces(el.pathImgLieu,el.intitule,el.lat,el.longu,el.caracteristque,el.descriptionLieu,i));
+      rowPlaces1.push(createDataPlaces(el.pathImgLieu,el.intitule,el.lat,el.longu,el.caracteristque,el.descriptionLieu,i));
     }
   }
   if(toutOkP){
@@ -152,24 +136,31 @@ export default function PlacesTable(rep) {
 
   const changer = (i) => {
     //console.log(i);
-    ind = i - 1;
+    ind = i;
     nom = rowPlaces[ind].name;
     description = rowPlaces[ind].description;
     setOpen(true);
   }
 
+  
+  var changerPlacePost = (u1,u2) => {
+    try {
+      axios.post(
+        `/changerPlace/${u1}/${u2}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const changerLieu = () =>{
     var chosesAModifier = false;
-    //console.log($("#placenomA").val()+" et "+nom);
-    if($("#placenomA").val() && $("#placenomA").val()!==nom){
-      nom=$("#placenomA").val();
-      chosesAModifier=true;
-    }
-    if($("#placedescA").val() && $("#placedescA").val()!==nom){
-      nom=$("#placedescA").val();
+    if($("#placedescA").val() && $("#placedescA").val()!==description){
+      description=$("#placedescA").val();
       chosesAModifier=true;
     }
     if(chosesAModifier){
+      changerPlacePost(description,nom);
       alert("Lieu modifié");
     }
 
@@ -215,11 +206,11 @@ export default function PlacesTable(rep) {
             indexkey=indexkey+=1;
             return (
               <TableRow hover role="checkbox" tabIndex={-1} key={indexkey}>
-
                 {columnsPlaces.map((column) => {
                   const value = row[column.id];
                   indexkey=indexkey+=1;
-    
+                  if ((column.id) !== 'identifiant') {
+
                       if ((column.id) !== 'image' ) {
                       return (
                         <TableCell key={indexkey} align="center">
@@ -233,7 +224,9 @@ export default function PlacesTable(rep) {
                         </TableCell>
                         );
                     }
-                  
+                }else{
+                  return true;
+                }
                 })}
                 <TableCell align="center">
                   <IconButton id={row[columnsPlaces[2].id]} onClick={() => changer(row[columnsPlaces[6].id])}>

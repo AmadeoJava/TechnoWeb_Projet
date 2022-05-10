@@ -87,23 +87,11 @@ export default function SignIn() {
     event.preventDefault();
     if($("#pseudo").val().length>0 && $("#password").val().length>0 ){
       const data = new FormData(event.currentTarget);
-      console.log({
-        pseudo: data.get('pseudo'),
-        password: data.get('password'),
-      });
-      console.log({
-        pseudo: data.get('pseudo'),
-        password: sha512(data.get('password')),
-      });
       logIN({pseudo:data.get('pseudo'),password:(data.get('password'))});
       var today = new Date();
       var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
       var time = today.getHours() + ":" + today.getMinutes();
       var seco = today.getSeconds();
-    
-      console.log("date = "+date);
-      console.log("temps = "+time);
-      console.log("sec = "+seco);
       $('input').val('');
     }else{
       alert("Vous n'avez pas rempli toutes les conditions");
@@ -115,7 +103,7 @@ export default function SignIn() {
     var d = new Date();
     d.setTime(d.getTime() + (0*60*1000));
     var expires = "expires="+d.toUTCString();  
-    document.cookie = cname + "=" + '' + ";" + expires + ";path=/";
+    document.cookie = cname + "= vide" + expires + ";path=/";
   }
 
   const zeroCookie = () =>{

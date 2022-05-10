@@ -8,10 +8,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import './adminpage.css';
 
-
-const axios = require('axios');
-
-
   export default function UserProfile(r) {
 
     const sha512 = (str) => {
@@ -43,7 +39,7 @@ const axios = require('axios');
         handleCloseU();
         //console.log(p1 + " et " + p2);
         if(p1 && p2) {
-            if(p1==p2){
+            if(p1===p2){
                 //console.log("memes passwords");
                 if(p1.length>=8){
                     transmettrePassword(p1);
@@ -72,7 +68,7 @@ const axios = require('axios');
                     </div>
                     
                 </div>
-                {e=="Mot_de_passe"
+                {e==="Mot_de_passe"
                 ?                 
                 <div style={{width: "20%", display:"inline-block"}} className="clickable" id="icone" onClick={()=>handleOpenU()}>
                     <EditIcon className="bleu"/>

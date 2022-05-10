@@ -19,30 +19,10 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 const axios = require('axios');
 
-function createDataUsers(firstname, name, surname, administrateur) {
-  return {firstname, name, surname, administrateur };
+function createDataUsers(firstname, name, surname, administrateur, identifiant) {
+  return {firstname, name, surname, administrateur, identifiant };
 }// add data
 
-
-/*
-var rowsUsers = [
-  createDataUsers(1, 'Sherlock', 'Holmes', 'Détective', "Oui"),
-  createDataUsers(2, 'Shinishi', 'Kudo', 'Lycéen', "Non"),
-  createDataUsers(3, 'Jules', 'Maigret', 'Commisaire', "Non"),
-  createDataUsers(4, 'David', 'Panzoli', 'Dieu ?', "Oui"),
-  createDataUsers(5, 'Naruto', 'Uzumaki', 'Hokage', "Non"),
-  createDataUsers(6, 'Monkey', 'Luffy', 'Pirate', "Non")
-];
-
-const rowsUsers1 = [
-  createDataUsers(1, 'Sherlock', 'Holmes', 'Détective', "Oui"),
-  createDataUsers(2, 'Shinishi', 'Kudo', 'Lycéen', "Non"),
-  createDataUsers(3, 'Jules', 'Maigret', 'Commisaire', "Non"),
-  createDataUsers(4, 'David', 'Panzoli', 'Dieu ?', "Oui"),
-  createDataUsers(5, 'Naruto', 'Uzumaki', 'Hokage', "Non"),
-  createDataUsers(6, 'Monkey', 'Luffy', 'Pirate', "Non")
-];
-*/
 
 var rowsUsers = [];
 var rowsUsers1 = [];
@@ -53,7 +33,7 @@ const columnsUsers = [
   { id: 'name' },
   { id: 'surname' },
   { id: 'administrateur' },
-  { id: "identifiant" }
+  { id: 'identifiant' }
 ];
 var indexKey=0;
 
@@ -80,8 +60,8 @@ export default function UsersTable(rep) {
       }else{
         ad="Non";
       }
-      rowsUsers.push(createDataUsers(el.prenom, el.nom, el.pseudo, ad ));
-      rowsUsers1.push(createDataUsers(el.prenom, el.nom, el.pseudo, ad ));
+      rowsUsers.push(createDataUsers(el.prenom, el.nom, el.pseudo, ad, i ));
+      rowsUsers1.push(createDataUsers(el.prenom, el.nom, el.pseudo, ad, i ));
 
     }
   }
@@ -169,10 +149,11 @@ export default function UsersTable(rep) {
 
 
   const changer = (i) => {
-    //console.log(i);
+    console.log(i);
     ind = i;
-
-    if (rowsUsers[ind].administrateur === "Oui") {
+    prenom =rowsUsers[i].firstname;
+    nom =rowsUsers[i].name;
+    if (rowsUsers[i].administrateur === "Oui") {
       setChecked(true);
       admini=true;
     } else {
@@ -261,7 +242,7 @@ export default function UsersTable(rep) {
                   {columnsUsers.map((column) => {
                     const value = row[column.id];
                     indexKey=indexKey+1;
-
+                    if ((column.id) !== 'identifiant') {
                       if ((column.id) !== 'image') {
                         return (
                           <TableCell key={indexKey} align="center">
@@ -275,7 +256,9 @@ export default function UsersTable(rep) {
                           </TableCell>
                         );
                       }
- 
+                    }else{
+                      return true;
+                    }
 
                   })}
                   <TableCell align="center">
