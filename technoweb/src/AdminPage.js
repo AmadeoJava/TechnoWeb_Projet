@@ -888,7 +888,7 @@ export default function WebProject() {
               <MenuItem onClick={handleClose} disableRipple className="clickable">
                 <PowerSettingsNewIcon style={{ color: 'red' }} />
 
-                <Link to="/" style={{textDecoration:"none", color:'#454f5d'}}>Sign Out</Link>
+                <Link to="/">Sign Out</Link>
               </MenuItem>
 
             </StyledMenu>

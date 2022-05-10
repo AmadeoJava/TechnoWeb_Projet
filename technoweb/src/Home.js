@@ -59,7 +59,7 @@ const requeteQuestions = () => {
 
 function Home() {
 
-  const [question, setQuestion] = useState("Souhaitez vous répondre à un questionnaire sur albi spécialement conçu pour vous ? ");
+  const [question, setQuestion] = useState("Souhaitez vous faire le jeu de piste spécialement conçu pour vous ? ");
 
   const [reponses, setReponses] = useState({});
   const [questions, setQuestions] = useState({});
