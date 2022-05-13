@@ -88,10 +88,11 @@ export default function SignIn() {
     if($("#pseudo").val().length>0 && $("#password").val().length>0 ){
       const data = new FormData(event.currentTarget);
       logIN({pseudo:data.get('pseudo'),password:(data.get('password'))});
+      /*
       var today = new Date();
       var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
       var time = today.getHours() + ":" + today.getMinutes();
-      var seco = today.getSeconds();
+      var seco = today.getSeconds();*/
       $('input').val('');
     }else{
       alert("Vous n'avez pas rempli toutes les conditions");

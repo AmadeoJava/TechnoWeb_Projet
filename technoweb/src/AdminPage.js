@@ -217,13 +217,12 @@ export default function WebProject() {
   const semaine = (l,lm,f,fm) =>{
     var semain=[];
     jour=f.getDay();
-    //console.log(l.getDay());
+    //console.log(f);
     for (let i=1;i<8;i++){
       semN.push(week[(jour+i)%7]);
     }
     //console.log(semN);
     if (f.getMonth()===l.getMonth()){
-      //console.log("ok")
       for(let i=f.getDate()+1; i<l.getDate()+2;i++){
         var mt=l.getMonth()+1;
         var jo=i;
@@ -262,6 +261,7 @@ export default function WebProject() {
         semain.push(dat);
       }
     }
+    console.log(semain);
     return semain;
   }
   
@@ -282,16 +282,20 @@ export default function WebProject() {
   
     var curr = new Date();
     //console.log(curr);
-    var first = curr.getDate() - curr.getDay();
-    var last = first - 6;
-  
+    var first = curr.getDate() - curr.getDay()-2;
+    var last = first + 6;
+
     var firstday = new Date(curr.setDate(first));
     var lastday = new Date(curr.setDate(last));
-  
+
     var fd = dateFormat(firstday);
     var ld = dateFormat(lastday);
-  
-    sem = semaine(firstday,fd,lastday,ld);
+    /*
+    console.log(firstday);
+    console.log(lastday);
+    console.log(fd);
+    console.log(ld);*/
+    sem = semaine(lastday,ld,firstday,fd);
   
     //console.log(sem);
   
