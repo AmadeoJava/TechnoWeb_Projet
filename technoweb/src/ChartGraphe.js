@@ -7,10 +7,6 @@ import Chart from "chart.js/auto";
 export default function ChartGraphe(rep) {
   Chart.register()
 
-
-
-
-
   var [userData] = useState({
     labels: rep.j,
     datasets: [
@@ -32,8 +28,6 @@ export default function ChartGraphe(rep) {
        },
     ],
   });
-
-
 
   return (
     <div className="graph" id={rep.ide}>

@@ -730,8 +730,14 @@ export default function WebProject() {
       CreerGraphe(graphes[0]);
     }else{
       for(let i=0;i<lieux.length;i++){
+        
         if(lieux[i]===(choix)){
-          CreerGraphe(graphes[i]);
+          //console.log(graphes[i].props);
+          /*
+          const grap = <ChartGraphe da={tout} j={semN} ide={lieux[i]}/>;
+          ReactDOM.render(e, document.getElementById('placeGraphe'));*/
+
+          CreerGraphe(graphes[i+1]);
         }
       }
     }
@@ -743,7 +749,9 @@ export default function WebProject() {
       freq=a;
       remplirGraphe(a,sem,"tout");
       const grap = <ChartGraphe da={tout} j={semN} ide="tout" />;
+      graphes.push(grap);
       for(let i=0;i<lieux.length;i++){
+        tout=[];
         remplirGraphe(a,sem,lieux[i]);
         const grap = <ChartGraphe da={tout} j={semN} ide={lieux[i]}/>;
         graphes.push(grap);
