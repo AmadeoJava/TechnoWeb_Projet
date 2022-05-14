@@ -43,7 +43,7 @@ function Commentaires_Notes(rep) {
                 } catch (err) {
                     console.log(err);
                 }
-                rep.resp.push({Commentaire:$("#CommentaireADD").val(), Lieu:rep["el"],Note:int($("#userlevelAdd").text())})
+                rep.resp.push({Commentaire:$("#CommentaireADD").val(), Lieu:rep["el"],Note:parseInt($("#userlevelAdd").text())})
             }
             note=0;
             nbdeNote=0;
