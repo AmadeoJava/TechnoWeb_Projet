@@ -76,7 +76,7 @@ function Home() {
       );
 
       result.then((resp) =>
-      mapComposant(resp.data)
+        mapComposant(resp.data)
       );
 
     } catch (err) {

@@ -1,3 +1,4 @@
+
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
 import "leaflet-routing-machine";
 import L from "leaflet";
@@ -7,9 +8,12 @@ import "leaflet-easybutton";
 import pieton from './images/map/pieton.png';
 import car from './images/map/car.png';
 import './home.css';
+
 import "https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js";
 import "https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js";
+
 var tabTest = [];
+const axios = require('axios');
 const getMap = (data) => {
 
   try {
@@ -21,7 +25,7 @@ const getMap = (data) => {
     return [];
   }
 };
- 
+
 var afficherounon=true;
 const MapComponent = (r) => {
 
@@ -76,6 +80,10 @@ const MapComponent = (r) => {
     return buton;
   };
 
+  const ouvreMoi= (e) => {
+
+    console.log("ici amadeo");
+  };
   const EasyleafletPieton = createControlComponent(buttonEasyP);
 
   const markerIconMonument = new L.Icon({
@@ -84,19 +92,26 @@ const MapComponent = (r) => {
     iconAnchor: [17, 46],
     popupAnchor: [0, -46],
   });
+
   const markerIconRestaurant = new L.Icon({
     iconUrl: require('./images/map/markerRestaurant.png'),
     iconSize: [40, 40],
     iconAnchor: [17, 46],
     popupAnchor: [0, -46],
+   
   });
   const markerIconHotel = new L.Icon({
     iconUrl: require('./images/map/markerHotel.png'),
     iconSize: [40, 40],
     iconAnchor: [17, 46],
     popupAnchor: [0, -46],
+    
   });
   getMap(r["el"]);
+
+
+  
+
   return <div>
 
     <MapContainer className="mapcontainer" >
@@ -111,21 +126,34 @@ const MapComponent = (r) => {
 
 
       <LocationMarker /> 
+
       {tabTest.map((city, idx) => {
         
         if ((city.caracteristque) === 'Culturel') {
           return (
-            <Marker
-            position={[city.lat, city.longu]}
-            key={idx}
-            icon={markerIconMonument}
-          >
-            <Popup>
-              <b>
-                {city.intitule}, {city.descriptionLieu}
-              </b>
-            </Popup>
-          </Marker>
+
+              <Marker
+              position={[city.lat, city.longu]}
+              key={idx}
+              icon={markerIconMonument}
+              eventHandlers={{
+                click: (e) => {
+                  ouvreMoi(city.idLieu)
+                },
+              }}
+
+            >
+              <div id="avis"> </div>
+              <Popup>
+                <b>
+                  {city.intitule}, {city.descriptionLieu}
+
+                  
+                </b>
+
+              </Popup>
+            </Marker>
+
           );
         } else if((city.caracteristque) === 'Restaurant') {
           return (
@@ -133,10 +161,16 @@ const MapComponent = (r) => {
             position={[city.lat, city.longu]}
             key={idx}
             icon={markerIconRestaurant}
+            eventHandlers={{
+              click: (e) => {
+                ouvreMoi(city.idLieu)
+              },
+            }}
           >
             <Popup>
               <b>
                 {city.intitule}, {city.descriptionLieu}
+
               </b>
             </Popup>
           </Marker>
@@ -147,6 +181,11 @@ const MapComponent = (r) => {
             position={[city.lat, city.longu]}
             key={idx}
             icon={markerIconHotel}
+            eventHandlers={{
+              click: (e) => {
+                ouvreMoi(city.idLieu)
+              },
+            }}
             >
             <Popup>
               <b>

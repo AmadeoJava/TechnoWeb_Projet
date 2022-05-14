@@ -380,7 +380,34 @@ class Frequentation(Resource):
         
         return results
 
+class AvisGet(Resource):
+    def get(self,idLieux):
+        db = pymysql.connect(host='mysql-champo.alwaysdata.net',
+                             user='champo',
+                             password='TechnoWeb4',
+                             database='champo_bdd_technoweb',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = db.cursor()
+        
+        sql ="SELECT * FROM Avis WHERE Lieu="+"'"+str(idLieux)+"'"
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        
+        return results
 
+class AvisPost(Resource): 
+    def post(self, commentaires, lieux, notes):
+        db = pymysql.connect(host='mysql-champo.alwaysdata.net',
+                             user='champo',
+                             password='TechnoWeb4',
+                             database='champo_bdd_technoweb',
+                             cursorclass=pymysql.cursors.DictCursor)
+        sqlv0 = "INSERT INTO Avis (Commentaire,Lieu,Note) VALUES (%s, %s, %s)"
+        datas=(str(commentaires),int(lieux),int(notes))
+        cursor.execute(sqlv0, datas)
+        db.commit()
+        db.close()
+        return True
 
 api.add_resource(LogIN, '/userLogin/<user_name>/<user_paswd>')
 api.add_resource(utilisateur, '/utilisateur')
@@ -405,6 +432,9 @@ api.add_resource(changerPlace,'/changerPlace/<place_nom>/<place_desc>')
 api.add_resource(ImageListApiProfile,'/ImageListApiProfile/<img>')
 api.add_resource(ImageListApiLieu,'/ImageListApiLieu/<img>/<pathext>')
 api.add_resource(ImageListApiEvent,'/ImageListApiEvent/<img>/<pathext>')
+api.add_resource(AvisGet,'/AvisGet/<idLieux>')
+api.add_resource(AvisPost,'/AvisPost/<commentaires>/<lieux>/<notes>')
+
 if __name__ == '__main__':
     app.run(debug=True)
     
