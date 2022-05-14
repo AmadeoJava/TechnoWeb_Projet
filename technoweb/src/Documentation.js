@@ -3,13 +3,11 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import {
-    Collapse,
-  } from "@material-ui/core";
-  import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-  import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-  import { useState } from "react";
-  import './adminpage.css';
+import {Collapse} from "@material-ui/core";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { useState } from "react";
+import './adminpage.css';
 
   
 var cl = true;
@@ -50,7 +48,7 @@ export default function Documentation(r) {
           </Card>
         </Paper>
         <br/>
-        </Box>
+      </Box>
     )
 
 }

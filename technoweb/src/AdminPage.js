@@ -773,7 +773,7 @@ export default function WebProject() {
     ReactDOM.render(tableau, document.getElementById('usertable'));
     try {
       const result = axios.get(
-        `/frequentation`
+        `/addFrequentation`
       );
     
       result.then((resp) =>
@@ -968,7 +968,9 @@ export default function WebProject() {
               <MenuItem onClick={handleClose} disableRipple className="clickable">
                 <PowerSettingsNewIcon style={{ color: 'red' }} />
 
-                <Link to="/">Sign Out</Link>
+                <Link to="/" onClick={() => window.location.reload()} className="lienAccueil">
+                  Sign Out
+                </Link>
               </MenuItem>
 
             </StyledMenu>

@@ -252,7 +252,8 @@ class addFrequentation(Resource):
                              database='champo_bdd_technoweb',
                              cursorclass=pymysql.cursors.DictCursor)
         cursor = db.cursor()
-        sqlNbVisite="SELECT dateFrequentation,nbVisites FROM Frequentation"
+        
+        sqlNbVisite="SELECT * FROM Frequentation"
         cursor.execute(sqlNbVisite)
         results = cursor.fetchall()
         db.close()
@@ -271,11 +272,16 @@ class addFrequentation(Resource):
             cursor.execute(sqlNbVisite)
             results = cursor.fetchall()
             data=(int(results[0]["nbVisites"])+1)
+            sqlidFrequentation="SELECT idFrequentation FROM Frequentation WHERE dateFrequentation="+"'"+str(actuel)+"'"
+            cursor.execute(sqlidFrequentation)
+            resultss = cursor.fetchall()
+            datass=(int(resultss[0]["idFrequentation"]))
             sqlv2 = "DELETE FROM Frequentation WHERE dateFrequentation="+"'"+str(actuel)+"'"
             cursor.execute(sqlv2)
             db.commit()
-            sqlv3 = "INSERT INTO Frequentation (dateFrequentation,nbVisites) VALUES (%s, %s)"
-            datas=(actuel,data)
+            
+            sqlv3 = "INSERT INTO Frequentation (idFrequentation,dateFrequentation,nbVisites) VALUES (%s, %s, %s)"
+            datas=(datass,actuel,data)
             cursor.execute(sqlv3, datas)
             db.commit()
         except:
@@ -365,20 +371,6 @@ class EventImg(Resource):
             return send_file(imgAEnvoi, mimetype='image/gif')
 
 
-class Frequentation(Resource):
-    def get(self):
-        db = pymysql.connect(host='mysql-champo.alwaysdata.net',
-                             user='champo',
-                             password='TechnoWeb4',
-                             database='champo_bdd_technoweb',
-                             cursorclass=pymysql.cursors.DictCursor)
-        cursor = db.cursor()
-        
-        sql ="SELECT * FROM Frequentation"
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        
-        return results
 
 class AvisGet(Resource):
     def get(self,idLieux):
@@ -402,8 +394,15 @@ class AvisPost(Resource):
                              password='TechnoWeb4',
                              database='champo_bdd_technoweb',
                              cursorclass=pymysql.cursors.DictCursor)
-        sqlv0 = "INSERT INTO Avis (Commentaire,Lieu,Note) VALUES (%s, %s, %s)"
-        datas=(str(commentaires),int(lieux),int(notes))
+        cursor = db.cursor()
+        if (notes!="null"):
+
+            sqlv0 = "INSERT INTO Avis (Commentaire,Lieu,Note) VALUES (%s, %s, %s)"
+            datas=(str(commentaires),int(lieux),int(notes))
+
+        else:
+            sqlv0 = "INSERT INTO Avis (Commentaire,Lieu) VALUES (%s, %s)"
+            datas=(str(commentaires),int(lieux))
         cursor.execute(sqlv0, datas)
         db.commit()
         db.close()
@@ -416,7 +415,6 @@ api.add_resource(event, '/event')
 api.add_resource(user, '/user/<user_name>')
 api.add_resource(Graph, '/graph')
 api.add_resource(MapInfo, '/map')
-api.add_resource(Frequentation, '/frequentation')
 api.add_resource(listQuestionsReponses, '/listQuestionsReponses')
 api.add_resource(ProfileImg, '/getImgProfile/<pathImg>')
 api.add_resource(PlacesImg, '/getPlacesImg/<pathImg>')

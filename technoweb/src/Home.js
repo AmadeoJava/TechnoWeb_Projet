@@ -143,7 +143,7 @@ function Home() {
 
   window.onload = () => {
 
-
+    
     try {
       axios.post(
         `/addFrequentation`

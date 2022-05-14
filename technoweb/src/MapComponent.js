@@ -1,4 +1,4 @@
-
+import React, { useState } from 'react';
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
 import "leaflet-routing-machine";
 import L from "leaflet";
@@ -8,7 +8,7 @@ import "leaflet-easybutton";
 import pieton from './images/map/pieton.png';
 import car from './images/map/car.png';
 import './home.css';
-
+import Commentaires_Notes from './Commentaires_Notes';
 import "https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js";
 import "https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js";
 
@@ -49,8 +49,7 @@ const MapComponent = (r) => {
       geocoder: L.Control.Geocoder.nominatim(),
       waypoints: [
         L.latLng(43.928470611572, 2.1426000595093),
-        L.latLng(43.9271, 	2.14785),
-      ],
+        L.latLng(43.9271, 2.14785)],
 
       router: L.Routing.mapbox(
         "pk.eyJ1IjoiYXplYXpkcXp6c2ppaGdocXpqa2giLCJhIjoiY2wxNTQzcnpvMGdydTNvcXpreDBmbnZxNiJ9.hKjHX7H6ZbnO4Gt0gH_sAg",
@@ -61,8 +60,9 @@ const MapComponent = (r) => {
     return myRouter;
   };
 
-
   const RoutingMachine = createControlComponent(createRoutineMachineLayer);
+
+
   const buttonEasyV = () => {
     const buton = L.easyButton('<img src=' + car + ' style="width:100%" >', function (btn, map) {
       myRouter.getRouter().options.profile = "mapbox/driving";
@@ -81,7 +81,19 @@ const MapComponent = (r) => {
   };
 
   const ouvreMoi= (e) => {
+    try {
+      const result = axios.get(
+        `/AvisGet/${e}`
+      );
 
+      result.then((resp) =>
+        setAvisTab(resp.data)
+      );
+
+    } catch (err) {
+      console.log(err);
+    }
+    
     console.log("ici amadeo");
   };
   const EasyleafletPieton = createControlComponent(buttonEasyP);
@@ -110,7 +122,7 @@ const MapComponent = (r) => {
   getMap(r["el"]);
 
 
-  
+  const [AvisTab, setAvisTab] = useState([]);
 
   return <div>
 
@@ -143,14 +155,14 @@ const MapComponent = (r) => {
               }}
 
             >
-              <div id="avis"> </div>
               <Popup>
-                <b>
-                  {city.intitule}, {city.descriptionLieu}
+                <h1>{city.intitule}</h1>
+                <p style={{fontSize:'14px'}}>
+                  {city.descriptionLieu}
 
                   
-                </b>
-
+                </p>
+                <Commentaires_Notes resp={AvisTab} el={city.idLieu}/>
               </Popup>
             </Marker>
 
@@ -166,14 +178,19 @@ const MapComponent = (r) => {
                 ouvreMoi(city.idLieu)
               },
             }}
+
           >
             <Popup>
-              <b>
-                {city.intitule}, {city.descriptionLieu}
+              <h1>{city.intitule}</h1>
+              <p style={{fontSize:'14px'}}>
+                {city.descriptionLieu}
 
-              </b>
+                
+              </p>
+              <Commentaires_Notes resp={AvisTab} el={city.idLieu}/>
             </Popup>
           </Marker>
+
           );
         }else{
           return (
@@ -186,13 +203,19 @@ const MapComponent = (r) => {
                 ouvreMoi(city.idLieu)
               },
             }}
-            >
+
+          >
             <Popup>
-              <b>
-                {city.intitule}, {city.descriptionLieu}
-              </b>
+              <h1>{city.intitule}</h1>
+              <p style={{fontSize:'14px'}}>
+                {city.descriptionLieu}
+
+                
+              </p>
+              <Commentaires_Notes resp={AvisTab} el={city.idLieu}/>
             </Popup>
           </Marker>
+
           );
         }
 
