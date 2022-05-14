@@ -11,8 +11,47 @@ import './home.css';
 import Commentaires_Notes from './Commentaires_Notes';
 import "https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js";
 import "https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js";
-
+var myRouter;
 var tabTest = [];
+const optionsV2 = { profile: "mapbox/walking" };
+
+const createRoutineMachineLayer = (props) => {
+
+  myRouter = L.Routing.control({
+    geocoder: L.Control.Geocoder.nominatim(),
+    waypoints: [
+      L.latLng(43.928470611572, 2.1426000595093),
+      L.latLng(43.9271, 2.14785)],
+
+    router: L.Routing.mapbox(
+      "pk.eyJ1IjoiYXplYXpkcXp6c2ppaGdocXpqa2giLCJhIjoiY2wxNTQzcnpvMGdydTNvcXpreDBmbnZxNiJ9.hKjHX7H6ZbnO4Gt0gH_sAg",
+      optionsV2
+    ),
+  });
+
+  return myRouter;
+
+
+};
+const buttonEasyV = () => {
+  const buton = L.easyButton('<img src=' + car + ' style="width:100%" >', function (btn, map) {
+    myRouter.getRouter().options.profile = "mapbox/driving";
+    myRouter.route();
+  });
+  return buton;
+};
+
+const EasyleafletVoiture = createControlComponent(buttonEasyV);
+const buttonEasyP = () => {
+  const buton = L.easyButton('<img src=' + pieton + ' style="width:100%" > ', function (btn, map) {
+    myRouter.getRouter().options.profile = "mapbox/walking";
+    myRouter.route();
+  });
+  return buton;
+};
+const EasyleafletPieton = createControlComponent(buttonEasyP);
+
+var RoutingMachine = createControlComponent(createRoutineMachineLayer);
 const axios = require('axios');
 const getMap = (data) => {
 
@@ -27,7 +66,7 @@ const getMap = (data) => {
 };
 
 var afficherounon=true;
-const MapComponent = (r) => {
+function MapComponent (r){
 
   function LocationMarker() {
     var map = useMap();;
@@ -40,45 +79,12 @@ const MapComponent = (r) => {
     return null;
   }
 
-  var myRouter = null;
-  const optionsV2 = { profile: "mapbox/walking" };
 
 
-  const createRoutineMachineLayer = (props) => {
-    myRouter = L.Routing.control({
-      geocoder: L.Control.Geocoder.nominatim(),
-      waypoints: [
-        L.latLng(43.928470611572, 2.1426000595093),
-        L.latLng(43.9271, 2.14785)],
 
-      router: L.Routing.mapbox(
-        "pk.eyJ1IjoiYXplYXpkcXp6c2ppaGdocXpqa2giLCJhIjoiY2wxNTQzcnpvMGdydTNvcXpreDBmbnZxNiJ9.hKjHX7H6ZbnO4Gt0gH_sAg",
-        optionsV2
-      ),
-    });
-  
-    return myRouter;
-  };
-
-  const RoutingMachine = createControlComponent(createRoutineMachineLayer);
+ 
 
 
-  const buttonEasyV = () => {
-    const buton = L.easyButton('<img src=' + car + ' style="width:100%" >', function (btn, map) {
-      myRouter.getRouter().options.profile = "mapbox/driving";
-      myRouter.route();
-    });
-    return buton;
-  };
-
-  const EasyleafletVoiture = createControlComponent(buttonEasyV);
-  const buttonEasyP = () => {
-    const buton = L.easyButton('<img src=' + pieton + ' style="width:100%" > ', function (btn, map) {
-      myRouter.getRouter().options.profile = "mapbox/walking";
-      myRouter.route();
-    });
-    return buton;
-  };
 
   const ouvreMoi= (e) => {
     try {
@@ -96,7 +102,7 @@ const MapComponent = (r) => {
     
     console.log("ici amadeo");
   };
-  const EasyleafletPieton = createControlComponent(buttonEasyP);
+ 
 
   const markerIconMonument = new L.Icon({
     iconUrl: require('./images/map/markerMonument.png'),
