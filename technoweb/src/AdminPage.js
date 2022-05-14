@@ -191,18 +191,26 @@ var data;
 var starter = true;
 var timeoutID;
 
+var gr=true;
+var lieux=[];
+var freq;
+let cle=0;
+var fre=true;
+var graphes=[];
+
 export default function WebProject() {
 
 
   // Fonctions Graphes
 
-  const remplirGraphe = (a,sem) =>{
+  const remplirGraphe = (a,sem,l) =>{
     for(let j=0; j<sem.length;j++){
       var g=sem[j];
       var ve = true;
       for (let i=0; i<a.length; i++){
         var d = a[i];
-        if(d.dateFrequentation===g){
+        //console.log(d);
+        if(d.dateFrequentation===g && d.Scope===l){
           tout.push(d.nbVisites);
           ve=false;
         }
@@ -217,7 +225,7 @@ export default function WebProject() {
   const semaine = (l,lm,f,fm) =>{
     var semain=[];
     jour=f.getDay();
-    //console.log(f);
+    //console.log(jour);
     for (let i=1;i<8;i++){
       semN.push(week[(jour+i)%7]);
     }
@@ -261,7 +269,7 @@ export default function WebProject() {
         semain.push(dat);
       }
     }
-    console.log(semain);
+    //console.log(semain);
     return semain;
   }
   
@@ -281,8 +289,10 @@ export default function WebProject() {
   if(toutOkG) {
   
     var curr = new Date();
-    //console.log(curr);
-    var first = curr.getDate() - curr.getDay()-2;
+    /*
+    console.log(curr.getDate());
+    console.log(curr.getDay());*/
+    var first = curr.getDate() - curr.getDay()-1;
     var last = first + 6;
 
     var firstday = new Date(curr.setDate(first));
@@ -290,15 +300,8 @@ export default function WebProject() {
 
     var fd = dateFormat(firstday);
     var ld = dateFormat(lastday);
-    /*
-    console.log(firstday);
-    console.log(lastday);
-    console.log(fd);
-    console.log(ld);*/
     sem = semaine(lastday,ld,firstday,fd);
-  
-    //console.log(sem);
-  
+    
     toutOkG=false;
   }
 
@@ -316,31 +319,44 @@ export default function WebProject() {
   const [userLogin, setUserLogin] = useState({});
 
   const afficherAdmin = (e) => {
-    //console.log(e.administrateur);
     setUserLogin(e);
-    if (e.administrateur === 0) {
+    if (e === 0) {
       pasAdmin();
     }
   }
 
   const gererUser = (e) => {
+    //console.log(e);
     setUserLogin(e);
     afficherAdmin(e);
-  }
-
-  const userLoginfunc = (pseudo) => {
     try {
       const result = axios.get(
-        `/user/${pseudo}`
+        `/lieu`
       );
 
       result.then((resp) =>
-      gererUser(resp.data[0])
-    );
-      //return result;
+        ajoutPlaceTable(resp.data)
+      );
+
     } catch (err) {
       console.log(err);
     }
+  }
+
+  const userLoginfunc = (pseudo) => {
+      try {
+        const result = axios.get(
+          `/user/${pseudo}`
+        );
+  
+        result.then((resp) =>
+        gererUser(resp.data[0])
+      );
+        //return result;
+      } catch (err) {
+        console.log(err);
+      }
+
   }
   const uploadImage = (e) => {
     data= new FormData();
@@ -706,10 +722,42 @@ export default function WebProject() {
     creatUser(params.id);
   }
 
-  const CreerGraphe = (a) => {
-    remplirGraphe(a,sem);
-    const grap = <ChartGraphe da={tout} j={semN} />;
-    ReactDOM.render(grap, document.getElementById('placeGraphe'));
+  const changerGraphe = (e) =>{
+    var choix=e.target.value;
+    ReactDOM.unmountComponentAtNode(document.getElementById("placeGraphe")); 
+    if(choix=="Tout le site"){
+      choix="tout";
+      CreerGraphe(graphes[0]);
+    }else{
+      for(let i=0;i<lieux.length;i++){
+        if(lieux[i]===(choix)){
+          CreerGraphe(graphes[i]);
+        }
+      }
+    }
+    
+  }
+
+  const Graphe1 = (a) =>{
+    if(gr){
+      freq=a;
+      remplirGraphe(a,sem,"tout");
+      const grap = <ChartGraphe da={tout} j={semN} ide="tout" />;
+      for(let i=0;i<lieux.length;i++){
+        remplirGraphe(a,sem,lieux[i]);
+        const grap = <ChartGraphe da={tout} j={semN} ide={lieux[i]}/>;
+        graphes.push(grap);
+        //console.log(grap.props.ide);
+      }
+      CreerGraphe(graphes[0]);
+      gr=false;
+    }
+
+  } 
+
+  const CreerGraphe = (e) => {
+    //console.log(l)
+    ReactDOM.render(e, document.getElementById('placeGraphe'));
   }
 
   const ajoutUserTable = (d) => {
@@ -721,7 +769,7 @@ export default function WebProject() {
       );
     
       result.then((resp) =>
-        CreerGraphe(resp.data)
+        Graphe1(resp.data)
       );
   
     } catch (err) {
@@ -750,8 +798,31 @@ export default function WebProject() {
   }
 
   const ajoutPlaceTable = (d) => {
+    if(initialisation){
+    for(let i=0; i<d.length; i++) {
+      lieux.push(d[i].intitule);
+    }
+    //console.log(lieux);
+    const tab=(          <TextField select label="Choisissez le lieu à observer" id="choixGraphe" style={{ width: "98%" }} required defaultValue="Tout le site" onChange={(e)=>changerGraphe(e)}>
+    <MenuItem value={"Tout le site"}>
+    Tout le site
+    </MenuItem>
+    {lieux.map((va) => {
+      return(
+        <MenuItem value={va} key={va+cle}>
+          {va}
+        </MenuItem>
+      )
+      cle+=1;
+    })}
+
+  </TextField>)
+    ReactDOM.render(tab, document.getElementById('selectLieux'));
+
     const tableau = <PlaceTable d={d} />;
     ReactDOM.render(tableau, document.getElementById('placetable'));
+    initialisation=false;
+  }
     try {
       const result = axios.get(
         `/event`
@@ -824,27 +895,9 @@ export default function WebProject() {
 
   });
 
-  const AuclicDebut = () => {
-    if (initialisation) {
-      try {
-        const result = axios.get(
-          `/lieu`
-        );
-
-        result.then((resp) =>
-          ajoutPlaceTable(resp.data)
-        );
-
-      } catch (err) {
-        console.log(err);
-      }
-      initialisation = false;
-    }
-  }
-
   return (
 
-    <Box sx={{ display: 'flex' }} onClick={() => AuclicDebut()}>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} style={{ backgroundColor: 'rgb(30, 82, 166)' }} >
         <Toolbar id="appBarre">
@@ -1202,13 +1255,24 @@ export default function WebProject() {
         </Card>
       </Box>
 
+
       <Box component="main" id="graphe" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
         <DrawerHeader />
         <h1 style={{ width: "100%", textAlign: "center" }}>Graphes</h1>
 
-        <Card className='centerDiv' style={{ display: "block", marginLeft: "auto", marginRight: "auto" }} id="placeGraphe">
+        <Card className='centerDiv' style={{ display: "block", marginLeft: "auto", marginRight: "auto" }}>
+          <br/>
+          <Box id="selectLieux">
+
+          </Box>
+
+
+          <Box id="placeGraphe">
+
+          </Box>
         </Card>
       </Box>
+
 
       <Box component="main" id="doc" sx={{ flexGrow: 1, p: 3 }} style={{ display: "none" }}>
         <DrawerHeader />
@@ -1229,8 +1293,8 @@ export default function WebProject() {
         <h1 style={{ width: "100%", textAlign: "center" }}>Profil</h1>
 
         <Card>
-          <UserProfile el={["Prénom", "Nom", "Pseudo", "Admninistrateur", "Mot_de_passe"]}
-            rep={[userLogin.nom, userLogin.prenom, userLogin.pseudo, String(userLogin.administrateur === 1), "********"]} />
+        <UserProfile el={["Prénom", "Nom", "Pseudo", "Admninistrateur", "Mot_de_passe"]}
+    rep={[userLogin.nom, userLogin.prenom, userLogin.pseudo, String(userLogin.administrateur === 1), "********"]} />
         </Card>
       </Box>
 

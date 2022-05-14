@@ -36,7 +36,7 @@ export default function ChartGraphe(rep) {
 
 
   return (
-    <div className="App">
+    <div className="graph" id={rep.ide}>
 
       <div style={{ width: "50%", display:"inline-block" }}>
         <Line data={userData} id="graphique"/>
