@@ -146,7 +146,7 @@ function Home() {
 
     try {
       axios.post(
-        `/addFrequentation`
+        `/addFrequentation/tout`
       );
     } catch (err) {
       console.log(err);

@@ -245,7 +245,7 @@ class MapInfo(Resource):
 
 
 class addFrequentation(Resource):
-    def get(self):
+    def get(self, scope):
         db = pymysql.connect(host='mysql-champo.alwaysdata.net',
                              user='champo',
                              password='TechnoWeb4',
@@ -259,7 +259,7 @@ class addFrequentation(Resource):
         db.close()
         return results
         
-    def post(self):
+    def post(self, scope):
         db = pymysql.connect(host='mysql-champo.alwaysdata.net',
                              user='champo',
                              password='TechnoWeb4',
@@ -267,30 +267,33 @@ class addFrequentation(Resource):
                              cursorclass=pymysql.cursors.DictCursor)
         actuel=(date.today()).strftime("%Y-%m-%d")
         cursor = db.cursor()
+        li=scope.replace("%20"," ")
+        print(li)
         try:
-            sqlNbVisite="SELECT nbVisites FROM Frequentation WHERE dateFrequentation="+"'"+str(actuel)+"'"
+            sqlNbVisite="SELECT nbVisites FROM Frequentation WHERE dateFrequentation='"+str(actuel)+"' AND Scope='"+li+"'"
             cursor.execute(sqlNbVisite)
             results = cursor.fetchall()
             data=(int(results[0]["nbVisites"])+1)
-            sqlidFrequentation="SELECT idFrequentation FROM Frequentation WHERE dateFrequentation="+"'"+str(actuel)+"'"
+            sqlidFrequentation="SELECT idFrequentation FROM Frequentation WHERE dateFrequentation='"+str(actuel)+"' AND Scope='"+li+"'"
             cursor.execute(sqlidFrequentation)
             resultss = cursor.fetchall()
             datass=(int(resultss[0]["idFrequentation"]))
-            sqlv2 = "DELETE FROM Frequentation WHERE dateFrequentation="+"'"+str(actuel)+"'"
+            sqlv2 = "DELETE FROM Frequentation WHERE dateFrequentation='"+str(actuel)+"' AND Scope='"+li+"'"
             cursor.execute(sqlv2)
             db.commit()
             
-            sqlv3 = "INSERT INTO Frequentation (idFrequentation,dateFrequentation,nbVisites) VALUES (%s, %s, %s)"
-            datas=(datass,actuel,data)
+            sqlv3 = "INSERT INTO Frequentation (idFrequentation,dateFrequentation,nbVisites,Scope) VALUES (%s, %s, %s, %s)"
+            datas=(datass,actuel,data,li)
             cursor.execute(sqlv3, datas)
             db.commit()
         except:
-            sqlv3 = "INSERT INTO Frequentation (dateFrequentation,nbVisites) VALUES (%s, %s)"
-            datas=(actuel,1)
+            sqlv3 = "INSERT INTO Frequentation (dateFrequentation,nbVisites, Scope) VALUES (%s, %s, %s)"
+            datas=(actuel,1, li)
             cursor.execute(sqlv3, datas)
             db.commit()
         db.close()
         return actuel
+    
 
 class EvenementsActifs(Resource):
     def get(self):
@@ -408,6 +411,8 @@ class AvisPost(Resource):
         db.close()
         return True
 
+
+
 api.add_resource(LogIN, '/userLogin/<user_name>/<user_paswd>')
 api.add_resource(utilisateur, '/utilisateur')
 api.add_resource(lieu, '/lieu')
@@ -420,7 +425,7 @@ api.add_resource(ProfileImg, '/getImgProfile/<pathImg>')
 api.add_resource(PlacesImg, '/getPlacesImg/<pathImg>')
 api.add_resource(EventImg, '/getEventsImg/<pathImg>')
 api.add_resource(EvenementsActifs, '/EvenementsActifs')
-api.add_resource(addFrequentation, '/addFrequentation')
+api.add_resource(addFrequentation, '/addFrequentation/<scope>')
 api.add_resource(userAdd, '/userAdd/<user_admin>/<user_name>/<user_firstname>/<user_pseudo>/<user_password>')
 api.add_resource(placeAdd,'/placeAdd/<place_lat>/<place_lon>/<place_nom>/<place_car>/<place_desc>')
 api.add_resource(eventAdd,'/eventAdd/<event_nom>/<event_debut>/<event_fin>/<event_actif>/<event_desc>/<event_file>')

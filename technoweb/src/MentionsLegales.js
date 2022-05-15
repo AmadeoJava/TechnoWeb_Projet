@@ -78,17 +78,17 @@ function MentionsLegales() {
 
     </Box>
     <Box >
-      <Card variant='outlined' style={{ backgroundColor: '#ffffff',paddingBottom:'2%',textAlign:'center' }}>
+      <Card  style={{ backgroundColor: '#ffffff',paddingBottom:'2%',textAlign:'center' }}>
           <h1 style={{borderBottom:'solid 3px #dddddd',width:'30%', marginLeft:'auto',marginRight:'auto'}}>L'équipe</h1>
           <Typography style={{fontSize:'150%'}}>CROS Arnaud</Typography>
           <Typography style={{fontSize:'150%'}}>SOUFFLET Amadéo</Typography>
           <Typography style={{fontSize:'150%'}}>PIDET Antonin</Typography>
       </Card>
-      <Card variant='outlined' style={{ backgroundColor: '#fdfdfd',paddingBottom:'2%',textAlign:'center'  }}>
+      <Card style={{ backgroundColor: '#fdfdfd',paddingBottom:'2%',textAlign:'center'  }}>
           <h1 style={{borderBottom:'solid 3px #dddddd',width:'30%', marginLeft:'auto',marginRight:'auto'}}>Contact</h1>
           <Typography style={{fontSize:'150%'}}>service-client@champo.cf</Typography>
       </Card>
-      <Card variant='outlined' style={{ backgroundColor: '#ffffff',paddingBottom:'2%',textAlign:'center'  }}>
+      <Card style={{ backgroundColor: '#ffffff',paddingBottom:'2%',textAlign:'center'  }}>
           <h1 style={{borderBottom:'solid 3px #dddddd',width:'30%', marginLeft:'auto',marginRight:'auto'}}>Hebergeur</h1>
           <a style={{fontSize:'150%'}} href="https://www.alwaysdata.com/">alwaysdata</a>
           <br></br>
