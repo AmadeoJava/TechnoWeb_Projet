@@ -59,7 +59,7 @@ const requeteQuestions = () => {
 
 function Home() {
 
-  const [question, setQuestion] = useState("Souhaitez vous faire le jeu de piste spécialement conçu pour vous ? ");
+  const [question, setQuestion] = useState("Souhaitez vous faire le questionnaire spécialement conçu pour vous ? ");
 
   const [reponses, setReponses] = useState({});
   const [questions, setQuestions] = useState({});
@@ -224,7 +224,7 @@ function Home() {
       <div id="placePourMap"></div>
       <Dialog onClose={handleCloseD} open={openD} style={{ textAlign: 'center', contentAlign: 'center' }} fullWidth maxwidth="sm">
         <DialogTitle id="simple-dialog-title">
-          Jeu de piste
+          Questionnaire
         </DialogTitle>
         <Grid container direction={"column"} spacing={2}>
           <Grid item>
