@@ -38,7 +38,7 @@ import Documentation from './Documentation';
 import UserProfile from './UserProfile';
 import ChartGraphe from './ChartGraphe';
 import ReactDOM from 'react-dom';
-import './adminpage.css';
+import './css/adminpage.css';
 
 const axios = require('axios');
 const drawerWidth = 240;
@@ -193,9 +193,9 @@ var timeoutID;
 
 var gr=true;
 var lieux=[];
-var freq;
+
 let cle=0;
-var fre=true;
+
 var graphes=[];
 
 var admini=0;
@@ -731,7 +731,7 @@ export default function WebProject() {
   const changerGraphe = (e) =>{
     var choix=e.target.value;
     ReactDOM.unmountComponentAtNode(document.getElementById("placeGraphe")); 
-    if(choix=="Tout le site"){
+    if(choix==="Tout le site"){
       choix="tout";
       CreerGraphe(graphes[0]);
     }else{
@@ -752,7 +752,6 @@ export default function WebProject() {
 
   const Graphe1 = (a) =>{
     if(gr){
-      freq=a;
       remplirGraphe(a,sem,"tout");
       const grap = <ChartGraphe da={tout} j={semN} ide="tout" />;
       graphes.push(grap);
@@ -822,12 +821,13 @@ export default function WebProject() {
     Tout le site
     </MenuItem>
     {lieux.map((va) => {
+      cle+=1;
       return(
         <MenuItem value={va} key={va+cle}>
           {va}
         </MenuItem>
       )
-      cle+=1;
+
     })}
 
   </TextField>)
@@ -981,7 +981,7 @@ export default function WebProject() {
               <MenuItem onClick={handleClose} disableRipple className="clickable">
                 <PowerSettingsNewIcon style={{ color: 'red' }} />
 
-                <Link to="/" onClick={() => window.location.reload()} className="lienAccueil">
+                <Link to="/" onClick={()=>document.cookie = "Reload=Window"} className="lienAccueil">
                   Sign Out
                 </Link>
               </MenuItem>
@@ -1058,7 +1058,7 @@ export default function WebProject() {
         <DrawerHeader />
         <Box className='centerDiv'>
           <h2>Accueil</h2>
-          <img src={require('./logo.png')} alt="logo" />
+          <img src={require('./images/logo.png')} alt="logo" />
         </Box>
       </Box>
 

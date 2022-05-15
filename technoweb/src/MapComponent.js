@@ -7,8 +7,8 @@ import "leaflet-routing-machine";
 import "leaflet-easybutton";
 import pieton from './images/map/pieton.png';
 import car from './images/map/car.png';
-import './home.css';
-import Commentaires_Notes from './Commentaires_Notes';
+import './css/home.css';
+import COMMENTAIRESNOTES from './Commentaires_Notes';
 import "https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js";
 import "https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js";
 var myRouter;
@@ -63,20 +63,20 @@ const getMap = (data) => {
     return [];
   }
 };
+function LocationMarker() {
+  var map = useMap();;
+  if (afficherounon){
 
+    L.control.locate().addTo(map);
+    afficherounon=false;
+  }
+
+  return null;
+}
 var afficherounon=true;
 function MapComponent (r){
 
-  function LocationMarker() {
-    var map = useMap();;
-    if (afficherounon){
 
-      L.control.locate().addTo(map);
-      afficherounon=false;
-    }
-
-    return null;
-  }
 
 
 
@@ -173,7 +173,7 @@ function MapComponent (r){
 
                   
                 </p>
-                <Commentaires_Notes resp={AvisTab} el={city.idLieu}/>
+                <COMMENTAIRESNOTES resp={AvisTab} el={city.idLieu}/>
               </Popup>
             </Marker>
 
@@ -186,7 +186,7 @@ function MapComponent (r){
             icon={markerIconRestaurant}
             eventHandlers={{
               click: (e) => {
-                ouvreMoi(city.idLieu)
+                ouvreMoi(city)
               },
             }}
 
@@ -198,7 +198,7 @@ function MapComponent (r){
 
                 
               </p>
-              <Commentaires_Notes resp={AvisTab} el={city.idLieu}/>
+              <COMMENTAIRESNOTES resp={AvisTab} el={city.idLieu}/>
             </Popup>
           </Marker>
 
@@ -211,7 +211,7 @@ function MapComponent (r){
             icon={markerIconHotel}
             eventHandlers={{
               click: (e) => {
-                ouvreMoi(city.idLieu)
+                ouvreMoi(city)
               },
             }}
 
@@ -223,7 +223,7 @@ function MapComponent (r){
 
                 
               </p>
-              <Commentaires_Notes resp={AvisTab} el={city.idLieu}/>
+              <COMMENTAIRESNOTES resp={AvisTab} el={city.idLieu}/>
             </Popup>
           </Marker>
 

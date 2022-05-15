@@ -188,6 +188,7 @@ export default function PlacesTable(rep) {
           <col style={{ width: '5%' }} />
           <col style={{ width: '15%' }} />
           <col style={{ width: '40%' }} />
+          <col style={{ width: '0%' }} />
           <col style={{ width: '5%' }} />
         </colgroup>
         <TableHead>
@@ -198,10 +199,11 @@ export default function PlacesTable(rep) {
             <TableCell align="center" style={{ fontWeight: "bold" }}>Longitude</TableCell>
             <TableCell align="center" style={{ fontWeight: "bold" }}>Caractéristiques</TableCell>
             <TableCell align="center" style={{ fontWeight: "bold" }}>Description</TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}></TableCell>
             <TableCell align="center" style={{ fontWeight: "bold" }}>Modifier</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody id="userrows">
+        <TableBody>
           {rowPlaces.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
             indexkey=indexkey+=1;
             return (
@@ -225,7 +227,7 @@ export default function PlacesTable(rep) {
                         );
                     }
                 }else{
-                  return true;
+                  return (<TableCell key={indexkey}></TableCell>);
                 }
                 })}
                 <TableCell align="center">

@@ -7,7 +7,7 @@ import {Collapse} from "@material-ui/core";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { useState } from "react";
-import './adminpage.css';
+import './css/adminpage.css';
 
   
 var cl = true;

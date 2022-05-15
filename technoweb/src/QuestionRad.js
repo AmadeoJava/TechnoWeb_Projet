@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from '@mui/material/Card';
 import $ from "jquery"
-import './questionrad.css';
+import './css/questionrad.css';
 
 
 function QuestionRad(rep) {  // On donne en paramètre la question, les réponses possibles et leurs images
@@ -28,7 +28,7 @@ function QuestionRad(rep) {  // On donne en paramètre la question, les réponse
                     {rep.resp.map((r, index) => (
                         <div style={{ width: "100%" }} key={index}>
                             <h3 style={{height:"100px"}}>{rep.reponse[index]}</h3>
-                            <img src={require('./images/buzz.png')} alt={r} id={r} className='unchek' onClick={() => imageClick({ r })} style={{ width: "90px", height: "90px"}}></img>
+                            <img src={require('./images/iconesJeu/buzz.png')} alt={r} id={r} className='unchek' onClick={() => imageClick({ r })} style={{ width: "90px", height: "90px"}}></img>
                         </div>
                     ))}
                 </div>

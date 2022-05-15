@@ -5,7 +5,7 @@ import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Button from '@mui/material/Button';
-import './home.css';
+import './css/home.css';
 import $ from "jquery";
 import MapComponent from "./MapComponent";
 import { Link } from "react-router-dom";
@@ -69,22 +69,7 @@ function Home() {
     ReactDOM.render(tableau, document.getElementById('placePourMap'));
 
   }
-  useEffect(() => {
-    try {
-      const result = axios.get(
-        `/map`
-      );
-
-      result.then((resp) =>
-        mapComposant(resp.data)
-      );
-
-    } catch (err) {
-      console.log(err);
-    }
-    requeteQuestions().then((resp) => { setQuestions(resp.data) });
-  }, []);
-
+  
   function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -141,8 +126,36 @@ function Home() {
     document.cookie = "jeu=non";
   }
 
-  window.onload = () => {
+  
+  useEffect(() => {
+    if (getCookie("Reload")) {
+    
+      var d = new Date();
+      d.setTime(d.getTime() + (0 * 60 * 1000));
+      var expires = "expires=" + d.toUTCString();
+      document.cookie = "Reload=;" + expires + ";path=/";
+      window.location.reload();
+  
+    }else{
+      
+      try {
+        const result = axios.get(
+          `/map`
+        );
+  
+        result.then((resp) =>
+          mapComposant(resp.data)
+        );
+  
+      } catch (err) {
+        console.log(err);
+      }
+      requeteQuestions().then((resp) => { setQuestions(resp.data) });
+    }
+    
+  }, []);
 
+  window.onload = () => {
 
     try {
       axios.post(

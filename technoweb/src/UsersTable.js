@@ -222,6 +222,7 @@ export default function UsersTable(rep) {
             <col style={{ width: '18%' }} />
             <col style={{ width: '17%' }} />
             <col style={{ width: '16%' }} />
+            <col style={{ width: '0%' }} />
             <col style={{ width: '16%' }} />
           </colgroup>
           <TableHead>
@@ -231,6 +232,7 @@ export default function UsersTable(rep) {
               <TableCell align="center" style={{ fontWeight: "bold" }}>Nom</TableCell>
               <TableCell align="center" style={{ fontWeight: "bold" }}>Pseudo</TableCell>
               <TableCell align="center" style={{ fontWeight: "bold" }}>Administrateur</TableCell>
+              <TableCell align="center" style={{ fontWeight: "bold" }}></TableCell>
               <TableCell align="center" style={{ fontWeight: "bold" }}>Modifier</TableCell>
             </TableRow>
           </TableHead>
@@ -258,7 +260,7 @@ export default function UsersTable(rep) {
                         );
                       }
                     }else{
-                      return true;
+                      return (<TableCell key={indexKey}></TableCell>);
                     }
 
                   })}

@@ -268,7 +268,6 @@ class addFrequentation(Resource):
         actuel=(date.today()).strftime("%Y-%m-%d")
         cursor = db.cursor()
         li=scope.replace("%20"," ")
-        print(li)
         try:
             sqlNbVisite="SELECT nbVisites FROM Frequentation WHERE dateFrequentation='"+str(actuel)+"' AND Scope='"+li+"'"
             cursor.execute(sqlNbVisite)

@@ -3,16 +3,7 @@ import Card from '@mui/material/Card';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 const axios = require('axios');
 
-const requetEventsActifs =  () => {
-    try {
-        const result = axios.get(
-            `/EvenementsActifs`
-        );
-        return result;
-    } catch (err) {
-        console.log(err);
-    }
-};
+
 
 const fonction = (e) => {
     e.currentTarget.parentNode.parentNode.parentNode.remove();
@@ -29,13 +20,25 @@ const getMap = (data) => {
             console.log(err);
             return [];
         }
+        firstreload=false;
     }
 };
-
 export default function EventComponent() {
     useEffect(() => {
-   
-        requetEventsActifs().then((results) => { getMap(results.data); });
+        if (firstreload){
+            try {
+                const result = axios.get(
+                `/EvenementsActifs`
+                );
+        
+                result.then((resp) =>
+                    getMap(resp.data)
+                );
+        
+            } catch (err) {
+                console.log(err);
+            }
+        }
     }, []);
 
     return (<>

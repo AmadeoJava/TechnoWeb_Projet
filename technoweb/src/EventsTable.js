@@ -228,6 +228,7 @@ function createDataEvents(image, name, debut, fin, actif, description, identifia
           <col style={{width:'10%'}}/>
           <col style={{width:'5%'}}/>
           <col style={{width:'45%'}}/>
+          <col style={{width:'0%'}}/>
           <col style={{width:'5%'}}/>
         </colgroup>
         <TableHead>
@@ -238,6 +239,7 @@ function createDataEvents(image, name, debut, fin, actif, description, identifia
             <TableCell align="center" style={{fontWeight: "bold"}}>Fin</TableCell>
             <TableCell align="center" style={{fontWeight: "bold"}}>Actif</TableCell>
             <TableCell align="center" style={{fontWeight: "bold"}}>Description</TableCell>
+            <TableCell align="center" style={{fontWeight: "bold"}}></TableCell>
             <TableCell align="center" style={{fontWeight: "bold"}}>Modifier</TableCell>
           </TableRow>
         </TableHead>
@@ -265,7 +267,7 @@ function createDataEvents(image, name, debut, fin, actif, description, identifia
                       );
                   }
                 }else{
-                  return true;
+                  return (<TableCell key={index}></TableCell>);
                 }
                   })}
                   <TableCell align="center">

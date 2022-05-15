@@ -7,7 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import './home.css';
+import './css/home.css';
 import { Link } from "react-router-dom";
 import FooterComponent from "./FooterComponent";
 

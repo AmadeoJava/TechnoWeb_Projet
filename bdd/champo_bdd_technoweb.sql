@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql-champo.alwaysdata.net
--- Generation Time: May 14, 2022 at 04:27 PM
+-- Generation Time: May 15, 2022 at 05:00 PM
 -- Server version: 10.6.5-MariaDB
 -- PHP Version: 7.4.19
 
@@ -39,7 +39,30 @@ CREATE TABLE `Avis` (
 --
 
 INSERT INTO `Avis` (`idAvis`, `Commentaire`, `Lieu`, `Note`) VALUES
-(1, 'Très belle cathédrale, je recommande!', 1, 4);
+(1, 'Très belle cathédrale, je recommande vivement, ne pas passer à côté!', 1, 4),
+(2, 'J\'aime bien!', 1, 5),
+(3, 'Très beau musée', 2, NULL),
+(4, 'Tres joli lieu!', 4, NULL),
+(5, 'Tres beau lieu!', 4, 3),
+(6, 'Quel bel endroit!', 4, 5),
+(7, 'Tres cher!', 15, 1),
+(8, 'Trop Cher!', 15, 2),
+(9, 'Sympa!', 17, 4),
+(10, 'On y mange bien.', 17, 5),
+(11, 'Cool', 11, 4),
+(12, 'Pas mal!', 11, 4),
+(13, 'Pas mal du tout, je recommande!', 6, 5),
+(14, 'Sympa!', 6, 4),
+(15, 'Musee sympa!', 2, 4),
+(16, 'Un hotel pour dormir', 10, NULL),
+(17, 'Pas mal', 10, 4),
+(18, 'Peut-être mieux mais pas si mal pour un week-end.', 10, 3),
+(19, 'Ok', 10, NULL),
+(20, 'Un peu éloigné, mais sympa!', 14, 3),
+(21, 'Belle vue!', 14, 4),
+(22, 'Magnifique musée, à voir absolument !', 2, 4),
+(23, 'Tres belles oeuvres de l\'artiste.', 2, 5),
+(24, 'Sympa!', 7, 3);
 
 -- --------------------------------------------------------
 
@@ -91,7 +114,18 @@ INSERT INTO `Frequentation` (`idFrequentation`, `dateFrequentation`, `nbVisites`
 (5, '2022-05-09', 49, 'tout'),
 (6, '2022-05-10', 11, 'tout'),
 (7, '2022-05-13', 1, 'tout'),
-(16, '2022-05-14', 11, 'tout');
+(8, '2022-05-14', 96, 'tout'),
+(9, '2022-05-15', 19, 'tout'),
+(10, '2022-05-15', 11, 'Les Moulins Albigeois'),
+(11, '2022-05-15', 8, 'Pont Vieux'),
+(12, '2022-05-15', 3, 'Musee Toulouse-Lautrec'),
+(14, '2022-05-15', 3, 'Cathedrale Sainte-Cecile'),
+(16, '2022-05-15', 3, 'Berges du Tarn'),
+(17, '2022-05-15', 2, 'Cloître Saint-Salvi'),
+(18, '2022-05-15', 2, 'Place du Vigan'),
+(19, '2022-05-15', 2, 'Statue de Lapérouse'),
+(20, '2022-05-15', 4, 'Scène Nationale d Albi'),
+(24, '2022-05-15', 1, 'Oki');
 
 -- --------------------------------------------------------
 
@@ -174,7 +208,7 @@ INSERT INTO `Lieu` (`idLieu`, `lat`, `longu`, `intitule`, `caracteristque`, `des
 (1, 43.9285, 2.1426, 'Cathedrale Sainte-Cecile', 'Culturel', 'La plus grande cathédrale en brique du monde', 'cath.jpg'),
 (2, 43.9287, 2.14277, 'Musee Toulouse-Lautrec', 'Culturel', 'Musée consacré à l\'artiste Albigeois Toulouse-Lautrec', 'Toulouse-Lautrec.jpg'),
 (3, 43.93, 2.14322, 'Berges du Tarn', 'Culturel', 'Promenade au bord du Tarn', 'BergesTarn.jpg'),
-(4, 2.14458, 43.9277, 'Cloître Saint-Salvi', 'Culturel', 'Magnifique cloître du XIème siècle ', 'CloitreSaintSalvi.jpg'),
+(4, 43.9278, 2.1453, 'Cloître Saint-Salvi', 'Culturel', 'Magnifique cloître du XIème siècle ', 'CloitreSaintSalvi.jpg'),
 (5, 43.9238, 2.14547, 'Bastet Café', 'Restaurant', 'Bar à chats avec terrasse', 'BastetCafe.jpg'),
 (6, 43.9246, 2.14418, 'L\'Atelier Gourmand', 'Restaurant', 'Restaurant de tacos personnalisés', 'LAtelierGourmand.jpg'),
 (7, 43.9328, 2.1461, 'Hôtel Mercure Albi Bastides', 'Hotel', 'Hôtel sympathique au bord du tarn', 'HotelMercureAlbi.jpg'),
@@ -439,7 +473,7 @@ ALTER TABLE `Avis`
 -- AUTO_INCREMENT for table `Frequentation`
 --
 ALTER TABLE `Frequentation`
-  MODIFY `idFrequentation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idFrequentation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Constraints for dumped tables

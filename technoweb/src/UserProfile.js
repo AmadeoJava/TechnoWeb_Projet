@@ -6,7 +6,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import './adminpage.css';
+import './css/adminpage.css';
 
   export default function UserProfile(r) {
 
