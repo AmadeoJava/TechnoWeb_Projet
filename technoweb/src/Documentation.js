@@ -21,7 +21,8 @@ export default function Documentation(r) {
     const clique = () => {
       setExpand(!expand);
       cl = !cl;
-      console.log(cl);
+      document.getElementById(r.que);
+      //console.log(cl);
     }
 
     return(
@@ -36,7 +37,7 @@ export default function Documentation(r) {
               {cl ? <ArrowDropDownIcon /> : <ArrowDropUpIcon /> }
               </div>
           </div>
-            <Collapse in={expand}>
+            <Collapse in={expand} id={r.que}>
               <br/>
               {r.rep.map((re,index) =>(
                 <div key={index}>
