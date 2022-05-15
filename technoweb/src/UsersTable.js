@@ -211,6 +211,7 @@ export default function UsersTable(rep) {
         defaultValue=""
         variant="standard"
         onChange={() => montrer("usersearch")}
+        className="adminLevel"
       />
 
       <TableContainer sx={{ maxHeight: 700 }}>
