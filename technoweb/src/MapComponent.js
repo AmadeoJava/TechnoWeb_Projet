@@ -89,7 +89,7 @@ function MapComponent (r){
   const ouvreMoi= (e) => {
     try {
       const result = axios.get(
-        `/AvisGet/${e}`
+        `/AvisGet/${e.idLieu}`
       );
 
       result.then((resp) =>
@@ -99,8 +99,14 @@ function MapComponent (r){
     } catch (err) {
       console.log(err);
     }
-    
-    console.log("ici amadeo");
+
+    try {
+      axios.post(
+        `/addFrequentation/${e.intitule}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
  
 
@@ -156,7 +162,7 @@ function MapComponent (r){
               icon={markerIconMonument}
               eventHandlers={{
                 click: (e) => {
-                  ouvreMoi(city.idLieu)
+                  ouvreMoi(city)
                 },
               }}
 

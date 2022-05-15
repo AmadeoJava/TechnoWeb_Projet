@@ -289,14 +289,17 @@ export default function WebProject() {
   if(toutOkG) {
   
     var curr = new Date();
-    /*
+    
     console.log(curr.getDate());
-    console.log(curr.getDay());*/
-    var first = curr.getDate() - curr.getDay()-1;
-    var last = first + 6;
+    console.log(curr.getDay());
+    var last = curr.getDate();
+    var first = curr.getDate() - 7;
 
     var firstday = new Date(curr.setDate(first));
     var lastday = new Date(curr.setDate(last));
+
+    console.log(firstday);
+    console.log(lastday);
 
     var fd = dateFormat(firstday);
     var ld = dateFormat(lastday);
@@ -773,7 +776,7 @@ export default function WebProject() {
     ReactDOM.render(tableau, document.getElementById('usertable'));
     try {
       const result = axios.get(
-        `/addFrequentation`
+        `/addFrequentation/a`
       );
     
       result.then((resp) =>
