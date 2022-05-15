@@ -30,8 +30,6 @@ const createRoutineMachineLayer = (props) => {
   });
 
   return myRouter;
-
-
 };
 const buttonEasyV = () => {
   const buton = L.easyButton('<img src=' + car + ' style="width:100%" >', function (btn, map) {
@@ -53,6 +51,7 @@ const EasyleafletPieton = createControlComponent(buttonEasyP);
 
 var RoutingMachine = createControlComponent(createRoutineMachineLayer);
 const axios = require('axios');
+
 const getMap = (data) => {
 
   try {

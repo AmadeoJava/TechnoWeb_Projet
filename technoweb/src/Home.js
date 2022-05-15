@@ -65,7 +65,7 @@ function Home() {
   const [questions, setQuestions] = useState({});
 
   const mapComposant = (d) => {
-    const tableau = <MapComponent el={d}/>;
+    const tableau = <MapComponent el={d} />;
     ReactDOM.render(tableau, document.getElementById('placePourMap'));
 
   }
@@ -122,7 +122,7 @@ function Home() {
 
   const TireQuests = () => {
     //console.log("je tire une question");
-    var hasard = Math.floor(Math.random() * (Math.floor((questions.length )/ 4)) ) * 4;
+    var hasard = Math.floor(Math.random() * (Math.floor((questions.length) / 4))) * 4;
     //console.log(hasard);
     setQuestion(questions[hasard].texteQuestionL);
     setReponses({ resp: [questions[hasard].idReponseL, questions[hasard + 1].idReponseL, questions[hasard + 2].idReponseL, questions[hasard + 3].idReponseL], reponse: [questions[hasard].texteReponseL, questions[hasard + 1].texteReponseL, questions[hasard + 2].texteReponseL, questions[hasard + 3].texteReponseL] });
@@ -143,7 +143,7 @@ function Home() {
 
   window.onload = () => {
 
-    
+
     try {
       axios.post(
         `/addFrequentation`
@@ -256,7 +256,7 @@ function Home() {
 
       <FooterComponent />
     </Box>
-  );
+  )
 
 }
 

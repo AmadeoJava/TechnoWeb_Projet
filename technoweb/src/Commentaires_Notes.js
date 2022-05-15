@@ -47,7 +47,7 @@ function Commentaires_Notes(rep) {
             }
             note=0;
             nbdeNote=0;
-
+            clique();
             $("#CommentaireADD").val("");
             $("#userlevelAdd").text("S'abstenir");
             
