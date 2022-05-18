@@ -436,7 +436,7 @@ export default function WebProject() {
 
         uploadAPIImageProfile($("#pseudoAdd").val());
         alert("Utilisateur ajouté");
-
+        window.location.reload();
 
       }else{
         alert("Le mot de passe est de taille inférieure à 8");
@@ -475,7 +475,7 @@ export default function WebProject() {
       
       uploadAPIImageLieu({img:$("#placenom").val(), ext:"."+f[1]});
       alert("Lieu ajouté");
-      
+      window.location.reload();
     }else{
       alert("Tous les champs ne sont pas remplis");
     }
@@ -485,7 +485,7 @@ export default function WebProject() {
   var posterEvent = (l) => {
     try {
       axios.post(
-        `/eventAdd/${l[0]}/${l[1]}/${l[2]}/${l[3]}/${l[4]}`
+        `/eventAdd/${l[0]}/${l[1]}/${l[2]}/${l[4]}/${l[5]}/${l[3]}`
       );
     } catch (err) {
       console.log(err);
@@ -498,12 +498,15 @@ export default function WebProject() {
       eventAdd.push($("#eventnom").val());
       eventAdd.push($("#eventdatedeb").val());
       eventAdd.push($("#eventdatefin").val());
-      eventAdd.push($("#eventactifAdd").val())
-      eventAdd.push($("#eventdesc").val())
       var f = (fileName).split(".");
       eventAdd.push($("#eventnom").val()+"."+f[1]);
+      if ($("#eventactifAdd").text()==="Oui"){
+        eventAdd.push(1);
+      }else{
+        eventAdd.push(0);
+      }
+      eventAdd.push($("#eventdesc").val())
       posterEvent(eventAdd);
-      //console.log(eventAdd);
 
       fileName="";
       $(".files").text="";
@@ -512,6 +515,7 @@ export default function WebProject() {
 
       uploadAPIImageEvent({img:$("#eventnom").val(), ext:"."+f[1]});
       alert("Evenement ajouté")
+      window.location.reload();
     } else {
       alert("Tous les champs ne sont pas remplis");
     }
